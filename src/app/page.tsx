@@ -6,7 +6,7 @@ export default function Home() {
     <div className="h-screen flex flex-col justify-center align-middle p-4">
       <div className="flex justify-center">
         <Image
-          src="/logo.svg"
+          src="/svgs/logo.svg"
           alt="MiUDC logo"
           width={120}
           height={120}
@@ -18,7 +18,7 @@ export default function Home() {
       <div className="w-full flex justify-center text-white">
         <Link
           className="bg-primary w-full font-extrabold p-3 rounded-full text-center"
-          href="/"
+          href="/onboarding"
         >
           Continuar
         </Link>
