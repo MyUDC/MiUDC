@@ -18,6 +18,7 @@ const config: Config = {
       },
       backgroundColor: {
         'primary': "#64B32E",
+        'primary-light': 'rgba(100, 179, 46, 0.20)',
       },
     },
   },
