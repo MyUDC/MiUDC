@@ -17,7 +17,7 @@ export default function Home() {
       </div>
       <div className="w-full flex justify-center text-white">
         <Link
-          className="bg-primary w-full font-extrabold p-3 rounded-full text-center"
+          className="bg-green w-full font-extrabold p-3 rounded-full text-center"
           href="/"
         >
           Continuar
