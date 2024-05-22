@@ -14,11 +14,22 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        'primary': '#64B32E'
+        black: "#444444",
+        white: "#FFFFFF",
+
+        green: "#64B32E",
+        smoothGreen: "#E0F0D5",
+
+        yellow: "#FBB034",
+        smoothYellow: "#FEEFD6",
+
+        purple: "#9B9AD5",
+        smoothPurple: "#D6D7EB",
       },
       backgroundColor: {
-        'primary': "#64B32E",
-        'primary-light': 'rgba(100, 179, 46, 0.20)',
+        white: "#FFFFFF",
+        green: "#64B32E",
+        yellow: "#FBB034",
       },
     },
   },
