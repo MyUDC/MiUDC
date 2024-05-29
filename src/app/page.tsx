@@ -19,7 +19,7 @@ export default function Home() {
       <div className="w-full flex justify-center text-white">
         <Link
           className="bg-green w-full font-extrabold p-3 rounded-full text-center"
-          href="/"
+          href="/onboarding/one"
         >
           Continuar
         </Link>

@@ -55,7 +55,7 @@ export default function CareerPage() {
             </div>
           </div>
           <div className="pt-3">
-            <Button text="Continuar" path="" variant="primary" />
+            <Button text="Continuar" path="" variant="green" />
           </div>
         </form>
       </div>

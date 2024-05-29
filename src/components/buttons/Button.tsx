@@ -3,7 +3,7 @@ import Link from "next/link";
 interface props {
   text: string;
   path: string;
-  variant: "primary" | "primary-light";
+  variant: "green" | "smoothGreen";
 }
 
 export default function Button({ text, path, variant }: props) {

@@ -15,7 +15,7 @@ export default function ProfileTypePage() {
       </div>
       <div className="flex justify-center gap-4">
         <Link href="/sign-up/career" >
-          <div className="gap-2 font-semibold text-primary text-center py-4 px-6 rounded-xl flex flex-col bg-primary-light">
+          <div className="gap-2 font-semibold text-primary text-center py-4 px-6 rounded-xl flex flex-col bg-smoothGreen">
             <Image
               src="/svgs/user.svg"
               alt="icono de usuario"
@@ -23,20 +23,20 @@ export default function ProfileTypePage() {
               height={80}
               priority
             />
-            <h2>Egresado</h2>
+            <h2 className="text-green" >Egresado</h2>
           </div>
         </Link>
 
-        <Link href="/sign-up/career" >
-          <div className="gap-2 font-semibold text-primary text-center py-4 px-6 rounded-xl flex flex-col bg-primary-light">
+        <Link href="" >
+          <div className="gap-2 font-semibold text-primary text-center py-4 px-6 rounded-xl flex flex-col bg-smoothYellow">
             <Image
               src="/svgs/user.svg"
-              alt="icono de usuario"
+              alt="icono  de usuario"
               width={80}
               height={80}
               priority
             />
-            <h2>Egresado</h2>
+            <h2 className="text-yellow" >Aspirante</h2>
           </div>
         </Link>
       </div>

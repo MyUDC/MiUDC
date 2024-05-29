@@ -9,16 +9,17 @@ export default function Select({ title, name, id, options, placeholder}: props) 
   return (
     <div className="flex flex-col w-full">
       <label>{title}</label>
-      <div className="bg-primary-light rounded-full p-2">
+      <div className="bg-smoothGreen rounded-full p-2">
         <select
           title={name}
           name={name}
           id={id}
           className="p-2 bg-transparent w-full rounded-full"
+          defaultValue=""
         >
-          <option value="" disabled selected className="text-gray-500">{placeholder}</option>
+          <option value="" disabled className="text-gray-500">{placeholder}</option>
           {options.map((option) => (
-            <option className="bg-white" key={option.value} value={option.value}>{option.label}</option>
+            <option className="" key={option.value} value={option.value}>{option.label}</option>
           ))}
         </select>
       </div>
