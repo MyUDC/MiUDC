@@ -3,13 +3,14 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="h-screen flex flex-col justify-center align-middle p-4">
+    <div className="h-svh flex flex-col justify-center align-middle p-4">
       <div className="flex justify-center">
         <Image
-          src="/logo.svg"
+          src="/svgs/logo-full.svg"
           alt="MiUDC logo"
           width={120}
           height={120}
+          priority
         />
       </div>
       <div className="mb-6 text-center text-lg font-semibold">
@@ -17,8 +18,8 @@ export default function Home() {
       </div>
       <div className="w-full flex justify-center text-white">
         <Link
-          className="bg-primary w-full font-extrabold p-3 rounded-full text-center"
-          href="/"
+          className="bg-green w-full font-extrabold p-3 rounded-full text-center"
+          href="/onboarding/one"
         >
           Continuar
         </Link>
