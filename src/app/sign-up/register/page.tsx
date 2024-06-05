@@ -1,7 +1,6 @@
 import Button from "@/components/buttons/Button";
 import Input from "@/components/form/Input";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function RegisterPage() {
   return (
@@ -51,9 +50,7 @@ export default function RegisterPage() {
           </div>
         </form>
         <div className="text-center">
-          <Link href="" legacyBehavior>
-            <a className="font-bold text-lg text-gray-700">Iniciar sesión</a>
-          </Link>
+          <Button text="Iniciar sesión" path="" variant="link" />
         </div>
       </div>
     </div>
