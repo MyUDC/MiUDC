@@ -47,11 +47,11 @@ export default function RegisterPage() {
             id="confirm_password"
           />
           <div className="pt-2">
-            <Button text="Continuar" path="/welcome" variant="green" />
+            <Button text="Continuar" path="" variant="green" />
           </div>
         </form>
         <div className="text-center">
-          <Link href="/sign-in" legacyBehavior>
+          <Link href="" legacyBehavior>
             <a className="font-bold text-lg text-gray-700">Iniciar sesión</a>
           </Link>
         </div>
