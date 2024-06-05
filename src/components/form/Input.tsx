@@ -30,8 +30,7 @@ const Input: React.FC<InputProps> = ({
         name={name}
         id={id}
         placeholder={placeholder}
-        className={`rounded-lg p-2 pl-4 font-light focus:border-green-500 focus:outline-none bg-smoothGreen shadow-md ${className}`}
-        style={{ borderRadius: "20px", width: "100%", height: "60px" }}
+        className={`rounded-lg p-2 pl-4 font-light focus:border-green-500 focus:outline-none bg-smoothGreen shadow-md ${className} rounded-2xl w-full h-14`}
       />
     </div>
   );
