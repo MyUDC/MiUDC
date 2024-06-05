@@ -9,14 +9,14 @@ interface InputProps {
   className?: string;
 }
 
-const Input: React.FC<InputProps> = ({
+export default function Input({
   title,
   placeholder,
   type,
   name,
   id,
   className,
-}) => {
+}: InputProps) {
   return (
     <div className="flex flex-col gap-1">
       <label
@@ -35,5 +35,3 @@ const Input: React.FC<InputProps> = ({
     </div>
   );
 };
-
-export default Input;
