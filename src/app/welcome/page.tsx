@@ -16,7 +16,7 @@ export default function WelcomePage() {
       <div className="w-full flex flex-col gap-3 justify-center text-white">
         <Link
           className="bg-smoothYellow text-green w-full font-extrabold p-3 rounded-full text-center"
-          href="#"
+          href="/sign-in"
         >
           Iniciar sesión
         </Link>
