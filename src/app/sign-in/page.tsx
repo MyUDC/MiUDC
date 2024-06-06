@@ -39,7 +39,7 @@ export default function SignInPage() {
           </div>
         </form>
         <div className="text-center">
-          <Button text="Regístrate" path="" variant="link" />
+          <Button text="Regístrate" path="/sign-up/register" variant="link" />
         </div>
       </div>
     </div>

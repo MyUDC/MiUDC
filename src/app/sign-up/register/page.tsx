@@ -50,7 +50,7 @@ export default function RegisterPage() {
           </div>
         </form>
         <div className="text-center">
-          <Button text="Iniciar sesión" path="" variant="link" />
+          <Button text="Iniciar sesión" path="/sign-in" variant="link" />
         </div>
       </div>
     </div>
