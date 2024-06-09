@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Button from "@/components/buttons/Button";
 
 export default function WelcomePage() {
   return (
@@ -14,18 +14,12 @@ export default function WelcomePage() {
         />
       </div>
       <div className="w-full flex flex-col gap-3 justify-center text-white">
-        <Link
-          className="bg-smoothYellow text-green w-full font-extrabold p-3 rounded-full text-center"
-          href="/sign-in"
-        >
-          Iniciar sesión
-        </Link>
-        <Link
-          className="bg-green w-full font-extrabold p-3 rounded-full text-center"
-          href="/sign-up/profile-type"
-        >
-          Registrarse
-        </Link>
+        <Button text="Iniciar sesión" path="/sign-in" variant="smoothGreen" />
+        <Button
+          text="Registrarse"
+          path="/sign-up/profile-type"
+          variant="green"
+        />
       </div>
     </div>
   );
