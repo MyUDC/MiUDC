@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTimes,
   faUser,
-  faClock,
+  faClockRotateLeft,
   faSignOutAlt,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
@@ -54,8 +54,8 @@ export default function UserPage() {
             <div className="flex justify-between items-center px-4 mb-4">
               <div className="flex items-center">
                 <FontAwesomeIcon
-                  icon={faClock}
-                  className="mr-4 w-5 h-5 text-black"
+                  icon={faClockRotateLeft}
+                  className="mr-4 w-6 h-6 text-black transform scale-100"
                 />
                 <div>
                   <div className="text-lg font-bold text-black">
@@ -78,8 +78,8 @@ export default function UserPage() {
           <div className="mb-5 w-full">
             <div className="flex items-center px-4 mb-4">
               <FontAwesomeIcon
-                icon={faClock}
-                className="mr-4 w-5 h-5 text-black"
+                icon={faClockRotateLeft}
+                className="mr-4 w-6 h-6 text-black transform scale-100"
               />
               <div className="flex-grow">
                 <div className="text-lg font-bold text-black">
