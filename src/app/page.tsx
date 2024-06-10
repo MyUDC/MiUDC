@@ -17,7 +17,7 @@ export default function Home() {
         Creando puentes de conexión entre egresados y aspirantes.
       </div>
       <div className="w-full flex justify-center text-white">
-        <Button text="Iniciar sesión" path="/onboarding/one" variant="green" />
+        <Button text="Continuar" path="/onboarding/one" variant="green" />
       </div>
     </div>
   );
