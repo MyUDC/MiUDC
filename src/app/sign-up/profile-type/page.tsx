@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ProfileButton from "@/components/user/ProfileButton";
+import ProfileButton from "@/sign-up/components/ProfileButton";
 
 export default function ProfileTypePage() {
   return (
