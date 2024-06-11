@@ -6,7 +6,7 @@ interface ButtonProps {
   variant: "green" | "smoothGreen" | "link" | "forgetGreen";
 }
 
-// puede sacarcce del componente porque solo son strings planos
+// puede sacarse del componente porque solo son strings planos
 const flexClasses =
 {
   forgetGreen: "justify-start",
@@ -17,7 +17,7 @@ const flexClasses =
 };
 
 export default function Button({ text, path, variant }: ButtonProps) {
-  
+
   // este objeto no puede sacarse del componente porque depende de la variante
   const variantClasses = {
     link: "text-gray-700 text-lg w-full text-center",
