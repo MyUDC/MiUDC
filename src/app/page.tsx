@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Button from "@/components/buttons/Button";
 
 export default function Home() {
   return (
@@ -17,12 +17,7 @@ export default function Home() {
         Creando puentes de conexión entre egresados y aspirantes.
       </div>
       <div className="w-full flex justify-center text-white">
-        <Link
-          className="bg-green w-full font-extrabold p-3 rounded-full text-center"
-          href="/onboarding/one"
-        >
-          Continuar
-        </Link>
+        <Button text="Continuar" path="/onboarding/one" variant="green" />
       </div>
     </div>
   );
