@@ -3,8 +3,11 @@ import {
   faClockRotateLeft,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import UserOption from "../interfaces/UserOption";
 
-const userOptions = [
+
+
+const userOptions: UserOption[] = [
   {
     href: "",
     icon: faUser,

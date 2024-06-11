@@ -7,7 +7,7 @@ interface UserProfileProps {
   height?: number;
 }
 
-export default function UserProfile({
+export default function UserAvatar({
   name,
   photoUrl,
   width = 48,

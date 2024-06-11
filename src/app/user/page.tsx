@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import UserOption from "@/components/user/UserOption";
-import UserProfile from "@/components/user/UserProfile";
-import userOptions from "@/data/userOptions";
+import UserOption from "@/user/components/UserOption";
+import UserAvatar from "@/user/components/UserAvatar";
+import userOptions from "@/user/data/userOptions";
 
 export default function UserPage() {
   return (
@@ -15,7 +15,7 @@ export default function UserPage() {
             className="mb-8 self-start w-8 h-8 text-white"
           />
         </Link>
-        <UserProfile name="Eduardo Chacón" photoUrl="/svgs/onboarding1.svg" />
+        <UserAvatar name="Eduardo Chacón" photoUrl="/svgs/onboarding1.svg" />
       </div>
       <div className="flex flex-col w-full">
         {userOptions.map((option, index) => (

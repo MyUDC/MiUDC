@@ -4,14 +4,7 @@ import {
   IconDefinition,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-
-interface UserOptionProps {
-  href: string;
-  icon: IconDefinition;
-  iconColor: string;
-  title: string;
-  description: string;
-}
+import type UserOption  from "../interfaces/UserOption";
 
 export default function UserOption({
   href,
@@ -19,7 +12,7 @@ export default function UserOption({
   iconColor,
   title,
   description,
-}: UserOptionProps) {
+}: UserOption) {
   return (
     <Link href={href}>
       <div className="mb-5 w-full">
