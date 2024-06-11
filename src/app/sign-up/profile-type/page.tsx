@@ -14,18 +14,8 @@ export default function ProfileTypePage() {
         />
       </div>
       <div className="flex justify-center gap-4">
-        <ProfileButton
-          href="/sign-up/career"
-          bgColor="bg-smoothGreen"
-          iconColor="text-green"
-          label="Egresado"
-        />
-        <ProfileButton
-          href=""
-          bgColor="bg-smoothYellow"
-          iconColor="text-yellow"
-          label="Aspirante"
-        />
+        <ProfileButton href="/sign-up/career" label="Egresado" />
+        <ProfileButton href="" label="Aspirante" />
       </div>
     </div>
   );
