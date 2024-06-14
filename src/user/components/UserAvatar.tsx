@@ -5,6 +5,7 @@ interface UserProfileProps {
   photoUrl?: string;
   width?: number;
   height?: number;
+  textColor?: string;
 }
 
 export default function UserAvatar({
@@ -12,6 +13,7 @@ export default function UserAvatar({
   photoUrl,
   width = 48,
   height = 48,
+  textColor = "text-white",
 }: UserProfileProps) {
   return (
     <div className="flex items-center">
@@ -29,7 +31,7 @@ export default function UserAvatar({
           style={{ width, height }}
         ></div>
       )}
-      <div className="text-lg font-bold text-white">{name}</div>
+      <div className={`text-lg font-bold ${textColor}`}>{name}</div>
     </div>
   );
 }
