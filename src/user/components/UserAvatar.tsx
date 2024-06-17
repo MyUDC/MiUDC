@@ -1,7 +1,10 @@
+import React from "react";
 import Image from "next/image";
+import SkeletonImage from "@/components/Skeletons/SkeletonImage";
+import SkeletonText from "@/components/Skeletons/SkeletonText";
 
-interface UserProfileProps {
-  name: string;
+interface UserAvatarProps {
+  name?: string;
   photoUrl?: string;
   width?: number;
   height?: number;
@@ -13,10 +16,10 @@ export default function UserAvatar({
   photoUrl,
   width = 48,
   height = 48,
-  textColor = "text-white",
-}: UserProfileProps) {
+  textColor = "text-black",
+}: UserAvatarProps) {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center space-x-4">
       {photoUrl ? (
         <Image
           src={photoUrl}
@@ -26,12 +29,19 @@ export default function UserAvatar({
           height={height}
         />
       ) : (
-        <div
-          className="rounded-full bg-gray-300 mr-4"
-          style={{ width, height }}
-        ></div>
+        <SkeletonImage
+          width={width}
+          height={height}
+          className="rounded-full mr-4"
+        />
       )}
-      <div className={`text-lg font-bold ${textColor}`}>{name}</div>
+      <div className={`text-lg font-semibold ${textColor}`}>
+        {name ? (
+          <span>{name}</span>
+        ) : (
+          <SkeletonText width="100px" height="1rem" />
+        )}
+      </div>
     </div>
   );
 }
