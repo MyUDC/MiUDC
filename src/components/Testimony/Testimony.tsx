@@ -29,10 +29,12 @@ export default function Testimony({
   return (
     <div className="max-w-lg w-full bg-white shadow-md rounded-lg p-4 mb-4 relative">
       <div className="absolute top-2 right-2">
-        <FontAwesomeIcon
-          icon={faEllipsisVertical}
-          className="text-gray-500 w-6 h-6 m-4"
-        />
+        <button>
+          <FontAwesomeIcon
+            icon={faEllipsisVertical}
+            className="text-gray-500 w-6 h-6 m-4"
+          />
+        </button>
       </div>
       <div className="mt-10 xs:mt-4">
         <UserAvatar
