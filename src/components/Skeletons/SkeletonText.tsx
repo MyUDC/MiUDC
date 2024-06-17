@@ -1,4 +1,3 @@
-// /src/components/Skeletons/SkeletonText.tsx
 import React from "react";
 
 interface SkeletonTextProps {
@@ -7,17 +6,15 @@ interface SkeletonTextProps {
   className?: string;
 }
 
-const SkeletonText: React.FC<SkeletonTextProps> = ({
+export default function SkeletonText({
   width = "100%",
   height = "1rem",
   className,
-}) => {
+}: SkeletonTextProps) {
   return (
     <div
       className={`bg-gray-300 animate-pulse ${className}`}
       style={{ width, height }}
     ></div>
   );
-};
-
-export default SkeletonText;
+}
