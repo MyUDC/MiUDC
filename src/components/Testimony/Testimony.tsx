@@ -1,31 +1,45 @@
+"use client"; // src/components/Testimony/Testimony.tsx
+
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import Reactions from "@/components/Reactions/Reactions";
 import UserAvatar from "@/user/components/UserAvatar";
 import SkeletonText from "@/components/Skeletons/SkeletonText";
 import TestimonyImages from "@/components/Testimony/TestimonyImages";
+import RelativeTime from "@/components/RelativeTime/RelativeTime";
 
 type TestimonyProps = {
   userName?: string;
   userPhotoUrl?: string;
-  postTime?: string;
   career?: string;
   content?: string;
   heartCount?: number;
   commentCount?: number;
   imageUrls?: string[];
+  createdAt: Date;
 };
 
 export default function Testimony({
   userName,
   userPhotoUrl,
-  postTime,
   career,
   content,
   heartCount,
   commentCount,
   imageUrls,
+  createdAt,
 }: TestimonyProps) {
+  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="max-w-lg w-full bg-white shadow-md rounded-lg p-4 mb-4 relative">
       <div className="absolute top-2 right-2">
@@ -45,11 +59,9 @@ export default function Testimony({
         />
         <div className="ml-16">
           <div className="mt-2">
-            {postTime ? (
-              <p className="text-gray-500">{postTime}</p>
-            ) : (
-              <SkeletonText width="50px" height="1rem" />
-            )}
+            <p className="text-gray-500">
+              <RelativeTime createdAt={createdAt} currentTime={currentTime} />
+            </p>
           </div>
           <div className="text-gray-500 mt-2 font-semibold">
             {career ? (
