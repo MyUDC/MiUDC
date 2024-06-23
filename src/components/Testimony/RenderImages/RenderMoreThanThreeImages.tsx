@@ -17,7 +17,7 @@ export default function RenderMoreThanThreeImages({
                 src={imageUrl}
                 alt={`Testimony ${index + 1}`}
                 layout="fill"
-                objectFit="contain"
+                objectFit="cover"
                 className="rounded-md"
               />
             </div>
@@ -35,7 +35,7 @@ export default function RenderMoreThanThreeImages({
                   src={imageUrl}
                   alt={`Testimony ${index + 1}`}
                   layout="fill"
-                  objectFit="contain"
+                  objectFit="cover"
                   className="rounded-md"
                 />
               </div>
@@ -47,7 +47,7 @@ export default function RenderMoreThanThreeImages({
               src={imageUrls[3]}
               alt="Testimony 4"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
               className="rounded-md"
             />
             <div className="absolute inset-0 flex justify-center items-center">

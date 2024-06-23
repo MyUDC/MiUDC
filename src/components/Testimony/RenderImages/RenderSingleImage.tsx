@@ -9,7 +9,7 @@ export default function RenderSingleImage({ imageUrls }: RenderImagesProps) {
           src={imageUrls[0]}
           alt="Testimony"
           layout="fill"
-          objectFit="contain"
+          objectFit="cover"
           className="rounded-md"
         />
       </div>

@@ -14,7 +14,7 @@ export default function RenderTwoImages({ imageUrls }: RenderImagesProps) {
               src={imageUrl}
               alt={`Testimony ${index + 1}`}
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
               className="rounded-md"
             />
           </div>

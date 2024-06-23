@@ -10,7 +10,7 @@ export default function RenderThreeImages({ imageUrls }: RenderImagesProps) {
             src={imageUrls[0]}
             alt="Testimony 1"
             layout="fill"
-            objectFit="contain"
+            objectFit="cover"
             className="rounded-md"
           />
         </div>
@@ -26,7 +26,7 @@ export default function RenderThreeImages({ imageUrls }: RenderImagesProps) {
                 src={imageUrl}
                 alt={`Testimony ${index + 2}`}
                 layout="fill"
-                objectFit="contain"
+                objectFit="cover"
                 className="rounded-md"
               />
             </div>
