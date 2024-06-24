@@ -1,4 +1,4 @@
-"use client"; // src/components/Testimony/Testimony.tsx
+"use client";
 
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -72,7 +72,7 @@ export default function Testimony({
           </div>
           <div className="mt-4">
             {content ? (
-              <p className="text-gray-700 max-w-xs">{content}</p>
+              <p className="text-gray-700 max-w-xs mb-4">{content}</p>
             ) : (
               <>
                 <SkeletonText width="100%" height="1rem" className="mb-2" />
