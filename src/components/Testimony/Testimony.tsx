@@ -41,7 +41,7 @@ export default function Testimony({
   }, []);
 
   return (
-    <div className="max-w-lg w-full bg-white shadow-md rounded-lg p-4 mb-4 relative">
+    <div className="max-w-lg w-full bg-white rounded-lg p-4 mb-4 relative border border-gray-200">
       <div className="absolute top-2 right-2">
         <button>
           <FontAwesomeIcon
