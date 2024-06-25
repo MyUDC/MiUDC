@@ -3,6 +3,7 @@ import Image from "next/image";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SkeletonImage from "@/components/Skeletons/SkeletonImage";
+import ImageView from "@/components/ImageView/ImageView";
 
 type ManyImagesProps = {
   imageSources: string[];
@@ -10,9 +11,16 @@ type ManyImagesProps = {
 
 export default function ManyImages({ imageSources }: ManyImagesProps) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showImageView, setShowImageView] = useState(false);
+  const [initialIndex, setInitialIndex] = useState(0);
 
   const handleImageLoad = () => {
     setIsLoaded(true);
+  };
+
+  const handleImageClick = (index: number) => {
+    setInitialIndex(index);
+    setShowImageView(true);
   };
 
   return (
@@ -38,13 +46,13 @@ export default function ManyImages({ imageSources }: ManyImagesProps) {
       )}
       <Swiper spaceBetween={5} slidesPerView={2.5}>
         {imageSources.map((url, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={index} onClick={() => handleImageClick(index)}>
             <Image
               src={url}
               alt={`Testimony Image ${index}`}
               width={400}
               height={280}
-              className={`select-none cursor-grab w-[400px] h-[280px] rounded-lg border border-gray-200 object-cover ${
+              className={`select-none cursor-pointer w-[400px] h-[280px] rounded-lg border border-gray-200 object-cover ${
                 isLoaded ? "opacity-100" : "opacity-0"
               }`}
               onLoad={handleImageLoad}
@@ -53,6 +61,13 @@ export default function ManyImages({ imageSources }: ManyImagesProps) {
           </SwiperSlide>
         ))}
       </Swiper>
+      {showImageView && (
+        <ImageView
+          imageUrls={imageSources}
+          initialIndex={initialIndex}
+          onClose={() => setShowImageView(false)}
+        />
+      )}
     </div>
   );
 }

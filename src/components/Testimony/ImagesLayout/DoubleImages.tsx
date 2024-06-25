@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import SkeletonImage from "@/components/Skeletons/SkeletonImage";
+import ImageView from "@/components/ImageView/ImageView";
 
 type DoubleImagesProps = {
   imageSources: string[];
@@ -8,9 +9,16 @@ type DoubleImagesProps = {
 
 export default function DoubleImages({ imageSources }: DoubleImagesProps) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showImageView, setShowImageView] = useState(false);
+  const [initialIndex, setInitialIndex] = useState(0);
 
   const handleImageLoad = () => {
     setIsLoaded(true);
+  };
+
+  const handleImageClick = (index: number) => {
+    setInitialIndex(index);
+    setShowImageView(true);
   };
 
   return (
@@ -41,10 +49,18 @@ export default function DoubleImages({ imageSources }: DoubleImagesProps) {
               isLoaded ? "opacity-100" : "opacity-0"
             }`}
             onLoad={handleImageLoad}
+            onClick={() => handleImageClick(index)}
             draggable="false"
           />
         ))}
       </div>
+      {showImageView && (
+        <ImageView
+          imageUrls={imageSources}
+          initialIndex={initialIndex}
+          onClose={() => setShowImageView(false)}
+        />
+      )}
     </div>
   );
 }
