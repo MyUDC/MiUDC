@@ -79,6 +79,26 @@ export default function ImageView({
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>
+        <button
+          onClick={handlePrev}
+          className={`absolute top-1/2 -translate-y-1/2 left-4 text-white text-3xl hover:opacity-75 z-50 ${
+            currentIndex === 0
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:opacity-75"
+          }`}
+        >
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
+        <button
+          onClick={handleNext}
+          className={`absolute top-1/2 -translate-y-1/2 right-4 text-white text-3xl hover:opacity-75 z-50 ${
+            currentIndex === imageUrls.length - 1
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:opacity-75"
+          }`}
+        >
+          <FontAwesomeIcon icon={faChevronRight} />
+        </button>
         <Swiper
           initialSlide={initialIndex}
           onSwiper={setSwiperInstance}
@@ -100,34 +120,6 @@ export default function ImageView({
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="absolute inset-0 flex items-center justify-between px-4 z-10">
-          <div>
-            <button
-              onClick={handlePrev}
-              disabled={currentIndex === 0}
-              className={`text-white text-3xl ${
-                currentIndex === 0
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:opacity-75"
-              }`}
-            >
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </button>
-          </div>
-          <div>
-            <button
-              onClick={handleNext}
-              disabled={currentIndex === imageUrls.length - 1}
-              className={`text-white text-3xl ${
-                currentIndex === imageUrls.length - 1
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:opacity-75"
-              }`}
-            >
-              <FontAwesomeIcon icon={faChevronRight} />
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
