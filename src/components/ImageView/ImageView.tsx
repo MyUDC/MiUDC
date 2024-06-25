@@ -85,7 +85,7 @@ export default function ImageView({
             currentIndex === 0
               ? "opacity-50 cursor-not-allowed"
               : "hover:opacity-75"
-          }`}
+          } ${"hidden sm:block"}`}
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
@@ -95,7 +95,7 @@ export default function ImageView({
             currentIndex === imageUrls.length - 1
               ? "opacity-50 cursor-not-allowed"
               : "hover:opacity-75"
-          }`}
+          } ${"hidden sm:block"}`}
         >
           <FontAwesomeIcon icon={faChevronRight} />
         </button>
