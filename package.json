@@ -6,19 +6,24 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate": "prisma migrate dev",
+    "postmigrate": "npx @snaplet/seed sync"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@prisma/client": "^5.16.0",
+    "dotenv": "^16.4.5",
     "next": "14.2.2",
     "react": "^18",
     "react-dom": "^18",
     "swiper": "^11.1.1"
   },
   "devDependencies": {
+    "@snaplet/copycat": "^5.0.0",
+    "@snaplet/seed": "^0.97.20",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -28,5 +33,11 @@
     "prisma": "^5.16.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "@snaplet/seed": {
+    "config": "prisma\\seed\\seed.config.ts"
+  },
+  "prisma": {
+    "seed": "npx tsx prisma/seed/seed.ts"
   }
 }
