@@ -15,7 +15,7 @@ export default function UserPage() {
             className="mb-8 self-start w-8 h-8 text-white"
           />
         </Link>
-        <UserAvatar name="Eduardo Chacón" />
+        <UserAvatar textColor="text-white" name="Eduardo Chacón" />
       </div>
       <div className="flex flex-col w-full">
         {userOptions.map((option, index) => (
