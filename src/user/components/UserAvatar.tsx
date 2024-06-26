@@ -19,7 +19,7 @@ export default function UserAvatar({
   textColor = "text-black",
 }: UserAvatarProps) {
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex items-center">
       {photoUrl ? (
         <Image
           src={photoUrl}
