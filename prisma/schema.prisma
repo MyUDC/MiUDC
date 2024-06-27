@@ -1,0 +1,198 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ASPIRANT
+  STUDENT
+  ADMIN
+}
+
+model User {
+  // fields
+  id       String @id @default(uuid())
+  email    String @unique
+  password String
+  role     Role
+
+  // relations
+  Testimonies    Testimony[]
+  TestimonyLikes TestimonyLike[]
+  Questions      Question[]
+  QuestionsLikes QuestionLike[]
+  Interests      Interest[]
+  Comments       Comment[]
+  Answers        Answer[]
+
+  // timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Testimony {
+  // fields
+  id      String @id @default(uuid())
+  title   String
+  content String
+
+  // foreign keys
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  career Career @relation(fields: [careerId], references: [id])
+  careerId String
+
+  // relations
+  TestimonyLike TestimonyLike[]
+  Comments      Comment[]
+
+  // timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TestimonyLike {
+  // fields
+  id          String    @id @default(uuid())
+
+  // foreign keys
+  testimony   Testimony @relation(fields: [testimonyId], references: [id])
+  testimonyId String
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+
+  // timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Comment {
+  // fields
+  id        String   @id @default(uuid())
+  content   String
+
+  // foreign keys
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  testimony Testimony @relation(fields: [testimonyId], references: [id])
+  testimonyId String
+
+  // timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Question {
+  // fields
+  id            String         @id @default(uuid())
+  title         String
+  content       String
+
+  // foreign keys
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String
+  career        Career         @relation(fields: [careerId], references: [id])
+  careerId      String
+
+  // relations
+  questionLikes QuestionLike[]
+  answers       Answer[]
+
+  // timestamps
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model QuestionLike {
+  // fields
+  id         String   @id @default(uuid())
+
+  // foreign keys
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId String
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+
+  // timestamps
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Answer {
+  // fields
+  id        String   @id @default(uuid())
+  content   String
+
+  // foreign keys
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  question  Question @relation(fields: [questionId], references: [id])
+  questionId String
+
+  // timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Faculty {
+  // fields
+  id        String   @id @default(uuid())
+  name      String
+
+  // relations
+  careers   Career[]
+
+  // timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Career {
+  // fields
+  id             String     @id @default(uuid())
+  name           String
+  website        String
+  study_plan_url String
+  location       String
+  latitude       Float
+  longitude      Float
+  description    String
+
+  // foreign keys
+  faculty        Faculty    @relation(fields: [facultyId], references: [id])
+  facultyId      String
+
+  // relations
+  Testimonies    Testimony[]
+  Questions      Question[]
+  interesteds    Interest[]
+
+  // timestamps
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model Interest {
+  // fields
+  id        String   @id @default(uuid())
+
+  // foreign keys
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  career    Career   @relation(fields: [careerId], references: [id])
+  careerId  String
+
+  // timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
