@@ -43,7 +43,7 @@ export default function Testimony({
   return (
     <div className="max-w-lg w-full bg-white shadow-md rounded-lg p-4 mb-4 relative">
       <div className="absolute top-2 right-2">
-        <button>
+        <button title="avatar">
           <FontAwesomeIcon
             icon={faEllipsisVertical}
             className="text-gray-500 w-6 h-6 m-4"
