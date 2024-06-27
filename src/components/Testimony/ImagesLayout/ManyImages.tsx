@@ -2,6 +2,7 @@ import { useState } from "react";
 import Image from "next/image";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
+import {Mousewheel, FreeMode} from "swiper/modules"
 import SkeletonImage from "@/components/Skeletons/SkeletonImage";
 import ImageView from "@/components/ImageView/ImageView";
 
@@ -44,7 +45,14 @@ export default function ManyImages({ imageSources }: ManyImagesProps) {
           />
         </div>
       )}
-      <Swiper spaceBetween={5} slidesPerView={2.5}>
+      <Swiper
+        spaceBetween={5}
+        slidesPerView={2.5}
+        freeMode={true}
+        mousewheel={true}
+        direction="horizontal"
+        modules={[Mousewheel, FreeMode]}
+      >
         {imageSources.map((url, index) => (
           <SwiperSlide key={index} onClick={() => handleImageClick(index)}>
             <Image
