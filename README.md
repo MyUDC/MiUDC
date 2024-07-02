@@ -23,7 +23,6 @@ Pasos para levantar el entorno de desarrollo en local.
    `docker compose up -d`
 6. Configurar prisma
    ` npm run migrate`
-   ` npx prisma generate`
    ` npx prisma db seed`
 7. Ejecutar el servidor de desarrollo de next
    `npm run dev`
