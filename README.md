@@ -24,6 +24,6 @@ Pasos para levantar el entorno de desarrollo en local.
 6. Configurar prisma
    ` npm run migrate`
    ` npx prisma generate`
-   ` npm run prisma:seed`
+   ` npx prisma db seed`
 7. Ejecutar el servidor de desarrollo de next
    `npm run dev`
