@@ -7,14 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "prisma migrate dev",
+    "migrate": "npx prisma migrate dev",
     "postmigrate": "npx @snaplet/seed sync"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "@prisma/client": "^5.16.0",
+    "@prisma/client": "^5.16.1",
     "dotenv": "^16.4.5",
     "next": "14.2.2",
     "react": "^18",
@@ -30,7 +30,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.2",
     "postcss": "^8",
-    "prisma": "^5.16.0",
+    "prisma": "^5.16.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
