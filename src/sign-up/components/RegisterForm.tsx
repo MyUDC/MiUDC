@@ -1,8 +1,12 @@
 'use client';
 
-import Input from "@/components/form/Input"
-import { useEffect } from "react";
 import { useForm } from "react-hook-form"
+
+import { SignIn, SignUp } from "@/actions";
+
+import Input from "@/components/form/Input"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type FormInputs = {
   email: string
@@ -11,11 +15,20 @@ type FormInputs = {
 }
 
 export const RegisterForm = () => {
-
+  const router = useRouter();
+  const [signUpErrorMessage, setSignUpErrorMessage] = useState("");
   const { register, handleSubmit, watch, formState: { errors } } = useForm<FormInputs>();
 
   const onSubmit = async (data: FormInputs) => {
-    console.log(data);
+    setSignUpErrorMessage("");
+    const { email, password } = data;
+    const resp = await SignUp(email, password);
+    if (!resp.ok) {
+      setSignUpErrorMessage(resp.message);
+      return;
+    }
+    await SignIn(email, password);
+    router.replace("/user");
   }
 
   const passwordInpValue = watch("password");
@@ -87,6 +100,11 @@ export const RegisterForm = () => {
       {errors.confirm_password?.message &&
         <span className="text-red-500" >
           {`*${errors.confirm_password.message}`}
+        </span>
+      }
+      {signUpErrorMessage &&
+        <span className="text-red-500" >
+          {signUpErrorMessage}
         </span>
       }
       <div className="flex justify-items-center w-full">
