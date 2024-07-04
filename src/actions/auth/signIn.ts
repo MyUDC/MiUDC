@@ -1,23 +1,34 @@
 'use server';
 
 import { signIn } from "@/auth.config";
-import { sleep } from "@/utils/sleep";
 
 export const SignIn = async (email: string, password: string) => {
-  console.log({ form: { email, password } });
   
   try {
-    // await sleep(2);
-    await signIn('credentials', { email, password, redirect: false });
+    await signIn('credentials', {
+      email,
+      password,
+      redirect: false
+    });
+
     return {
       ok: true,
       message: 'Signed in successfully'
     }
   } catch (error) {
-    console.log(error);
+
+    console.log("Error type:" + (error as any).type);
+    
+    if ((error as any).type === 'CredentialsSignin') {
+      return {
+        ok: false,
+        message: 'Credentials sign in error'
+      }
+    }
+
     return {
       ok: false,
-      message: 'Failed to sign in'
+      message: 'Unknown error'
     }    
   }
 }

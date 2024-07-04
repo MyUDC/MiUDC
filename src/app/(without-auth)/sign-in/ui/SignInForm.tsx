@@ -7,6 +7,8 @@ import { SignIn } from '@/actions'
 import Button from '@/components/buttons/Button'
 import Input from '@/components/form/Input'
 import { useState } from 'react';
+import { Router } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 type FormInputs = {
   email: string
@@ -15,6 +17,7 @@ type FormInputs = {
 
 export const SignInForm = () => {
 
+  const router = useRouter();
   const [signInErrorMessage, setSignInErrorMessage] = useState("");
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormInputs>();
 
@@ -23,10 +26,12 @@ export const SignInForm = () => {
     const { email, password } = data;
   
     const resp = await SignIn(email, password);
+    console.log(resp.message);
     if (!resp.ok) {
       setSignInErrorMessage(resp.message);
       return;
     }
+    router.replace("/user");
   }
 
   return (

@@ -1,5 +1,5 @@
 import Button from "@/components/buttons/Button";
-import { RegisterForm } from "@/app/sign-up/register/ui/RegisterForm";
+import { RegisterForm } from "@/app/(without-auth)/sign-up/register/ui/RegisterForm";
 import Image from "next/image";
 
 export default function RegisterPage() {

@@ -3,5 +3,5 @@
 import { signOut } from "@/auth.config"
 
 export const  SignOut = async () => {
-  signOut();
+  await signOut();
 }

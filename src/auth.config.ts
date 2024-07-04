@@ -10,7 +10,7 @@ import prisma from './lib/prisma';
 export const authConfig: NextAuthConfig = {
   pages: {
     signIn: '/sign-in',
-    newUser: '/sign-up/register',
+    newUser: '/sign-up/register'
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
@@ -26,7 +26,6 @@ export const authConfig: NextAuthConfig = {
       return session;
     }
   },
-  debug: true,
   providers: [
 
     Credentials({
