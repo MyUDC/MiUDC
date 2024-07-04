@@ -1,10 +1,14 @@
 'use server';
 
 import { signIn } from "@/auth.config";
+import { sleep } from "@/utils/sleep";
 
 export const SignIn = async (email: string, password: string) => {
+  console.log({ form: { email, password } });
+  
   try {
-    await signIn('credentials', { email, password });
+    // await sleep(2);
+    await signIn('credentials', { email, password, redirect: false });
     return {
       ok: true,
       message: 'Signed in successfully'

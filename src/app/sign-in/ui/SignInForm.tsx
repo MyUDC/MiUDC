@@ -16,13 +16,11 @@ type FormInputs = {
 export const SignInForm = () => {
 
   const [signInErrorMessage, setSignInErrorMessage] = useState("");
-  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormInputs>();
 
   const onSubmit = async (data: FormInputs) => {
     setSignInErrorMessage("");
     const { email, password } = data;
-  
-    console.log(email, password);
   
     const resp = await SignIn(email, password);
     if (!resp.ok) {
@@ -57,6 +55,7 @@ export const SignInForm = () => {
         </span>
       }
 
+
       <Input
         title="Contraseña"
         id="password"
@@ -82,14 +81,14 @@ export const SignInForm = () => {
 
       {signInErrorMessage &&
         <span className="text-red-500" >
-          {signInErrorMessage}
+          Credenciales incorrectas
         </span>
       }
       <div className="pt-2">
         <button
           className="bg-green text-white w-full text-center shadow-md rounded-full font-semibold py-3"
         >
-          Continuar
+          {isSubmitting ? "Cargando..." : "Continuar"}
         </button>
       </div>
     </form>

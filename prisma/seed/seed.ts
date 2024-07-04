@@ -1,5 +1,6 @@
 import { createSeedClient } from "@snaplet/seed";
 import { faker } from "@snaplet/copycat";
+import bcryptjs from 'bcryptjs';
 
 const main = async () => {
   const seed = await createSeedClient();
@@ -27,7 +28,7 @@ const main = async () => {
   // Seed Users
   const {user: users} = await seed.user((x) => x(20, (u) => ({
     email: faker.internet.email(),
-    password: faker.internet.password(),
+    password: bcryptjs.hashSync('password', 10),
     role: faker.helpers.arrayElement(['ASPIRANT', 'STUDENT', 'ADMIN']),
   })));
 
