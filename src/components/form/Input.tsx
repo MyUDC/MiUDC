@@ -1,36 +1,31 @@
 import React from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
 
-interface InputProps {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>{
   title: string;
-  placeholder: string;
-  type: string;
-  name: string;
-  id: string;
-  className?: string;
+  formHandler?: UseFormRegisterReturn<any>;
 }
 
 export default function Input({
   title,
-  placeholder,
-  type,
-  name,
-  id,
-  className,
+  formHandler,
+  ...rest
 }: InputProps) {
+  const { id, className: inputClassName, ...htmlInputProps } = rest;
+  
   return (
     <div className="flex flex-col gap-1">
       <label
         htmlFor={id}
-        className="text-black font-light text-sm font-inter text-base font-light"
+        className="text-black font-light font-inter text-base"
       >
         {title}
       </label>
       <input
-        type={type}
-        name={name}
         id={id}
-        placeholder={placeholder}
-        className={`rounded-lg p-2 pl-4 font-light focus:border-green-500 focus:outline-none bg-smoothGreen shadow-md ${className} rounded-2xl w-full h-14`}
+        className={`rounded-lg p-2 pl-4 font-light focus:border-green-500 focus:outline-none bg-smoothGreen shadow-md ${inputClassName} rounded-2xl w-full h-14`}
+        {...formHandler}
+        {...htmlInputProps}
       />
     </div>
   );

@@ -1,33 +1,28 @@
-# Development
+# MiUDC
 
-Pasos para levantar la app en desarrollo
+## Configuración inicial
 
-1. Levantar la base de datos
+1. Clonar el repositorio
+   `git clone https://github.com/MyUDC/FRONT_MyUDC.git`
+2. Acceder al directorio del  proyecto
+   `cd FRONT_MyUDC`
 
-```
-docker compose up -d
-```
+## Entornos
 
-2. Coiar el .env.template, y renombralo a .env
-3. Reemplazar las variables de entorno
-4. Instalar dependencias de node ``npm install``
-5. Ejecutar el comando `npm run dev`
+### Desarrollo (local)
+
+Pasos para levantar el entorno de desarrollo en local.
+
+1. Cambia a la rama dev
+   `git switch dev`
+2. Copiar el `.env.template`, y renombrar a `.env`
+3. Reemplazar las variables de entorno (solo si es necesario)
+4. Instalar dependencias de node
+   ``npm i``
+5. Levantar la base de datos
+   `docker compose up -d`
 6. Configurar prisma
-   ```bash
-   npx prisma migrate dev
-   npx prisma generate
-   ```
-7. Ejecutar el SEED para [crear la base de datos local](localhost:3000/api/seed)
-
-# Prisma commands
-
-```
-npx prisma init
-npx prisma migrate dev
-npx prisma generate
-
-```
-
-# Prod
-
-# Stage
+   ` npm run migrate`
+   ` npx prisma db seed`
+7. Ejecutar el servidor de desarrollo de next
+   `npm run dev`

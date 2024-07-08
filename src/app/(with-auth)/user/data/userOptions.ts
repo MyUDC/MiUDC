@@ -29,13 +29,6 @@ const userOptions: UserOption[] = [
     title: "Tus intereses",
     description: "Las universidades que te interesan",
   },
-  {
-    href: "",
-    icon: faSignOutAlt,
-    iconColor: "text-black",
-    title: "Cerrar sesión",
-    description: "",
-  },
 ];
 
 export default userOptions;
