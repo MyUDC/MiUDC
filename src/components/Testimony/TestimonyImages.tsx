@@ -5,6 +5,10 @@ type TestimonyImagesProps = {
 };
 
 export default function TestimonyImages({ imageUrls }: TestimonyImagesProps) {
+  if (imageUrls.length === 0) {
+    return null;
+  }
+
   const componentMap: {
     [key: number]: React.ReactElement;
     default: React.ReactElement;
