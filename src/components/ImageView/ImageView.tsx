@@ -55,6 +55,13 @@ export default function ImageView({
     };
   }, [handleNext, handlePrev, onClose]);
 
+  useEffect(() => {
+    document.body.classList.add("overflow-hidden");
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, []);
+
   const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
     if (
       containerRef.current &&
@@ -73,13 +80,15 @@ export default function ImageView({
         className="relative w-full h-full flex items-center justify-center"
         ref={containerRef}
       >
-        <button title="Close"
+        <button
+          title="Close"
           onClick={onClose}
           className="absolute top-4 right-4 text-white text-3xl hover:opacity-75 z-50"
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>
-        <button title="Previous Image"
+        <button
+          title="Previous Image"
           onClick={handlePrev}
           className={`absolute top-1/2 -translate-y-1/2 left-4 text-white text-3xl hover:opacity-75 z-50 ${
             currentIndex === 0
@@ -89,7 +98,8 @@ export default function ImageView({
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
-        <button title="Next Image"
+        <button
+          title="Next Image"
           onClick={handleNext}
           className={`absolute top-1/2 -translate-y-1/2 right-4 text-white text-3xl hover:opacity-75 z-50 ${
             currentIndex === imageUrls.length - 1
