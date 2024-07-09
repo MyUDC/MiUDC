@@ -10,6 +10,8 @@ import SwiperCore from "swiper";
 import "swiper/css";
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
+import { useSpring, animated } from "@react-spring/web";
+import { useDrag } from "@use-gesture/react";
 
 type ImageViewProps = {
   imageUrls: string[];
@@ -24,6 +26,8 @@ export default function ImageView({
 }: ImageViewProps) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragMovement, setDragMovement] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handlePrev = useCallback(() => {
@@ -38,8 +42,8 @@ export default function ImageView({
     }
   }, [swiperInstance]);
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onClose();
       } else if (event.key === "ArrowLeft") {
@@ -47,13 +51,16 @@ export default function ImageView({
       } else if (event.key === "ArrowRight") {
         handleNext();
       }
-    };
+    },
+    [handleNext, handlePrev, onClose]
+  );
 
+  useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleNext, handlePrev, onClose]);
+  }, [handleKeyDown]);
 
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
@@ -62,14 +69,37 @@ export default function ImageView({
     };
   }, []);
 
-  const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (
-      containerRef.current &&
-      !containerRef.current.contains(event.target as Node)
-    ) {
-      onClose();
-    }
-  };
+  const handleClickOutside = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    },
+    [onClose]
+  );
+
+  const [{ y }, api] = useSpring(() => ({ y: 0 }));
+
+  const bind = useDrag(
+    ({ down, movement: [, my], cancel }) => {
+      setIsDragging(down);
+      setDragMovement(my);
+      if (!down && Math.abs(my) > 150) {
+        onClose();
+        cancel();
+      } else {
+        api.start({ y: down ? my : 0, immediate: down });
+      }
+    },
+    { axis: "y", filterTaps: true }
+  );
+
+  const opacity = isDragging
+    ? 1 - Math.min(Math.abs(dragMovement) / 300, 1)
+    : 1;
 
   return (
     <div
@@ -94,7 +124,7 @@ export default function ImageView({
             currentIndex === 0
               ? "opacity-50 cursor-not-allowed"
               : "hover:opacity-75"
-          } ${"hidden sm:block"}`}
+          } hidden sm:block`}
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
@@ -105,7 +135,7 @@ export default function ImageView({
             currentIndex === imageUrls.length - 1
               ? "opacity-50 cursor-not-allowed"
               : "hover:opacity-75"
-          } ${"hidden sm:block"}`}
+          } hidden sm:block`}
         >
           <FontAwesomeIcon icon={faChevronRight} />
         </button>
@@ -120,13 +150,20 @@ export default function ImageView({
               key={index}
               className="flex items-center justify-center"
             >
-              <Image
-                src={url}
-                alt={`Image ${index}`}
-                width={800}
-                height={600}
-                className="max-w-full max-h-full object-contain"
-              />
+              <animated.div
+                {...bind()}
+                style={{ y, cursor: isDragging ? "grabbing" : "grab" }}
+                className="w-full h-full flex items-center justify-center touch-none select-none"
+              >
+                <Image
+                  src={url}
+                  alt={`Image ${index}`}
+                  width={800}
+                  height={600}
+                  className="max-w-full max-h-full object-contain"
+                  style={{ opacity }}
+                />
+              </animated.div>
             </SwiperSlide>
           ))}
         </Swiper>
