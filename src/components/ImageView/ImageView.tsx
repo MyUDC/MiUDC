@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+'use client';
+
+import { useState, useEffect, useRef, useCallback } from "react";
+
+import Image from "next/image";
+
+import SwiperCore from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useSpring, animated } from "@react-spring/web";
+import { useDrag } from "@use-gesture/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTimes,
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
-import "swiper/css";
-import Image from "next/image";
-import "tailwindcss/tailwind.css";
-import { useSpring, animated } from "@react-spring/web";
-import { useDrag } from "@use-gesture/react";
 
 type ImageViewProps = {
   imageUrls: string[];
@@ -120,22 +122,20 @@ export default function ImageView({
         <button
           title="Previous Image"
           onClick={handlePrev}
-          className={`absolute top-1/2 -translate-y-1/2 left-4 text-white text-3xl hover:opacity-75 z-50 ${
-            currentIndex === 0
+          className={`absolute top-1/2 -translate-y-1/2 left-4 text-white text-3xl hover:opacity-75 z-50 ${currentIndex === 0
               ? "opacity-50 cursor-not-allowed"
               : "hover:opacity-75"
-          } hidden sm:block`}
+            } hidden sm:block`}
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
         <button
           title="Next Image"
           onClick={handleNext}
-          className={`absolute top-1/2 -translate-y-1/2 right-4 text-white text-3xl hover:opacity-75 z-50 ${
-            currentIndex === imageUrls.length - 1
+          className={`absolute top-1/2 -translate-y-1/2 right-4 text-white text-3xl hover:opacity-75 z-50 ${currentIndex === imageUrls.length - 1
               ? "opacity-50 cursor-not-allowed"
               : "hover:opacity-75"
-          } hidden sm:block`}
+            } hidden sm:block`}
         >
           <FontAwesomeIcon icon={faChevronRight} />
         </button>
