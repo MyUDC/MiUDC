@@ -1,9 +1,11 @@
 'use client';
 
+// ***[dependencies]***
+// react
 import { useState, useEffect, useRef, useCallback } from "react";
-
+// nextjs
 import Image from "next/image";
-
+// third-party
 import SwiperCore from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSpring, animated } from "@react-spring/web";
@@ -26,12 +28,34 @@ export default function ImageView({
   initialIndex,
   onClose,
 }: ImageViewProps) {
+  // ***[constants from hooks]***
+  // react
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isDragging, setIsDragging] = useState(false);
   const [dragMovement, setDragMovement] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-
+  // third-party
+  const [{ y }, api] = useSpring(() => ({ y: 0 }));
+  const bind = useDrag(
+    ({ down, movement: [, my], cancel }) => {
+      setIsDragging(down);
+      setDragMovement(my);
+      if (!down && Math.abs(my) > 150) {
+        onClose();
+        cancel();
+      } else {
+        api.start({ y: down ? my : 0, immediate: down });
+      }
+    },
+    { axis: "y", filterTaps: true }
+  );
+  // own constants
+  const opacity = isDragging
+    ? 1 - Math.min(Math.abs(dragMovement) / 300, 1)
+    : 1;
+  
+  // ***[functions]***
   const handlePrev = useCallback(() => {
     if (swiperInstance) {
       swiperInstance.slidePrev();
@@ -57,6 +81,19 @@ export default function ImageView({
     [handleNext, handlePrev, onClose]
   );
 
+  const handleClickOutside = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    },
+    [onClose]
+  );
+
+  // ***[effects]***
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => {
@@ -70,38 +107,6 @@ export default function ImageView({
       document.body.classList.remove("overflow-hidden");
     };
   }, []);
-
-  const handleClickOutside = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    },
-    [onClose]
-  );
-
-  const [{ y }, api] = useSpring(() => ({ y: 0 }));
-
-  const bind = useDrag(
-    ({ down, movement: [, my], cancel }) => {
-      setIsDragging(down);
-      setDragMovement(my);
-      if (!down && Math.abs(my) > 150) {
-        onClose();
-        cancel();
-      } else {
-        api.start({ y: down ? my : 0, immediate: down });
-      }
-    },
-    { axis: "y", filterTaps: true }
-  );
-
-  const opacity = isDragging
-    ? 1 - Math.min(Math.abs(dragMovement) / 300, 1)
-    : 1;
 
   return (
     <div
