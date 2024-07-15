@@ -1,29 +1,26 @@
-import {
-  RenderSingleImage,
-  RenderTwoImages,
-  RenderThreeImages,
-  RenderMoreThanThreeImages,
-} from "./RenderImages";
+import { ManyImages, DoubleImages, SingleImages } from "./ImagesLayout";
 
 type TestimonyImagesProps = {
   imageUrls: string[];
 };
 
 export default function TestimonyImages({ imageUrls }: TestimonyImagesProps) {
-  const numImages = imageUrls.length;
+  if (imageUrls.length === 0) {
+    return null;
+  }
 
-  const imageRenderMap: { [key: number]: React.FC<TestimonyImagesProps> } = {
-    1: RenderSingleImage,
-    2: RenderTwoImages,
-    3: RenderThreeImages,
+  const componentMap: {
+    [key: number]: React.ReactElement;
+    default: React.ReactElement;
+  } = {
+    1: <SingleImages imageUrl={imageUrls[0]} />,
+    2: <DoubleImages imageSources={imageUrls} />,
+    default: <ManyImages imageSources={imageUrls} />,
   };
 
-  const RenderImagesComponent =
-    imageRenderMap[numImages] || RenderMoreThanThreeImages;
-
   return (
-    <div className="my-4">
-      <RenderImagesComponent imageUrls={imageUrls} />
+    <div className="mt-4">
+      {componentMap[imageUrls.length] || componentMap.default}
     </div>
   );
 }

@@ -20,7 +20,11 @@ export default async function UserPage() {
             className="mb-8 self-start w-8 h-8 text-white"
           />
         </Link>
+<<<<<<< HEAD:src/app/user/page.tsx
+        <UserAvatar textColor="text-white" name="Eduardo Chacón" />
+=======
         <UserAvatar name={user?.email!} photoUrl={user?.image!} />
+>>>>>>> dev:src/app/(with-ahut)/user/page.tsx
       </div>
       <div className="flex flex-col w-full">
         {userOptions.map((option, index) => (

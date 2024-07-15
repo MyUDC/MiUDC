@@ -1,10 +1,10 @@
-"use client"; // src/components/Testimony/Testimony.tsx
+"use client";
 
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import Reactions from "@/components/Reactions/Reactions";
-import UserAvatar from "@/app/user/ui/UserAvatar";
+import UserAvatar from "@/app/(with-auth)/user/ui/UserAvatar";
 import SkeletonText from "@/components/Skeletons/SkeletonText";
 import TestimonyImages from "@/components/Testimony/TestimonyImages";
 import RelativeTime from "@/components/RelativeTime/RelativeTime";
@@ -41,7 +41,7 @@ export default function Testimony({
   }, []);
 
   return (
-    <div className="max-w-lg w-full bg-white shadow-md rounded-lg p-4 mb-4 relative">
+    <div className="max-w-lg w-full bg-white rounded-lg p-4 mb-4 relative border border-gray-200">
       <div className="absolute top-2 right-2">
         <button title="avatar">
           <FontAwesomeIcon
@@ -72,7 +72,7 @@ export default function Testimony({
           </div>
           <div className="mt-4">
             {content ? (
-              <p className="text-gray-700 max-w-xs">{content}</p>
+              <p className="text-gray-700 max-w-xs mb-4">{content}</p>
             ) : (
               <>
                 <SkeletonText width="100%" height="1rem" className="mb-2" />
