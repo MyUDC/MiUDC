@@ -1,6 +1,6 @@
+import { PrismaClient } from "@prisma/client";
 import { SeedPrisma } from "@snaplet/seed/adapter-prisma";
 import { defineConfig } from "@snaplet/seed/config";
-import { PrismaClient } from "@prisma/client";
 import dotenv from 'dotenv';
 
 // Carga las variables de entorno
