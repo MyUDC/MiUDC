@@ -1,4 +1,4 @@
-import { createSeedClient, SeedClient } from "@snaplet/seed";
+import { createSeedClient, type SeedClient } from "@snaplet/seed";
 import { faker } from "@snaplet/copycat";
 import bcryptjs from 'bcryptjs';
 
