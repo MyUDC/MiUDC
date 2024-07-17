@@ -4,11 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "dev:turbo": "next dev --turbo",
+    "build": "npm run prisma:deploy && next build",
     "start": "next start",
     "lint": "next lint",
     "migrate": "npx prisma migrate dev",
-    "postmigrate": "npx @snaplet/seed sync"
+    "postmigrate": "npx @snaplet/seed sync",
+    "prisma:deploy": "npx prisma migrate deploy && prisma generate",
+    "seed": "npx prisma db seed"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
