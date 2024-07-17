@@ -1,9 +1,9 @@
-import { createSeedClient } from "@snaplet/seed";
+import { createSeedClient, SeedClient } from "@snaplet/seed";
 import { faker } from "@snaplet/copycat";
 import bcryptjs from 'bcryptjs';
 
 const main = async () => {
-  const seed = await createSeedClient();
+  const seed: SeedClient = await createSeedClient();
 
   // Truncate all tables in the database
   await seed.$resetDatabase();
