@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "dev:turbo": "next dev --turbo",
-    "build": "npm run prisma:deploy && next build",
+    "build": "npm run snaplet:generate && npm run prisma:deploy && next build",
     "start": "next start",
     "lint": "next lint",
     "migrate": "npx prisma migrate dev",
-    "postmigrate": "npx @snaplet/seed sync",
+    "postmigrate": "npx @snaplet/seed --config prisma/seed/seed.config.ts sync",
     "prisma:deploy": "npx prisma migrate deploy && prisma generate",
-    "seed": "npx prisma db seed"
+    "seed": "npx prisma db seed",
+    "snaplet:generate": "npx @snaplet/seed --config prisma/seed/seed.config.ts generate"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
