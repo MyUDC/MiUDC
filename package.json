@@ -4,23 +4,54 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "dev:turbo": "next dev --turbo",
+    "build": "npm run snaplet:generate && npm run prisma:deploy && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate": "npx prisma migrate dev",
+    "postmigrate": "npx @snaplet/seed --config prisma/seed/seed.config.ts sync",
+    "prisma:deploy": "npx prisma migrate deploy && prisma generate",
+    "seed": "npx prisma db seed",
+    "snaplet:generate": "npx @snaplet/seed --config prisma/seed/seed.config.ts generate"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@prisma/client": "^5.16.1",
+    "@react-spring/web": "^9.7.3",
+    "@use-gesture/react": "^10.3.1",
+    "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.11",
+    "dotenv": "^16.4.5",
+    "next": "14.2.2",
+    "next-auth": "^5.0.0-beta.19",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.2"
+    "react-hook-form": "^7.52.1",
+    "react-use-gesture": "^9.1.3",
+    "relative-time": "^1.0.0",
+    "swiper": "^11.1.1",
+    "zod": "^3.23.8",
+    "@snaplet/copycat": "^5.0.0",
+    "@snaplet/seed": "^0.97.20",
+    "@types/bcryptjs": "^2.4.6",
+    "prisma": "^5.16.1"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.2",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.2"
+    "typescript": "^5"
+  },
+  "@snaplet/seed": {
+    "config": "prisma\\seed\\seed.config.ts"
+  },
+  "prisma": {
+    "seed": "npx tsx prisma/seed/seed.ts"
   }
 }
