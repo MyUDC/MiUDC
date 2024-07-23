@@ -12,7 +12,7 @@ export default async function UserPage() {
   const user = session?.user;
 
   return (
-    <div className="bg-gray-100 flex flex-col min-h-screen">
+    <div className="h-svh bg-gray-100 flex flex-col">
       <div className="bg-green relative mb-4 flex flex-col p-8 w-full">
         <Link href="/">
           <FontAwesomeIcon

@@ -4,7 +4,7 @@ import { SignInForm } from "./ui/SignInForm";
 
 export default function SignInPage() {
   return (
-    <div className="h-screen flex flex-col justify-center items-center p-4 gap-2">
+    <div className="h-svh flex flex-col justify-center items-center p-4 gap-2">
       <div className="flex justify-center">
         <Image
           src="/svgs/logo-inline.svg"
