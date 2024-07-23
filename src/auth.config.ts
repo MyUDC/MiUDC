@@ -8,6 +8,7 @@ import prisma from './lib/prisma';
 
 
 export const authConfig: NextAuthConfig = {
+  trustHost: true,
   pages: {
     signIn: '/sign-in',
     newUser: '/sign-up/register'
