@@ -1,0 +1,36 @@
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
+import UserAvatar from "./ui/UserAvatar";
+import { auth } from "@/auth.config";
+
+interface Props {
+  children: React.ReactNode;
+}
+
+export default async function UserLayout({children}: Props) {
+
+  const session = await auth();
+  const user = session?.user;
+
+  return (
+    <div className="h-svh bg-gray-100 flex flex-col">
+      <div className="bg-green relative mb-4 flex flex-col p-8 w-full">
+        <Link href="/user">
+          <FontAwesomeIcon
+            icon={faTimes}
+            className="mb-8 self-start w-8 h-8 text-white"
+          />
+        </Link>
+        <UserAvatar
+          name={user?.email!}
+          photoUrl={user?.image!}
+          textColor="text-white"
+        />
+      </div>
+      <div>
+        {children}
+      </div>
+    </div>
+  );
+}

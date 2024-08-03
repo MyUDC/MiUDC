@@ -23,7 +23,7 @@ const userOptions: UserOption[] = [
     description: "Comentarios y post hechos",
   },
   {
-    href: "",
+    href: "/user/interests",
     icon: faClockRotateLeft,
     iconColor: "text-black",
     title: "Tus intereses",
