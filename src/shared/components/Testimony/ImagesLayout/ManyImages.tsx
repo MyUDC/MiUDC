@@ -4,7 +4,7 @@ import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {Mousewheel, FreeMode} from "swiper/modules"
 import SkeletonImage from "@/shared/components/Skeletons/SkeletonImage";
-import ImageView from "@/components/ImageView/ImageView";
+import ImageView from "../../ImageView";
 
 type ManyImagesProps = {
   imageSources: string[];

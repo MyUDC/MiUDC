@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import SkeletonImage from "@/shared/components/Skeletons/SkeletonImage";
-import ImageView from "@/components/ImageView/ImageView";
+import ImageView from "../../ImageView";
 
 type DoubleImagesProps = {
   imageSources: string[];

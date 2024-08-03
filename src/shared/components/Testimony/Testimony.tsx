@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import Reactions from "@/components/Reactions/Reactions";
-import UserAvatar from "@/app/(with-auth)/user/ui/UserAvatar";
-import SkeletonText from "@/shared/components/Skeletons/SkeletonText";
-import TestimonyImages from "@/components/Testimony/TestimonyImages";
-import RelativeTime from "@/components/RelativeTime/RelativeTime";
+import UserAvatar from "@/features/user/components/UserAvatar";
+import Reactions from "../Reactions";
+import RelativeTime from "../RelativeTime";
+import SkeletonText from "../Skeletons/SkeletonText";
+import TestimonyImages from "./TestimonyImages";
 
 type TestimonyProps = {
   userName?: string;

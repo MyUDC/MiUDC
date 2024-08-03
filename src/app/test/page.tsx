@@ -1,4 +1,4 @@
-import Testimony from "@/components/Testimony/Testimony";
+import Testimony from "@/shared/components/Testimony/Testimony";
 
 export default function Page() {
   return (

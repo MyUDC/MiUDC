@@ -1,4 +1,4 @@
-import { ManyImages, DoubleImages, SingleImages } from "../../shared/components/ImagesLayout";
+import { DoubleImages, ManyImages, SingleImages } from "./ImagesLayout";
 
 type TestimonyImagesProps = {
   imageUrls: string[];

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import SkeletonImage from "@/shared/components/Skeletons/SkeletonImage";
 import { useState } from "react";
-import ImageView from "@/components/ImageView/ImageView";
+import ImageView from "../../ImageView";
 
 type SingleImagesProps = {
   imageUrl: string;
