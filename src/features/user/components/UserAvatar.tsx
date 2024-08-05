@@ -10,6 +10,7 @@ interface UserAvatarProps {
   width?: number;
   height?: number;
   textColor?: string;
+  showName?: boolean;
 }
 
 export default function UserAvatar({
@@ -18,14 +19,15 @@ export default function UserAvatar({
   width = 48,
   height = 48,
   textColor = "text-black",
+  showName = false,
 }: UserAvatarProps) {
   return (
-    <Link href="/user" className="flex items-center">
+    <Link href="/user" className="flex items-center gap-4">
       {photoUrl ? (
         <Image
           src={photoUrl}
           alt={`${name}'s profile`}
-          className="rounded-full mr-4"
+          className="rounded-full"
           width={width}
           height={height}
         />
@@ -33,16 +35,18 @@ export default function UserAvatar({
         <SkeletonImage
           width={width}
           height={height}
-          className="rounded-full mr-4"
+          className="rounded-full"
         />
       )}
-      <div className={`text-lg font-semibold ${textColor}`}>
-        {name ? (
-          <span>{name}</span>
-        ) : (
-          <SkeletonText width="100px" height="1rem" />
-        )}
-      </div>
+      {showName && (
+        <div className={`text-lg font-semibold ${textColor}`}>
+          {name ? (
+            <span>{name}</span>
+          ) : (
+            <SkeletonText width="100px" height="1rem" />
+          )}
+        </div>
+      )}
     </Link>
   );
 }

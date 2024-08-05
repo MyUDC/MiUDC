@@ -6,5 +6,9 @@ export default async function ProtectedRoutesLayout({ children }: Readonly<{ chi
   console.log(session);
   if (!session?.user) redirect("/sign-in");
 
-  return <>{children}</>;
+  return (
+    <div>
+      {children}
+    </div>
+  );
 }
