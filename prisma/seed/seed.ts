@@ -30,6 +30,7 @@ const main = async () => {
     email: faker.internet.email(),
     password: bcryptjs.hashSync('password', 10),
     role: faker.helpers.arrayElement(['ASPIRANT', 'STUDENT', 'ADMIN']),
+    image: u.index % 2 === 0 ? null : "https://res.cloudinary.com/dxdme71no/image/upload/v1722901389/hufhpfqpgmwr4p5kj1ja.jpg",
   })));
 
   // Seed Testimonies

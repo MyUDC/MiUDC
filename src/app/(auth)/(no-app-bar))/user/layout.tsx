@@ -1,8 +1,8 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import UserAvatar from "../../../features/user/components/UserAvatar";
-import { auth } from "@/auth.config";
+import { auth } from "@/auth";
+import UserAvatar from "@/features/user/components/UserAvatar";
 
 interface Props {
   children: React.ReactNode;
@@ -25,6 +25,7 @@ export default async function UserLayout({ children }: Props) {
           />
         </Link>
         <UserAvatar
+          showName
           name={user?.email!}
           photoUrl={user?.image!}
           textColor="text-white"

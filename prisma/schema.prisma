@@ -21,12 +21,20 @@ enum Role {
 
 model User {
   // fields
-  id       String @id @default(uuid())
-  email    String @unique
-  password String
-  role     Role
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  password      String?
+  emailVerified DateTime?
+  image         String?
+
+  role          Role @default(ASPIRANT)
 
   // relations
+  accounts      Account[]
+  sessions      Session[]
+  Authenticator Authenticator[]
+
   Testimonies    Testimony[]
   TestimonyLikes TestimonyLike[]
   Questions      Question[]
@@ -40,6 +48,61 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@id([identifier, token])
+}
+ 
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([userId, credentialID])
+}
+
 model Testimony {
   // fields
   id      String @id @default(uuid())
@@ -47,9 +110,9 @@ model Testimony {
   content String
 
   // foreign keys
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  career Career @relation(fields: [careerId], references: [id])
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  career   Career @relation(fields: [careerId], references: [id])
   careerId String
 
   // relations
@@ -63,7 +126,7 @@ model Testimony {
 
 model TestimonyLike {
   // fields
-  id          String    @id @default(uuid())
+  id String @id @default(uuid())
 
   // foreign keys
   testimony   Testimony @relation(fields: [testimonyId], references: [id])
@@ -72,19 +135,19 @@ model TestimonyLike {
   userId      String
 
   // timestamps
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Comment {
   // fields
-  id        String   @id @default(uuid())
-  content   String
+  id      String @id @default(uuid())
+  content String
 
   // foreign keys
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  testimony Testimony @relation(fields: [testimonyId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  testimony   Testimony @relation(fields: [testimonyId], references: [id])
   testimonyId String
 
   // timestamps
@@ -94,28 +157,28 @@ model Comment {
 
 model Question {
   // fields
-  id            String         @id @default(uuid())
-  title         String
-  content       String
+  id      String @id @default(uuid())
+  title   String
+  content String
 
   // foreign keys
-  user          User           @relation(fields: [userId], references: [id])
-  userId        String
-  career        Career         @relation(fields: [careerId], references: [id])
-  careerId      String
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  career   Career @relation(fields: [careerId], references: [id])
+  careerId String
 
   // relations
   questionLikes QuestionLike[]
   answers       Answer[]
 
   // timestamps
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model QuestionLike {
   // fields
-  id         String   @id @default(uuid())
+  id String @id @default(uuid())
 
   // foreign keys
   question   Question @relation(fields: [questionId], references: [id])
@@ -124,19 +187,19 @@ model QuestionLike {
   userId     String
 
   // timestamps
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Answer {
   // fields
-  id        String   @id @default(uuid())
-  content   String
+  id      String @id @default(uuid())
+  content String
 
   // foreign keys
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  question  Question @relation(fields: [questionId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  question   Question @relation(fields: [questionId], references: [id])
   questionId String
 
   // timestamps
@@ -146,11 +209,11 @@ model Answer {
 
 model Faculty {
   // fields
-  id        String   @id @default(uuid())
-  name      String
+  id   String @id @default(uuid())
+  name String
 
   // relations
-  careers   Career[]
+  careers Career[]
 
   // timestamps
   createdAt DateTime @default(now())
@@ -159,7 +222,7 @@ model Faculty {
 
 model Career {
   // fields
-  id             String     @id @default(uuid())
+  id             String @id @default(uuid())
   name           String
   website        String
   study_plan_url String
@@ -169,28 +232,28 @@ model Career {
   description    String
 
   // foreign keys
-  faculty        Faculty    @relation(fields: [facultyId], references: [id])
-  facultyId      String
+  faculty   Faculty @relation(fields: [facultyId], references: [id])
+  facultyId String
 
   // relations
-  Testimonies    Testimony[]
-  Questions      Question[]
-  interesteds    Interest[]
+  Testimonies Testimony[]
+  Questions   Question[]
+  interesteds Interest[]
 
   // timestamps
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Interest {
   // fields
-  id        String   @id @default(uuid())
+  id String @id @default(uuid())
 
   // foreign keys
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  career    Career   @relation(fields: [careerId], references: [id])
-  careerId  String
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  career   Career @relation(fields: [careerId], references: [id])
+  careerId String
 
   // timestamps
   createdAt DateTime @default(now())
