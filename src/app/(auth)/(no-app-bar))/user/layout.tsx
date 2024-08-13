@@ -1,7 +1,7 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { auth } from "@/auth.config";
+import { auth } from "@/auth";
 import UserAvatar from "@/features/user/components/UserAvatar";
 
 interface Props {

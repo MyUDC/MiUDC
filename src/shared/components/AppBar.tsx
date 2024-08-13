@@ -1,12 +1,22 @@
+import { auth } from "@/auth"
 import UserAvatar from "@/features/user/components/UserAvatar"
 import { faBars } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { User } from "next-auth"
 import Image from "next/image"
 
-export const AppBar = () => {
+export const AppBar = async () => {
+
+  const session = await auth();
+  const user: User | undefined = session?.user;
+
   return (
     <div className="flex justify-between items-center py-2 px-4">
-      <UserAvatar height={32} width={32} />
+      <UserAvatar
+        photoUrl={user?.image || ""}
+        height={32}
+        width={32}
+      />
       <Image
         src="/svgs/logo-full.svg"
         alt="logo"

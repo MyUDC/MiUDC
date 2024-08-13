@@ -1,6 +1,7 @@
 import Button from "@/shared/components/ui/Button";
 import Image from "next/image";
 import { SignInForm } from "../../../features/auth/components/SignInForm";
+import { GoogleAuthButton } from "@/features/auth/components/GoogleAuthButton";
 
 export default function SignInPage() {
   return (
@@ -17,6 +18,8 @@ export default function SignInPage() {
       <div className="flex flex-col gap-4 w-full max-w-md">
         <h1 className="font-bold text-2xl text-gray-700">Iniciar sesión</h1>
         <SignInForm />
+
+        <GoogleAuthButton />
         <div className="text-center">
           <Button text="Regístrate" path="/sign-up/register" variant="link" />
         </div>

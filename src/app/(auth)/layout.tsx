@@ -1,4 +1,4 @@
-import { auth } from "@/auth.config";
+import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 export default async function ProtectedRoutesLayout({ children }: Readonly<{ children: React.ReactNode }>) {
