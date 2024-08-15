@@ -7,7 +7,15 @@ export const SignOut = () => {
   const cookieStore = cookies();
 
   if (process.env.NODE_ENV === "production") {
-    cookieStore.delete("__Secure-authjs.session-token");
+    cookieStore.set({
+      name: '__Secure-NombreDeTuCookie',
+      value: '',
+      expires: new Date(0),
+      path: '/',
+      secure: true,
+      httpOnly: true,
+      sameSite: 'strict'
+    })
   } else {
     cookieStore.delete("authjs.session-token");
   }
