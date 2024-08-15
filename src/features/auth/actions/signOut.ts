@@ -8,7 +8,7 @@ export const SignOut = () => {
 
   if (process.env.NODE_ENV === "production") {
     cookieStore.set({
-      name: '__Secure-NombreDeTuCookie',
+      name: '__Secure-authjs.session-token',
       value: '',
       expires: new Date(0),
       path: '/',
