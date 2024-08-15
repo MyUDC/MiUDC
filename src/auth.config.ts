@@ -36,8 +36,6 @@ export default {
         // user without password
         const { password: _, ...userWithoutPassword } = user;
 
-        console.log({ userWithoutPassword });
-
         return userWithoutPassword;
       }
     }),
@@ -48,7 +46,6 @@ export default {
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      console.log(auth);
       return true;
     },
     async jwt({ token, user }) {
@@ -58,8 +55,7 @@ export default {
         });
 
         if (!dbUser) return null;
-
-        console.log("from ", dbUser.image);
+        
         token.role = dbUser.role;
         token.id = dbUser.id;
         token.picture = dbUser.image;

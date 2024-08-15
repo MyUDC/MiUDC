@@ -2,11 +2,19 @@
 
 import { faChevronRight, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { signOut } from "next-auth/react"
+import { useRouter } from 'next/navigation';
+import { SignOut } from '../actions';
 
 export const SignOutButton = () => {
+  const router = useRouter();
+  
+  
   return (
-    <div onClick={() => signOut()} className="cursor-pointer mb-5 w-full">
+    <div onClick={() => {
+      console.log(process.env.NODE_ENV);
+      SignOut();
+      router.refresh();
+    }} className="cursor-pointer mb-5 w-full">
       <div className="flex justify-between items-center px-4 mb-4">
         <div className="flex items-center">
           <FontAwesomeIcon

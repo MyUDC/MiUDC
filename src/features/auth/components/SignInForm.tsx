@@ -24,7 +24,6 @@ export const SignInForm = () => {
     const { email, password } = data;
   
     const resp = await SignIn(email, password);
-    console.log(resp.message);
     if (!resp.ok) {
       setSignInErrorMessage(resp.message);
       return;
