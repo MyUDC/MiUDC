@@ -56,6 +56,7 @@ export default function Testimony({
           photoUrl={userPhotoUrl}
           width={48}
           height={48}
+          showName
         />
         <div className="ml-16">
           <div className="mt-2">
