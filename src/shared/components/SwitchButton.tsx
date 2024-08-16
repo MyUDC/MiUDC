@@ -11,7 +11,7 @@ export default function SwitchButton({
 }: SwitchButtonProps) {
   return (
     <div
-      className="flex items-center w-44 p-1 bg-smoothGreen rounded-full cursor-pointer"
+      className="flex items-center w-44 p-1 bg-smoothGreen rounded-full cursor-pointer select-none"
       onClick={onToggle}
     >
       {labels.map((label, index) => (
