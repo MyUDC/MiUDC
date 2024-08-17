@@ -1,4 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Mousewheel } from "swiper/modules";
 import "swiper/css";
 import Testimony from "@/shared/components/Testimony/Testimony";
 
@@ -25,11 +26,31 @@ const testimonies: TestimonyType[] = [
     commentCount: 12,
     createdAt: new Date(),
   },
+  {
+    id: 2,
+    userName: "Jorge Cuevas",
+    userPhotoUrl: "/svgs/user.svg",
+    career: "Arquitectura",
+    content:
+      "Mi experiencia por la licenciatura de Arquitectura fue bastante grata, ya que conocí grandes compañeros como maestros. Las materias te enseñan más de lo que crees.",
+    heartCount: 121,
+    commentCount: 12,
+    createdAt: new Date(),
+  },
 ];
 
 export default function ExperiencesView() {
   return (
-    <Swiper spaceBetween={16} slidesPerView={1}>
+    <Swiper
+      spaceBetween={16}
+      slidesPerView={1}
+      direction="vertical"
+      mousewheel={{ sensitivity: 1, releaseOnEdges: true }}
+      modules={[Mousewheel]}
+      style={{ height: "400px" }}
+      scrollbar={{ draggable: true }}
+      speed={300}
+    >
       {testimonies.map((testimony) => (
         <SwiperSlide key={testimony.id}>
           <Testimony {...testimony} />

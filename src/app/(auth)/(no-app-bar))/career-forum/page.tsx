@@ -9,7 +9,7 @@ export default function CareerForumView() {
   const [showImageView, setShowImageView] = useState(false);
 
   return (
-    <div className="max-w-2xl mx-auto p-2">
+    <div className="max-w-2xl mx-auto pb-2">
       <div className="border border-gray-300 rounded-lg">
         <CareerImage
           src="/telematica.jpg"
