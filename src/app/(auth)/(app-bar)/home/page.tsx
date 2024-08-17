@@ -1,19 +1,21 @@
-import ImageForm from "@/shared/components/ImageForm";
+import paginateTestimonies from "@/shared/actions/paginateTestimonies";
+import { TestimoniesList } from "@/shared/components/Testimony/TestimoniesList/TestimoniesList";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Home Page",
   description: "Home page",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+
+  const initTestimonies = await paginateTestimonies(3, 0);
+
   return (
-    <>
-      <Link href="/user">
-        User page
-      </Link>
-      <ImageForm />
-    </>
+    <div>
+      <TestimoniesList
+        initTestimonies={initTestimonies}
+      />
+    </div>
   );
 }
