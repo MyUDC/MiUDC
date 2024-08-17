@@ -1,9 +1,11 @@
 import { EndMessage } from "@/shared/components/Testimony/TestimoniesList/EndMessage";
+import { Refresh } from "@/shared/components/Testimony/TestimoniesList/Refresh";
 import Testimony from "@/shared/components/Testimony/Testimony";
 
 export default function Page() {
   return (
     <div className="flex flex-col items-center">
+      <Refresh/>
       <Testimony
         userName="Roberto Pedragonosa"
         userPhotoUrl="/svgs/user.svg"
