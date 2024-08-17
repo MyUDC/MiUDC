@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { type Testimony } from "@prisma/client";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import { TestimonyWithRelations } from "@/shared/types/TestimonyWithRelations";
 import paginateTestimony from "@/shared/actions/paginateTestimonies";
-import { Loading } from "./Loading";
 import TestimonyComponent from "../Testimony";
+import { Loading } from "./Loading";
 
 interface Props {
-  initTestimonies: Testimony[];
+  initTestimonies: TestimonyWithRelations[];
 }
 
 export const TestimoniesList = ({ initTestimonies }: Props) => {
@@ -20,23 +20,28 @@ export const TestimoniesList = ({ initTestimonies }: Props) => {
     <div className="flex flex-col items-center">
       <InfiniteScroll
         hasMore
-        next={() => {
-          setTimeout(async () => {
-            const newTestimonies = await paginateTestimony(3, testimonies.length)
-            setTestimonies(testimonies.concat(...newTestimonies));
-          }, 3000);
+        next={async () => {
+          const newTestimonies = await paginateTestimony(3, testimonies.length)
+          setTestimonies(testimonies.concat(...newTestimonies));
         }}
         loader={<Loading />}
         dataLength={testimonies.length}
       >
-        {testimonies.map((testimony: Testimony) => (
-          <TestimonyComponent
-            key={testimony.id}
-            createdAt={testimony.createdAt}
-            content={testimony.content}
-          />
-        ))}
+        {testimonies.map((testimony) => {
+          return (
+            <TestimonyComponent
+              key={testimony.id}
+              createdAt={testimony.createdAt}
+              content={testimony.content}
+              commentCount={testimony._count.Comments}
+              heartCount={testimony._count.TestimonyLike}
+              career={testimony.career.name}
+              userName={testimony.user.name ?? "no name"}
+              userPhotoUrl={testimony.user.image ?? ""}
+            />
+          )
+        })}
       </InfiniteScroll>
-    </div>
+    </div >
   )
 }

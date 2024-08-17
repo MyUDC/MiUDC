@@ -14,7 +14,7 @@ const main = async () => {
   })));
 
   // Seed Careers
-  const {career: careers} = await seed.career((x) => x(15, (c) => ({
+  const { career: careers } = await seed.career((x) => x(15, (c) => ({
     name: faker.person.jobTitle(),
     website: faker.internet.url(),
     study_plan_url: faker.internet.url(),
@@ -26,23 +26,25 @@ const main = async () => {
   })));
 
   // Seed Users
-  const {user: users} = await seed.user((x) => x(20, (u) => ({
+  const { user: users } = await seed.user((x) => x(20, (u) => ({
     email: faker.internet.email(),
+    name: faker.internet.userName(),
     password: bcryptjs.hashSync('password', 10),
     role: faker.helpers.arrayElement(['ASPIRANT', 'STUDENT', 'ADMIN']),
     image: u.index % 2 === 0 ? null : "https://res.cloudinary.com/dxdme71no/image/upload/v1722901389/hufhpfqpgmwr4p5kj1ja.jpg",
   })));
 
   // Seed Testimonies
-  const {testimony: testimonies} = await seed.testimony((x) => x(30, (t) => ({
+  const { testimony: testimonies } = await seed.testimony((x) => x(30, (t) => ({
     title: faker.lorem.sentence(),
     content: faker.lorem.paragraphs(),
     userId: faker.helpers.arrayElement(users).id,
     careerId: faker.helpers.arrayElement(careers).id,
+    createdAt: faker.date.past(),
   })));
 
   // Seed Questions
-  const {question: questions} = await seed.question((x) => x(25, (q) => ({
+  const { question: questions } = await seed.question((x) => x(25, (q) => ({
     title: faker.lorem.sentence(),
     content: faker.lorem.paragraphs(),
     userId: faker.helpers.arrayElement(users).id,
