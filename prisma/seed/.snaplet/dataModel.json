@@ -667,6 +667,20 @@
           "maxLength": null
         },
         {
+          "id": "public.Career.slug",
+          "name": "slug",
+          "columnName": "slug",
+          "type": "text",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
           "name": "Faculty",
           "type": "Faculty",
           "isRequired": true,
@@ -732,6 +746,13 @@
           "name": "Career_pkey",
           "fields": [
             "id"
+          ],
+          "nullNotDistinct": false
+        },
+        {
+          "name": "Career_slug_key",
+          "fields": [
+            "slug"
           ],
           "nullNotDistinct": false
         }

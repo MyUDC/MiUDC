@@ -1,6 +1,7 @@
 import { createSeedClient, type SeedClient } from "@snaplet/seed";
 import { faker } from "@snaplet/copycat";
 import bcryptjs from 'bcryptjs';
+import { generateSlug } from "@/utils/generateSlug";
 
 const main = async () => {
   const seed: SeedClient = await createSeedClient();
@@ -14,16 +15,21 @@ const main = async () => {
   })));
 
   // Seed Careers
-  const { career: careers } = await seed.career((x) => x(15, (c) => ({
-    name: faker.person.jobTitle(),
-    website: faker.internet.url(),
-    study_plan_url: faker.internet.url(),
-    location: faker.location.city(),
-    latitude: faker.location.latitude(),
-    longitude: faker.location.longitude(),
-    description: faker.lorem.paragraph(),
-    facultyId: faker.helpers.arrayElement(faculties).id,
-  })));
+  const { career: careers } = await seed.career((x) => x(15, (c) => {
+    const name = faker.person.jobTitle();
+
+    return {
+      name,
+      website: faker.internet.url(),
+      study_plan_url: faker.internet.url(),
+      location: faker.location.city(),
+      latitude: faker.location.latitude(),
+      longitude: faker.location.longitude(),
+      description: faker.lorem.paragraph(),
+      facultyId: faker.helpers.arrayElement(faculties).id,
+      slug: generateSlug(name)
+    }
+  }));
 
   // Seed Users
   const { user: users } = await seed.user((x) => x(20, (u) => ({

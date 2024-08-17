@@ -13,7 +13,10 @@ import Link from "next/link";
 type TestimonyProps = {
   userName?: string;
   userPhotoUrl?: string;
-  career?: string;
+  careerData?: {
+    name: string,
+    slug: string
+  };
   content?: string;
   heartCount?: number;
   commentCount?: number;
@@ -24,7 +27,7 @@ type TestimonyProps = {
 export default function Testimony({
   userName,
   userPhotoUrl,
-  career,
+  careerData,
   content,
   heartCount,
   commentCount,
@@ -66,9 +69,9 @@ export default function Testimony({
             </p>
           </div>
           <div className="text-gray-500 mt-2 font-semibold">
-            {career ? (
-              <Link href="/career-forum">
-                {career}
+            {careerData ? (
+              <Link href={`/career-forum/${careerData.slug}`}>
+                {careerData.name}
               </Link>
             ) : (
               <SkeletonText width="80px" height="1rem" />

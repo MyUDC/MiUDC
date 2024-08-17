@@ -48,7 +48,10 @@ export const TestimoniesList = ({ initTestimonies }: Props) => {
               content={testimony.content}
               commentCount={testimony._count.Comments}
               heartCount={testimony._count.TestimonyLike}
-              career={testimony.career.name}
+              careerData={{
+                name: testimony.career.name,
+                slug: testimony.career.slug
+              }}
               userName={testimony.user.name ?? "no name"}
               userPhotoUrl={testimony.user.image ?? ""}
             />
