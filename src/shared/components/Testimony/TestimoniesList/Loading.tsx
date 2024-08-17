@@ -1,5 +1,4 @@
 import UserAvatar from '@/features/user/components/UserAvatar'
-import React from 'react'
 import SkeletonText from '../../Skeletons/SkeletonText'
 
 export const Loading = () => {

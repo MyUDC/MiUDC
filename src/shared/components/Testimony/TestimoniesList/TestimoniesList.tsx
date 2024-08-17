@@ -7,6 +7,7 @@ import { TestimonyWithRelations } from "@/shared/types/TestimonyWithRelations";
 import paginateTestimony from "@/shared/actions/paginateTestimonies";
 import TestimonyComponent from "../Testimony";
 import { Loading } from "./Loading";
+import { EndMessage } from "./EndMessage";
 
 interface Props {
   initTestimonies: TestimonyWithRelations[];
@@ -15,16 +16,19 @@ interface Props {
 export const TestimoniesList = ({ initTestimonies }: Props) => {
 
   const [testimonies, setTestimonies] = useState(initTestimonies)
+  const [hasMore, setHasMore] = useState(true);
 
   return (
     <div className="flex flex-col items-center">
       <InfiniteScroll
-        hasMore
+        hasMore={hasMore}
         next={async () => {
           const newTestimonies = await paginateTestimony(3, testimonies.length)
+          if (!newTestimonies.length) setHasMore(false);
           setTestimonies(testimonies.concat(...newTestimonies));
         }}
         loader={<Loading />}
+        endMessage={<EndMessage />}
         dataLength={testimonies.length}
       >
         {testimonies.map((testimony) => {

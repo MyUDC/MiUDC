@@ -1,3 +1,4 @@
+import { EndMessage } from "@/shared/components/Testimony/TestimoniesList/EndMessage";
 import Testimony from "@/shared/components/Testimony/Testimony";
 
 export default function Page() {
@@ -13,6 +14,7 @@ export default function Page() {
         imageUrls={[]}
         createdAt={new Date()}
       />
+      <EndMessage />
       <Testimony
         userName="Roberto Pedragonosa"
         userPhotoUrl="/svgs/user.svg"
