@@ -4,6 +4,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { User } from "next-auth"
 import Image from "next/image"
+import Link from "next/link"
 
 export const AppBar = async () => {
 
@@ -17,13 +18,17 @@ export const AppBar = async () => {
         height={32}
         width={32}
       />
-      <Image
-        src="/svgs/logo-full.svg"
-        alt="logo"
-        width={0}
-        height={0}
-        className="w-14 h-14"
-      />
+      <Link
+        href="/home"
+      >
+        <Image
+          src="/svgs/logo-full.svg"
+          alt="logo"
+          width={0}
+          height={0}
+          className="w-14 h-14"
+        />
+      </Link>
       <FontAwesomeIcon
         icon={faBars}
         className="w-8 h-8"

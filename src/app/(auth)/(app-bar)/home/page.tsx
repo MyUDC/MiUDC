@@ -1,4 +1,4 @@
-import paginateTestimonies from "@/shared/actions/paginateTestimonies";
+import paginateTestimonies from "@/shared/actions/Testimony/paginateTestimonies";
 import { TestimoniesList } from "@/shared/components/Testimony/TestimoniesList/TestimoniesList";
 import { Metadata } from "next";
 

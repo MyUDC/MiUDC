@@ -4,7 +4,7 @@ import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import { TestimonyWithRelations } from "@/shared/types/TestimonyWithRelations";
-import paginateTestimony from "@/shared/actions/paginateTestimonies";
+import paginateTestimony from "@/shared/actions/Testimony/paginateTestimonies";
 import TestimonyComponent from "../Testimony";
 import { Loading } from "./Loading";
 import { EndMessage } from "./EndMessage";

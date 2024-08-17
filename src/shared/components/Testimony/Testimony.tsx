@@ -8,6 +8,7 @@ import Reactions from "../Reactions";
 import RelativeTime from "../RelativeTime";
 import SkeletonText from "../Skeletons/SkeletonText";
 import TestimonyImages from "./TestimonyImages";
+import Link from "next/link";
 
 type TestimonyProps = {
   userName?: string;
@@ -66,7 +67,9 @@ export default function Testimony({
           </div>
           <div className="text-gray-500 mt-2 font-semibold">
             {career ? (
-              <p>{career}</p>
+              <Link href="/career-forum">
+                {career}
+              </Link>
             ) : (
               <SkeletonText width="80px" height="1rem" />
             )}

@@ -5,7 +5,15 @@ import AddButton from "@/shared/components/AddButton";
 import CareerContent from "@/features/career-forum/CareerContent";
 import ImageView from "@/shared/components/ImageView";
 
-export default function CareerForumView() {
+interface Props {
+  params: {
+    slug: string;
+  }
+}
+
+export default function CareerForumView({ params }: Props) {
+
+  
   const [showImageView, setShowImageView] = useState(false);
 
   return (
