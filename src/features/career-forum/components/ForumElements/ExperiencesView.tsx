@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel } from "swiper/modules";
 import "swiper/css";
@@ -40,6 +41,8 @@ const testimonies: TestimonyType[] = [
 ];
 
 export default function ExperiencesView() {
+  const [isDragging, setIsDragging] = useState(false); // Estado para controlar el arrastre del cursor
+
   return (
     <Swiper
       spaceBetween={16}
@@ -47,9 +50,11 @@ export default function ExperiencesView() {
       direction="vertical"
       mousewheel={{ sensitivity: 1, releaseOnEdges: true }}
       modules={[Mousewheel]}
-      style={{ height: "400px" }}
+      style={{ height: "400px", cursor: isDragging ? "grabbing" : "grab" }}
       scrollbar={{ draggable: true }}
       speed={300}
+      onTouchStart={() => setIsDragging(true)}
+      onTouchEnd={() => setIsDragging(false)}
     >
       {testimonies.map((testimony) => (
         <SwiperSlide key={testimony.id}>
