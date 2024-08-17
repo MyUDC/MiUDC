@@ -11,7 +11,7 @@ export const AppBar = async () => {
   const user: User | undefined = session?.user;
 
   return (
-    <div className="flex justify-between items-center py-2 px-4">
+    <div className="sticky top-0 z-20 bg-white flex justify-between items-center py-2 px-4">
       <UserAvatar
         photoUrl={user?.image || ""}
         height={32}
