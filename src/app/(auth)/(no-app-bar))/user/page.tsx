@@ -4,6 +4,9 @@ import userOptions from "@/features/user/data/userOptions";
 
 export default async function UserPage() {
 
+  console.log("reva");
+  
+
   return (
     <div className="h-svh bg-gray-100 flex flex-col">
       <div className="flex flex-col w-full">
