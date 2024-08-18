@@ -58,7 +58,7 @@ export default function ExperiencesView() {
     >
       {testimonies.map((testimony) => (
         <SwiperSlide key={testimony.id}>
-          <Testimony {...testimony} />
+          <Testimony {...testimony} testimonySlug="" />
         </SwiperSlide>
       ))}
     </Swiper>

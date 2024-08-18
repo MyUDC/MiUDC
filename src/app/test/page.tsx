@@ -8,6 +8,7 @@ export default function Page() {
       <Refresh/>
       <Testimony
         userName="Roberto Pedragonosa"
+        testimonySlug=""
         userPhotoUrl="/svgs/user.svg"
         content="Mi experiencia por la licenciatura de Arquitectura fue bastante grata, ya que conocí grandes compañeros como maestros. Las materias te enseñan más de lo que crees."
         heartCount={12}
@@ -17,6 +18,7 @@ export default function Page() {
       />
       <EndMessage />
       <Testimony
+        testimonySlug=""
         userName="Roberto Pedragonosa"
         userPhotoUrl="/svgs/user.svg"
         content="Mi experiencia por la licenciatura de Arquitectura fue bastante grata, ya que conocí grandes compañeros como maestros. Las materias te enseñan más de lo que crees."
@@ -28,6 +30,7 @@ export default function Page() {
         createdAt={new Date()}
       />
       <Testimony
+        testimonySlug=""
         userName="Roberto Pedragonosa"
         userPhotoUrl="/svgs/user.svg"
         content="Mi experiencia por la licenciatura de Arquitectura fue bastante grata, ya que conocí grandes compañeros como maestros. Las materias te enseñan más de lo que crees."
@@ -40,6 +43,7 @@ export default function Page() {
         createdAt={new Date()}
       />
       <Testimony
+        testimonySlug=""
         userName="Roberto Pedragonosa"
         userPhotoUrl="/svgs/user.svg"
         content="Mi experiencia por la licenciatura de Arquitectura fue bastante grata, ya que conocí grandes compañeros como maestros. Las materias te enseñan más de lo que crees."
@@ -53,6 +57,7 @@ export default function Page() {
         createdAt={new Date()}
       />
       <Testimony
+        testimonySlug=""
         userName="Roberto Pedragonosa"
         userPhotoUrl="/svgs/user.svg"
         content="Mi experiencia por la licenciatura de Arquitectura fue bastante grata, ya que conocí grandes compañeros como maestros. Las materias te enseñan más de lo que crees."
