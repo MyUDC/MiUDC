@@ -1610,6 +1610,20 @@
           "maxLength": null
         },
         {
+          "id": "public.Testimony.slug",
+          "name": "slug",
+          "columnName": "slug",
+          "type": "text",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
           "name": "Career",
           "type": "Career",
           "isRequired": true,
@@ -1679,6 +1693,13 @@
           "name": "Testimony_pkey",
           "fields": [
             "id"
+          ],
+          "nullNotDistinct": false
+        },
+        {
+          "name": "Testimony_slug_key",
+          "fields": [
+            "slug"
           ],
           "nullNotDistinct": false
         }

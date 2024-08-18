@@ -41,13 +41,17 @@ const main = async () => {
   })));
 
   // Seed Testimonies
-  const { testimony: testimonies } = await seed.testimony((x) => x(30, (t) => ({
-    title: faker.lorem.sentence(),
-    content: faker.lorem.paragraphs(),
-    userId: faker.helpers.arrayElement(users).id,
-    careerId: faker.helpers.arrayElement(careers).id,
-    createdAt: faker.date.past(),
-  })));
+  const { testimony: testimonies } = await seed.testimony((x) => x(30, (t) => {
+    const title = faker.lorem.sentence();
+    return {
+      title,
+      content: faker.lorem.paragraphs(),
+      slug: generateSlug(title),
+      userId: faker.helpers.arrayElement(users).id,
+      careerId: faker.helpers.arrayElement(careers).id,
+      createdAt: faker.date.past(),
+    }
+  }));
 
   // Seed Questions
   const { question: questions } = await seed.question((x) => x(25, (q) => ({

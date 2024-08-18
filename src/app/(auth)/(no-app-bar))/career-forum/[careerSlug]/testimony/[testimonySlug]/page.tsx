@@ -3,19 +3,19 @@ import { notFound } from "next/navigation";
 
 interface Props {
   params: {
-    slug: string;
+    testimonySlug: string;
   }
 }
 
-export default function TestimonyPage({ params }: Props) {
+export default async function TestimonyPage({ params }: Props) {
   
-  // const slug = params.slug;
-  // const testimony = getTestimonyBySlug(slug);
-  // if (!testimony) notFound();
+  const slug = params.testimonySlug;
+  const testimony = await getTestimonyBySlug(slug);
+  if (!testimony) notFound();
 
   return (
     <div>
-      <h1>Hello Page asas</h1>
+      {testimony.slug}
     </div>
   );
 }
