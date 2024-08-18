@@ -44,6 +44,7 @@ export const TestimoniesList = ({ initTestimonies }: Props) => {
           return (
             <TestimonyComponent
               key={testimony.id}
+              testimonySlug={testimony.slug}
               createdAt={testimony.createdAt}
               content={testimony.content}
               commentCount={testimony._count.Comments}

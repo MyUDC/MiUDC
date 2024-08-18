@@ -1,10 +1,12 @@
 "use client";
 
-import UserAvatar from "@/features/user/components/UserAvatar";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import RelativeTime from "../RelativeTime";
 import { useEffect, useState } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+
+import UserAvatar from "@/features/user/components/UserAvatar";
+import RelativeTime from "../RelativeTime";
 import SkeletonText from "../Skeletons/SkeletonText";
 
 interface Props {
@@ -28,7 +30,7 @@ const Comment = ({ authorData, content, createdAt }: Props) => {
   }, []);
 
   return (
-    <div className="max-w-lg w-full bg-white rounded-lg p-4 mb-4 relative border border-gray-200">
+    <div className=" rounded-lg p-4 mb-4 relative border border-gray-200">
       <div className="absolute top-2 right-2">
         <button title="avatar">
           <FontAwesomeIcon
