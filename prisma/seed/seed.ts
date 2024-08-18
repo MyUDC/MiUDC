@@ -73,6 +73,7 @@ const main = async () => {
     content: faker.lorem.paragraph(),
     userId: faker.helpers.arrayElement(users).id,
     testimonyId: faker.helpers.arrayElement(testimonies).id,
+    createdAt: faker.date.past(),
   })));
 
   // Seed Interests
