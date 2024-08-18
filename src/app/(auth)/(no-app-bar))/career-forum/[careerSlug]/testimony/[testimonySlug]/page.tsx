@@ -1,10 +1,13 @@
+import { notFound } from "next/navigation";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
 import paginateComments from "@/shared/actions/Comment/paginateComments";
 import getTestimonyBySlug from "@/shared/actions/Testimony/getTestimonyBySlug";
-import { CommentsList } from "@/shared/components/Comments/CommentsList/CommentsList";
 import Testimony from "@/shared/components/Testimony/Testimony";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { notFound } from "next/navigation";
+import { CommentsList } from "@/shared/components/Comments/CommentsList/CommentsList";
+import BackButton from "@/shared/components/BackButton";
 
 interface Props {
   params: {
@@ -21,12 +24,9 @@ export default async function TestimonyPage({ params }: Props) {
   const initComments = await paginateComments(3, 0, testimony.id);
 
   return (
-    <div className="">
+    <div>
       <div className="sticky top-0 z-20 bg-white pt-5 p-3 flex items-center gap-6 border-b border-gray-200">
-        <FontAwesomeIcon
-          icon={faArrowLeft}
-          className="text-2xl"
-        />
+        <BackButton />
         <h2 className="text-lg font-semibold">Testimonio</h2>
       </div>
       <Testimony
