@@ -4,12 +4,12 @@ import { notFound } from "next/navigation";
 
 interface Props {
   params: {
-    slug: string;
+    careerSlug: string;
   }
 }
 
 export default async function CareerForumView({ params }: Props) {
-  const slug = params.slug;
+  const slug = params.careerSlug;
   const career = await getCareerWithRelations(slug);
   if (!career) notFound();
 
