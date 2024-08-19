@@ -25,7 +25,7 @@ type TestimonyProps = {
   content?: string;
   heartCount?: number;
   commentCount?: number;
-  imageUrls?: string[];
+  imageUrls?: string[]
   createdAt: Date;
 };
 

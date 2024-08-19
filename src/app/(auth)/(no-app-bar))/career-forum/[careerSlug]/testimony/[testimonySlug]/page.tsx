@@ -39,6 +39,7 @@ export default async function TestimonyPage({ params }: Props) {
           }}
           userName={testimony.user.name ?? "no name"}
           userPhotoUrl={testimony.user.image ?? ""}
+          imageUrls={testimony.images.map(({url}) => (url))}
         />
         <div className="px-4 pb-4 w-full">
           <h2 className="font-semibold">Respuestas</h2>
