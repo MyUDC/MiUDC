@@ -1,8 +1,13 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 import { useState, useEffect } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+
 import UserAvatar from "@/features/user/components/UserAvatar";
 import Reactions from "../Reactions";
 import RelativeTime from "../RelativeTime";
@@ -12,7 +17,11 @@ import TestimonyImages from "./TestimonyImages";
 type TestimonyProps = {
   userName?: string;
   userPhotoUrl?: string;
-  career?: string;
+  testimonySlug: string;
+  careerData?: {
+    name: string,
+    slug: string
+  };
   content?: string;
   heartCount?: number;
   commentCount?: number;
@@ -23,13 +32,15 @@ type TestimonyProps = {
 export default function Testimony({
   userName,
   userPhotoUrl,
-  career,
+  testimonySlug,
+  careerData,
   content,
   heartCount,
   commentCount,
   imageUrls,
   createdAt,
 }: TestimonyProps) {
+  const router = useRouter();
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
 
   useEffect(() => {
@@ -40,8 +51,14 @@ export default function Testimony({
     return () => clearInterval(interval);
   }, []);
 
+  const handleTestimonyClick = () => {
+    router.push(`/career-forum/${careerData?.slug}/testimony/${testimonySlug}`)
+  }
+
   return (
-    <div className="max-w-lg w-full bg-white rounded-lg p-4 mb-4 relative border border-gray-200">
+    <div
+      className="max-w-lg w-full bg-white rounded-lg p-4 mb-4 relative border border-gray-200"
+    >
       <div className="absolute top-2 right-2">
         <button title="avatar">
           <FontAwesomeIcon
@@ -65,13 +82,15 @@ export default function Testimony({
             </p>
           </div>
           <div className="text-gray-500 mt-2 font-semibold">
-            {career ? (
-              <p>{career}</p>
+            {careerData ? (
+              <Link href={`/career-forum/${careerData.slug}`}>
+                {careerData.name}
+              </Link>
             ) : (
               <SkeletonText width="80px" height="1rem" />
             )}
           </div>
-          <div className="mt-4">
+          <div className="mt-4" onClick={handleTestimonyClick}>
             {content ? (
               <p className="text-gray-700 max-w-xs mb-4">{content}</p>
             ) : (

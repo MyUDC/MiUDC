@@ -28,7 +28,7 @@ model User {
   emailVerified DateTime?
   image         String?
 
-  role          Role @default(ASPIRANT)
+  role Role @default(ASPIRANT)
 
   // relations
   accounts      Account[]
@@ -60,12 +60,12 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([provider, providerAccountId])
 }
 
@@ -74,7 +74,7 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -83,10 +83,10 @@ model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@id([identifier, token])
 }
- 
+
 // Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
@@ -97,9 +97,9 @@ model Authenticator {
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([userId, credentialID])
 }
 
@@ -108,6 +108,7 @@ model Testimony {
   id      String @id @default(uuid())
   title   String
   content String
+  slug    String @unique @default("")
 
   // foreign keys
   user     User   @relation(fields: [userId], references: [id])
@@ -230,6 +231,7 @@ model Career {
   latitude       Float
   longitude      Float
   description    String
+  slug           String @unique @default("")
 
   // foreign keys
   faculty   Faculty @relation(fields: [facultyId], references: [id])
