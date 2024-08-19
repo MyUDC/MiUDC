@@ -4,9 +4,14 @@ import { useState } from "react";
 
 export default function PostForm() {
   const [postText, setPostText] = useState<string>("");
+  const [postTitle, setPostTitle] = useState<string>("");
 
-  function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+  function handleTextChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setPostText(event.target.value);
+  }
+
+  function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setPostTitle(event.target.value);
   }
 
   return (
@@ -16,13 +21,20 @@ export default function PostForm() {
         <h2 className="text-lg font-semibold">Post</h2>
         <button className="text-blue-500 font-semibold">Guardar</button>
       </header>
+      <input
+        value={postTitle}
+        onChange={handleTitleChange}
+        placeholder="Título"
+        className="p-2 focus:outline-none font-bold text-xl text-black"
+        autoFocus
+      />
       <textarea
         value={postText}
-        onChange={handleInputChange}
+        onChange={handleTextChange}
         placeholder="Comparte tu experiencia"
         className="flex-1 p-2 focus:outline-none resize-none"
       />
-      <div className="flex justify-start space-x-4 mt-4 p-4 text-xl text-gray-500">
+      <div className="flex justify-start space-x-4 mt-4 p-4 text-xl text-black">
         <button aria-label="Insert Image">
           <FontAwesomeIcon icon={faImage} />
         </button>
