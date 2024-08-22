@@ -2,10 +2,12 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faInfo } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { uploadImage } from "@/shared/actions/uploadImage";
 import { ImagePreview } from "./ImagePreview";
+import saveTestimony, { TestimonyData } from "@/shared/actions/Testimony/SaveTestimony";
+import { useSession } from "next-auth/react";
 
 interface FormInputs {
   title: string;
@@ -15,50 +17,92 @@ interface FormInputs {
 
 type Images = Array<string | ArrayBuffer | null>;
 
-export default function PostForm() {
-  const [images, setImages] = useState<Images>([]);
-  const [postText, setPostText] = useState<string>("");
-  const [postTitle, setPostTitle] = useState<string>("");
+interface Props {
+  authorId: string;
+  careerId: string;
+}
 
-  const { register, handleSubmit, formState: { errors, isSubmitting }, setValue } = useForm<FormInputs>({
+export default function PostForm({careerId, authorId}: Props) {
+  const [images, setImages] = useState<Images>([]);
+  const [showImagePreview, setShowImagePreview] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    reset,
+    formState: { errors, isSubmitting }
+  } = useForm<FormInputs>({
     defaultValues: {
       images: undefined,
     }
   });
 
+  const clearForm = () => {
+    setShowImagePreview(false);
+    setImages([]);
+    reset();
+  }
+
   const onSubmit = async (data: FormInputs) => {
-    const { images } = data;
+    const { images, title, content } = data;
+
+    const imageUrls: string[] = [];
+    
     if (images.length > 0) {
       const formData = new FormData();
       Array.from(images).forEach(image => formData.append('images', image));
       const { ok, result } = await uploadImage(formData);
+
       if (!ok) {
         console.error(result);
         return;
       }
+      imageUrls.push(...(result as string[]))
     }
-    setImages([]);
+
+    const newTestimonyData: TestimonyData = {
+      title,
+      content,
+      authorId,
+      careerId,
+      imageUrls
+    }
+
+    await saveTestimony(newTestimonyData)
+    clearForm();
   };
 
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    console.log(showImagePreview);
+  }, [showImagePreview])
+
+  const handleOnChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
-    if (files) {
-      Promise.all(Array.from(files).map(file => {
-        return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      }))
-        .then(setImages)
-        .catch(error => {
-          console.error("Error al leer los archivos:", error);
-          setImages([]);
-        });
-    } else {
-      setImages([]);
-    }
+    
+
+    const isValid = await trigger("images")
+    console.log(isValid);
+    
+    
+    setShowImagePreview(false);
+    if (!files) return;
+    if (files?.length <= 0 || files?.length > 6) return;
+    setShowImagePreview(true);
+
+    Promise.all(Array.from(files).map(file => {
+      return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }))
+      .then(setImages)
+      .catch(error => {
+        console.error("Error al leer los archivos:", error);
+        setImages([]);
+      });
   };
 
   const validateFiles = (files: FileList): true | string => {
@@ -127,7 +171,9 @@ export default function PostForm() {
               {errors.images.message}
             </span>
           )}
-          {(images.length > 0 && images.length <= 6)  && <ImagePreview images={images} />}
+          
+          {showImagePreview && <ImagePreview images={images} />}
+
           <div className="flex mx-2 justify-start space-x-4 text-xl text-black">
             <div className="relative cursor-pointer">
               <input
