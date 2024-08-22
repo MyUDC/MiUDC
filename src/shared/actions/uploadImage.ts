@@ -4,7 +4,7 @@ import { v2 as cloudinary } from 'cloudinary';
 
 interface UploadResponse {
   ok: boolean;
-  result: string | null;
+  result: (string|null)[];
 }
 
 cloudinary.config({
@@ -14,16 +14,22 @@ cloudinary.config({
 });
 
 export const uploadImage = async (formData: FormData): Promise<UploadResponse> => {
-
   try {
-    const data = Object.fromEntries(formData.entries());
+    const imageFiles = formData.getAll('images') as File[];
+    console.log(formData.getAll('images'));
+    
 
-    const image = formData.get('image');
-    const imageUrl = await uploadToCloudinary(image as File);
-    return { ok: true, result: imageUrl };
+    if (imageFiles.length === 0) {
+      throw new Error('No images provided');
+    }
+
+    const uploadPromises = imageFiles.map(uploadToCloudinary);
+    const imageUrls = await Promise.all(uploadPromises);
+
+    return { ok: true, result: imageUrls };
   } catch (error) {
-    console.error('Error uploading image:', error);
-    return { ok: false, result: null };
+    console.error('Error uploading images:', error);
+    return { ok: false, result: [] };
   }
 }
 

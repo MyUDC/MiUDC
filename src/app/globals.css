@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 3px; /* Altura del scrollbar (para scroll horizontal) */
+    width: 4px; /* Ancho del scrollbar */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #64B32E; /* Color del "dedo" del scrollbar */
+    border-radius: 6px; /* Borde redondeado */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent; /* Color de la pista del scrollbar */
+  }
+}

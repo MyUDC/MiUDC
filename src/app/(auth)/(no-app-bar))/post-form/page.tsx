@@ -1,6 +1,4 @@
-"use client";
-
-import PostForm from "@/shared/components/FormPost";
+import PostForm from "@/shared/components/PostForm/PostForm";
 
 const PostPage = () => {
   return <PostForm />;
