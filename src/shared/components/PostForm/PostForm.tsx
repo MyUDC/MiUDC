@@ -1,28 +1,31 @@
 "use client";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faInfo } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 import { useForm } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
+
+import saveTestimony, { TestimonyData } from "@/shared/actions/Testimony/SaveTestimony";
 import { uploadImage } from "@/shared/actions/uploadImage";
 import { ImagePreview } from "./ImagePreview";
-import saveTestimony, { TestimonyData } from "@/shared/actions/Testimony/SaveTestimony";
-import { useSession } from "next-auth/react";
+import { PostFormHeader } from "./PostFormHeader";
+import { PostFromErrors } from './PostFromErrors';
 
-interface FormInputs {
+type Images = Array<string | ArrayBuffer | null>;
+export interface FormInputs {
   title: string;
   content: string;
   images: FileList;
 }
 
-type Images = Array<string | ArrayBuffer | null>;
-
 interface Props {
   authorId: string;
   careerId: string;
+  postType: "question" | "testimony"
 }
 
-export default function PostForm({careerId, authorId}: Props) {
+export default function PostForm({ careerId, authorId, postType}: Props) {
   const [images, setImages] = useState<Images>([]);
   const [showImagePreview, setShowImagePreview] = useState(false);
 
@@ -38,26 +41,21 @@ export default function PostForm({careerId, authorId}: Props) {
     }
   });
 
-  const clearForm = () => {
-    setShowImagePreview(false);
-    setImages([]);
-    reset();
-  }
-
   const onSubmit = async (data: FormInputs) => {
     const { images, title, content } = data;
-
     const imageUrls: string[] = [];
-    
+
     if (images.length > 0) {
       const formData = new FormData();
       Array.from(images).forEach(image => formData.append('images', image));
+
       const { ok, result } = await uploadImage(formData);
 
       if (!ok) {
         console.error(result);
         return;
       }
+
       imageUrls.push(...(result as string[]))
     }
 
@@ -69,22 +67,15 @@ export default function PostForm({careerId, authorId}: Props) {
       imageUrls
     }
 
-    await saveTestimony(newTestimonyData)
+    await saveTestimony(newTestimonyData);
     clearForm();
   };
 
-  useEffect(() => {
-    console.log(showImagePreview);
-  }, [showImagePreview])
-
   const handleOnChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
-    
 
-    const isValid = await trigger("images")
-    console.log(isValid);
-    
-    
+    await trigger("images");
+
     setShowImagePreview(false);
     if (!files) return;
     if (files?.length <= 0 || files?.length > 6) return;
@@ -105,6 +96,12 @@ export default function PostForm({careerId, authorId}: Props) {
       });
   };
 
+  const clearForm = () => {
+    setShowImagePreview(false);
+    setImages([]);
+    reset();
+  }
+
   const validateFiles = (files: FileList): true | string => {
     if (files.length > 6) return 'No puedes seleccionar más de 6 archivos';
     if (!Array.from(files).every(file => file.type.includes('image'))) return 'Todos los archivos deben ser imágenes';
@@ -114,13 +111,10 @@ export default function PostForm({careerId, authorId}: Props) {
   return (
     <div className="h-svh flex flex-col bg-white">
       <form onSubmit={handleSubmit(onSubmit)} className="h-full flex flex-col">
-        <header className="flex justify-between items-center mb-4 border-b border-gray-300 p-2">
-          <button className="text-gray-500">Cancelar</button>
-          <h2 className="text-lg font-semibold">Testimonio</h2>
-          <button className="disabled text-green font-semibold" type="submit" disabled={isSubmitting}>
-            Guardar
-          </button>
-        </header>
+        {/* Form header */}
+        <PostFormHeader />
+        
+        {/* Form body */}
         <div className="flex-1 bg-white">
           <input
             placeholder="Título"
@@ -152,28 +146,16 @@ export default function PostForm({careerId, authorId}: Props) {
             })}
           />
         </div>
+
+
         <div className="flex flex-col py-3 gap-3 border-t border-gray-300">
-          {errors.title?.message && (
-            <span className="px-2 text-sm flex text-red-600 items-center gap-1">
-              <FontAwesomeIcon className="w-2 h-2 text-white bg-red-700 p-1 rounded-full" icon={faInfo} />
-              {errors.title.message}
-            </span>
-          )}
-          {errors.content?.message && (
-            <span className="px-2 text-sm flex text-red-600 items-center gap-1">
-              <FontAwesomeIcon className="w-2 h-2 text-white bg-red-700 p-1 rounded-full" icon={faInfo} />
-              {errors.content.message}
-            </span>
-          )}
-          {errors.images?.message && (
-            <span className="px-2 text-sm flex text-red-600 items-center gap-1">
-              <FontAwesomeIcon className="w-2 h-2 text-white bg-red-700 p-1 rounded-full" icon={faInfo} />
-              {errors.images.message}
-            </span>
-          )}
-          
+          {/* Form errors */}
+          <PostFromErrors errors={errors}/>
+
+          {/* Images preview */}
           {showImagePreview && <ImagePreview images={images} />}
 
+          {/* Image input */}
           <div className="flex mx-2 justify-start space-x-4 text-xl text-black">
             <div className="relative cursor-pointer">
               <input
