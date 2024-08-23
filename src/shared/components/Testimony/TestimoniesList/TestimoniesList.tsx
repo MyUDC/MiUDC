@@ -55,6 +55,8 @@ export const TestimoniesList = ({ initTestimonies }: Props) => {
               }}
               userName={testimony.user.name ?? "no name"}
               userPhotoUrl={testimony.user.image ?? ""}
+              // todo: refactor to delete map
+              imageUrls={testimony.images.map(({url}) => (url))}
             />
           )
         })}

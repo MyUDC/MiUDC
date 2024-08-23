@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,7 +9,6 @@ import { uploadImage } from '@/shared/actions/uploadImage';
 type FormInputs = {
   images: FileList;
 }
-
 
 export default function ImageForm() {
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
@@ -60,7 +59,6 @@ export default function ImageForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-
       <div>
         <label htmlFor="image">file</label>
         <input

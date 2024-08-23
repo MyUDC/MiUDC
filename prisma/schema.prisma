@@ -119,6 +119,7 @@ model Testimony {
   // relations
   TestimonyLike TestimonyLike[]
   Comments      Comment[]
+  images        Image[]
 
   // timestamps
   createdAt DateTime @default(now())
@@ -260,4 +261,16 @@ model Interest {
   // timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  url       String
+  altText   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  testimonyId String?
+  testimony   Testimony? @relation(fields: [testimonyId], references: [id])
 }

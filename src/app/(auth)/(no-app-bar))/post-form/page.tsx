@@ -1,9 +1,13 @@
-"use client";
-
-import PostForm from "@/shared/components/FormPost";
+import PostForm from "@/shared/components/PostForm/PostForm";
 
 const PostPage = () => {
-  return <PostForm />;
+  return (
+    <PostForm
+      authorId="Partemnitiae aut sunt facilitia voluptas praeterius cum ipsa, in dialectis contra celer sed."
+      careerId="Praeteret nullam eximicar molesse mei omnisi, voluptasse esse voluptatis bella philos evoli es est."
+      postType="testimony"
+    />
+  );
 };
 
 export default PostPage;

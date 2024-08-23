@@ -53,6 +53,13 @@ const main = async () => {
     }
   }));
 
+  const { image: images } = await seed.image(x => x(30, t => {
+    return {
+      url: "https://res.cloudinary.com/dxdme71no/image/upload/v1722901389/hufhpfqpgmwr4p5kj1ja.jpg",
+      testimonyId: faker.helpers.arrayElement(testimonies).id,
+    }
+  }));
+
   // Seed Questions
   const { question: questions } = await seed.question((x) => x(25, (q) => ({
     title: faker.lorem.sentence(),
