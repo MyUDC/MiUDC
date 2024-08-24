@@ -217,142 +217,6 @@
         }
       ]
     },
-    "Answer": {
-      "id": "public.Answer",
-      "schemaName": "public",
-      "tableName": "Answer",
-      "fields": [
-        {
-          "id": "public.Answer.id",
-          "name": "id",
-          "columnName": "id",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": true,
-          "maxLength": null
-        },
-        {
-          "id": "public.Answer.content",
-          "name": "content",
-          "columnName": "content",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Answer.userId",
-          "name": "userId",
-          "columnName": "userId",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Answer.questionId",
-          "name": "questionId",
-          "columnName": "questionId",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Answer.createdAt",
-          "name": "createdAt",
-          "columnName": "createdAt",
-          "type": "timestamp",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": true,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Answer.updatedAt",
-          "name": "updatedAt",
-          "columnName": "updatedAt",
-          "type": "timestamp",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "name": "Question",
-          "type": "Question",
-          "isRequired": true,
-          "kind": "object",
-          "relationName": "AnswerToQuestion",
-          "relationFromFields": [
-            "questionId"
-          ],
-          "relationToFields": [
-            "id"
-          ],
-          "isList": false,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "User",
-          "type": "User",
-          "isRequired": true,
-          "kind": "object",
-          "relationName": "AnswerToUser",
-          "relationFromFields": [
-            "userId"
-          ],
-          "relationToFields": [
-            "id"
-          ],
-          "isList": false,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        }
-      ],
-      "uniqueConstraints": [
-        {
-          "name": "Answer_pkey",
-          "fields": [
-            "id"
-          ],
-          "nullNotDistinct": false
-        }
-      ]
-    },
     "Authenticator": {
       "id": "public.Authenticator",
       "schemaName": "public",
@@ -676,7 +540,7 @@
           "isList": false,
           "isGenerated": false,
           "sequence": false,
-          "hasDefaultValue": true,
+          "hasDefaultValue": false,
           "isId": false,
           "maxLength": null
         },
@@ -713,25 +577,11 @@
           "hasDefaultValue": false
         },
         {
-          "name": "Question",
-          "type": "Question",
+          "name": "Post",
+          "type": "Post",
           "isRequired": false,
           "kind": "object",
-          "relationName": "QuestionToCareer",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "Testimony",
-          "type": "Testimony",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "TestimonyToCareer",
+          "relationName": "PostToCareer",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -753,142 +603,6 @@
           "name": "Career_slug_key",
           "fields": [
             "slug"
-          ],
-          "nullNotDistinct": false
-        }
-      ]
-    },
-    "Comment": {
-      "id": "public.Comment",
-      "schemaName": "public",
-      "tableName": "Comment",
-      "fields": [
-        {
-          "id": "public.Comment.id",
-          "name": "id",
-          "columnName": "id",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": true,
-          "maxLength": null
-        },
-        {
-          "id": "public.Comment.content",
-          "name": "content",
-          "columnName": "content",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Comment.userId",
-          "name": "userId",
-          "columnName": "userId",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Comment.testimonyId",
-          "name": "testimonyId",
-          "columnName": "testimonyId",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Comment.createdAt",
-          "name": "createdAt",
-          "columnName": "createdAt",
-          "type": "timestamp",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": true,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Comment.updatedAt",
-          "name": "updatedAt",
-          "columnName": "updatedAt",
-          "type": "timestamp",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "name": "Testimony",
-          "type": "Testimony",
-          "isRequired": true,
-          "kind": "object",
-          "relationName": "CommentToTestimony",
-          "relationFromFields": [
-            "testimonyId"
-          ],
-          "relationToFields": [
-            "id"
-          ],
-          "isList": false,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "User",
-          "type": "User",
-          "isRequired": true,
-          "kind": "object",
-          "relationName": "CommentToUser",
-          "relationFromFields": [
-            "userId"
-          ],
-          "relationToFields": [
-            "id"
-          ],
-          "isList": false,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        }
-      ],
-      "uniqueConstraints": [
-        {
-          "name": "Comment_pkey",
-          "fields": [
-            "id"
           ],
           "nullNotDistinct": false
         }
@@ -1056,9 +770,9 @@
           "maxLength": null
         },
         {
-          "id": "public.Image.testimonyId",
-          "name": "testimonyId",
-          "columnName": "testimonyId",
+          "id": "public.Image.PostId",
+          "name": "PostId",
+          "columnName": "PostId",
           "type": "text",
           "isRequired": false,
           "kind": "scalar",
@@ -1070,13 +784,13 @@
           "maxLength": null
         },
         {
-          "name": "Testimony",
-          "type": "Testimony",
+          "name": "Post",
+          "type": "Post",
           "isRequired": false,
           "kind": "object",
-          "relationName": "ImageToTestimony",
+          "relationName": "ImageToPost",
           "relationFromFields": [
-            "testimonyId"
+            "PostId"
           ],
           "relationToFields": [
             "id"
@@ -1220,13 +934,13 @@
         }
       ]
     },
-    "Question": {
-      "id": "public.Question",
+    "Post": {
+      "id": "public.Post",
       "schemaName": "public",
-      "tableName": "Question",
+      "tableName": "Post",
       "fields": [
         {
-          "id": "public.Question.id",
+          "id": "public.Post.id",
           "name": "id",
           "columnName": "id",
           "type": "text",
@@ -1240,7 +954,7 @@
           "maxLength": null
         },
         {
-          "id": "public.Question.title",
+          "id": "public.Post.title",
           "name": "title",
           "columnName": "title",
           "type": "text",
@@ -1254,7 +968,7 @@
           "maxLength": null
         },
         {
-          "id": "public.Question.content",
+          "id": "public.Post.content",
           "name": "content",
           "columnName": "content",
           "type": "text",
@@ -1268,9 +982,9 @@
           "maxLength": null
         },
         {
-          "id": "public.Question.userId",
-          "name": "userId",
-          "columnName": "userId",
+          "id": "public.Post.slug",
+          "name": "slug",
+          "columnName": "slug",
           "type": "text",
           "isRequired": true,
           "kind": "scalar",
@@ -1282,7 +996,21 @@
           "maxLength": null
         },
         {
-          "id": "public.Question.careerId",
+          "id": "public.Post.type",
+          "name": "type",
+          "columnName": "type",
+          "type": "PostType",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.Post.careerId",
           "name": "careerId",
           "columnName": "careerId",
           "type": "text",
@@ -1296,7 +1024,21 @@
           "maxLength": null
         },
         {
-          "id": "public.Question.createdAt",
+          "id": "public.Post.parentId",
+          "name": "parentId",
+          "columnName": "parentId",
+          "type": "text",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.Post.createdAt",
           "name": "createdAt",
           "columnName": "createdAt",
           "type": "timestamp",
@@ -1310,10 +1052,24 @@
           "maxLength": null
         },
         {
-          "id": "public.Question.updatedAt",
+          "id": "public.Post.updatedAt",
           "name": "updatedAt",
           "columnName": "updatedAt",
           "type": "timestamp",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.Post.authorId",
+          "name": "authorId",
+          "columnName": "authorId",
+          "type": "text",
           "isRequired": true,
           "kind": "scalar",
           "isList": false,
@@ -1328,7 +1084,7 @@
           "type": "Career",
           "isRequired": true,
           "kind": "object",
-          "relationName": "QuestionToCareer",
+          "relationName": "PostToCareer",
           "relationFromFields": [
             "careerId"
           ],
@@ -1342,13 +1098,13 @@
           "hasDefaultValue": false
         },
         {
-          "name": "User",
-          "type": "User",
-          "isRequired": true,
+          "name": "Post",
+          "type": "Post",
+          "isRequired": false,
           "kind": "object",
-          "relationName": "QuestionToUser",
+          "relationName": "PostToPost",
           "relationFromFields": [
-            "userId"
+            "parentId"
           ],
           "relationToFields": [
             "id"
@@ -1360,11 +1116,29 @@
           "hasDefaultValue": false
         },
         {
-          "name": "Answer",
-          "type": "Answer",
+          "name": "User",
+          "type": "User",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "PostToUser",
+          "relationFromFields": [
+            "authorId"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "Image",
+          "type": "Image",
           "isRequired": false,
           "kind": "object",
-          "relationName": "AnswerToQuestion",
+          "relationName": "ImageToPost",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -1374,11 +1148,25 @@
           "hasDefaultValue": false
         },
         {
-          "name": "QuestionLike",
-          "type": "QuestionLike",
+          "name": "Post",
+          "type": "Post",
           "isRequired": false,
           "kind": "object",
-          "relationName": "QuestionLikeToQuestion",
+          "relationName": "PostToPost",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "PostLike",
+          "type": "PostLike",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "PostLikeToPost",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -1390,21 +1178,28 @@
       ],
       "uniqueConstraints": [
         {
-          "name": "Question_pkey",
+          "name": "Post_pkey",
           "fields": [
             "id"
+          ],
+          "nullNotDistinct": false
+        },
+        {
+          "name": "Post_slug_key",
+          "fields": [
+            "slug"
           ],
           "nullNotDistinct": false
         }
       ]
     },
-    "QuestionLike": {
-      "id": "public.QuestionLike",
+    "PostLike": {
+      "id": "public.PostLike",
       "schemaName": "public",
-      "tableName": "QuestionLike",
+      "tableName": "PostLike",
       "fields": [
         {
-          "id": "public.QuestionLike.id",
+          "id": "public.PostLike.id",
           "name": "id",
           "columnName": "id",
           "type": "text",
@@ -1418,9 +1213,9 @@
           "maxLength": null
         },
         {
-          "id": "public.QuestionLike.questionId",
-          "name": "questionId",
-          "columnName": "questionId",
+          "id": "public.PostLike.PostId",
+          "name": "PostId",
+          "columnName": "PostId",
           "type": "text",
           "isRequired": true,
           "kind": "scalar",
@@ -1432,7 +1227,7 @@
           "maxLength": null
         },
         {
-          "id": "public.QuestionLike.userId",
+          "id": "public.PostLike.userId",
           "name": "userId",
           "columnName": "userId",
           "type": "text",
@@ -1446,7 +1241,7 @@
           "maxLength": null
         },
         {
-          "id": "public.QuestionLike.createdAt",
+          "id": "public.PostLike.createdAt",
           "name": "createdAt",
           "columnName": "createdAt",
           "type": "timestamp",
@@ -1460,7 +1255,7 @@
           "maxLength": null
         },
         {
-          "id": "public.QuestionLike.updatedAt",
+          "id": "public.PostLike.updatedAt",
           "name": "updatedAt",
           "columnName": "updatedAt",
           "type": "timestamp",
@@ -1474,13 +1269,13 @@
           "maxLength": null
         },
         {
-          "name": "Question",
-          "type": "Question",
+          "name": "Post",
+          "type": "Post",
           "isRequired": true,
           "kind": "object",
-          "relationName": "QuestionLikeToQuestion",
+          "relationName": "PostLikeToPost",
           "relationFromFields": [
-            "questionId"
+            "PostId"
           ],
           "relationToFields": [
             "id"
@@ -1496,7 +1291,7 @@
           "type": "User",
           "isRequired": true,
           "kind": "object",
-          "relationName": "QuestionLikeToUser",
+          "relationName": "PostLikeToUser",
           "relationFromFields": [
             "userId"
           ],
@@ -1512,7 +1307,7 @@
       ],
       "uniqueConstraints": [
         {
-          "name": "QuestionLike_pkey",
+          "name": "PostLike_pkey",
           "fields": [
             "id"
           ],
@@ -1619,341 +1414,6 @@
           "name": "Session_sessionToken_key",
           "fields": [
             "sessionToken"
-          ],
-          "nullNotDistinct": false
-        }
-      ]
-    },
-    "Testimony": {
-      "id": "public.Testimony",
-      "schemaName": "public",
-      "tableName": "Testimony",
-      "fields": [
-        {
-          "id": "public.Testimony.id",
-          "name": "id",
-          "columnName": "id",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": true,
-          "maxLength": null
-        },
-        {
-          "id": "public.Testimony.title",
-          "name": "title",
-          "columnName": "title",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Testimony.content",
-          "name": "content",
-          "columnName": "content",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Testimony.userId",
-          "name": "userId",
-          "columnName": "userId",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Testimony.careerId",
-          "name": "careerId",
-          "columnName": "careerId",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Testimony.createdAt",
-          "name": "createdAt",
-          "columnName": "createdAt",
-          "type": "timestamp",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": true,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Testimony.updatedAt",
-          "name": "updatedAt",
-          "columnName": "updatedAt",
-          "type": "timestamp",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.Testimony.slug",
-          "name": "slug",
-          "columnName": "slug",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": true,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "name": "Career",
-          "type": "Career",
-          "isRequired": true,
-          "kind": "object",
-          "relationName": "TestimonyToCareer",
-          "relationFromFields": [
-            "careerId"
-          ],
-          "relationToFields": [
-            "id"
-          ],
-          "isList": false,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "User",
-          "type": "User",
-          "isRequired": true,
-          "kind": "object",
-          "relationName": "TestimonyToUser",
-          "relationFromFields": [
-            "userId"
-          ],
-          "relationToFields": [
-            "id"
-          ],
-          "isList": false,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "Comment",
-          "type": "Comment",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "CommentToTestimony",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "Image",
-          "type": "Image",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "ImageToTestimony",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "TestimonyLike",
-          "type": "TestimonyLike",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "TestimonyLikeToTestimony",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        }
-      ],
-      "uniqueConstraints": [
-        {
-          "name": "Testimony_pkey",
-          "fields": [
-            "id"
-          ],
-          "nullNotDistinct": false
-        },
-        {
-          "name": "Testimony_slug_key",
-          "fields": [
-            "slug"
-          ],
-          "nullNotDistinct": false
-        }
-      ]
-    },
-    "TestimonyLike": {
-      "id": "public.TestimonyLike",
-      "schemaName": "public",
-      "tableName": "TestimonyLike",
-      "fields": [
-        {
-          "id": "public.TestimonyLike.id",
-          "name": "id",
-          "columnName": "id",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": true,
-          "maxLength": null
-        },
-        {
-          "id": "public.TestimonyLike.testimonyId",
-          "name": "testimonyId",
-          "columnName": "testimonyId",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.TestimonyLike.userId",
-          "name": "userId",
-          "columnName": "userId",
-          "type": "text",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.TestimonyLike.createdAt",
-          "name": "createdAt",
-          "columnName": "createdAt",
-          "type": "timestamp",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": true,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.TestimonyLike.updatedAt",
-          "name": "updatedAt",
-          "columnName": "updatedAt",
-          "type": "timestamp",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "name": "Testimony",
-          "type": "Testimony",
-          "isRequired": true,
-          "kind": "object",
-          "relationName": "TestimonyLikeToTestimony",
-          "relationFromFields": [
-            "testimonyId"
-          ],
-          "relationToFields": [
-            "id"
-          ],
-          "isList": false,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "User",
-          "type": "User",
-          "isRequired": true,
-          "kind": "object",
-          "relationName": "TestimonyLikeToUser",
-          "relationFromFields": [
-            "userId"
-          ],
-          "relationToFields": [
-            "id"
-          ],
-          "isList": false,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        }
-      ],
-      "uniqueConstraints": [
-        {
-          "name": "TestimonyLike_pkey",
-          "fields": [
-            "id"
           ],
           "nullNotDistinct": false
         }
@@ -2105,39 +1565,11 @@
           "hasDefaultValue": false
         },
         {
-          "name": "Answer",
-          "type": "Answer",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "AnswerToUser",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
           "name": "Authenticator",
           "type": "Authenticator",
           "isRequired": false,
           "kind": "object",
           "relationName": "AuthenticatorToUser",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "Comment",
-          "type": "Comment",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "CommentToUser",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -2161,11 +1593,11 @@
           "hasDefaultValue": false
         },
         {
-          "name": "Question",
-          "type": "Question",
+          "name": "Post",
+          "type": "Post",
           "isRequired": false,
           "kind": "object",
-          "relationName": "QuestionToUser",
+          "relationName": "PostToUser",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -2175,11 +1607,11 @@
           "hasDefaultValue": false
         },
         {
-          "name": "QuestionLike",
-          "type": "QuestionLike",
+          "name": "PostLike",
+          "type": "PostLike",
           "isRequired": false,
           "kind": "object",
-          "relationName": "QuestionLikeToUser",
+          "relationName": "PostLikeToUser",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -2194,34 +1626,6 @@
           "isRequired": false,
           "kind": "object",
           "relationName": "SessionToUser",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "Testimony",
-          "type": "Testimony",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "TestimonyToUser",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "TestimonyLike",
-          "type": "TestimonyLike",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "TestimonyLikeToUser",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -2437,6 +1841,20 @@
     }
   },
   "enums": {
+    "PostType": {
+      "schemaName": "public",
+      "values": [
+        {
+          "name": "QUESTION"
+        },
+        {
+          "name": "REPLY"
+        },
+        {
+          "name": "TESTIMONY"
+        }
+      ]
+    },
     "Role": {
       "schemaName": "public",
       "values": [

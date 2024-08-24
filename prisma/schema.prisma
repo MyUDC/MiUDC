@@ -19,6 +19,12 @@ enum Role {
   ADMIN
 }
 
+enum PostType {
+  QUESTION
+  TESTIMONY
+  REPLY
+}
+
 model User {
   // fields
   id            String    @id @default(uuid())
@@ -35,13 +41,9 @@ model User {
   sessions      Session[]
   Authenticator Authenticator[]
 
-  Testimonies    Testimony[]
-  TestimonyLikes TestimonyLike[]
-  Questions      Question[]
-  QuestionsLikes QuestionLike[]
-  Interests      Interest[]
-  Comments       Comment[]
-  Answers        Answer[]
+  Posts     Post[]
+  PostLikes PostLike[]
+  Interests Interest[]
 
   // timestamps
   createdAt DateTime @default(now())
@@ -103,106 +105,41 @@ model Authenticator {
   @@id([userId, credentialID])
 }
 
-model Testimony {
+model Post {
   // fields
-  id      String @id @default(uuid())
+  id      String   @id @default(uuid())
   title   String
   content String
-  slug    String @unique @default("")
+  slug    String   @unique
+  type    PostType
 
   // foreign keys
-  user     User   @relation(fields: [userId], references: [id])
-  userId   String
-  career   Career @relation(fields: [careerId], references: [id])
+  author   User    @relation(fields: [authorId], references: [id])
+  authorId String
+  career   Career  @relation(fields: [careerId], references: [id])
   careerId String
+  parentId String?
+  parent   Post?   @relation("ParentChild", fields: [parentId], references: [id])
 
   // relations
-  TestimonyLike TestimonyLike[]
-  Comments      Comment[]
-  images        Image[]
+  children Post[]     @relation("ParentChild")
+  PostLike PostLike[]
+  images   Image[]
 
   // timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model TestimonyLike {
+model PostLike {
   // fields
   id String @id @default(uuid())
 
   // foreign keys
-  testimony   Testimony @relation(fields: [testimonyId], references: [id])
-  testimonyId String
-  user        User      @relation(fields: [userId], references: [id])
-  userId      String
-
-  // timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Comment {
-  // fields
-  id      String @id @default(uuid())
-  content String
-
-  // foreign keys
-  user        User      @relation(fields: [userId], references: [id])
-  userId      String
-  testimony   Testimony @relation(fields: [testimonyId], references: [id])
-  testimonyId String
-
-  // timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Question {
-  // fields
-  id      String @id @default(uuid())
-  title   String
-  content String
-
-  // foreign keys
-  user     User   @relation(fields: [userId], references: [id])
-  userId   String
-  career   Career @relation(fields: [careerId], references: [id])
-  careerId String
-
-  // relations
-  questionLikes QuestionLike[]
-  answers       Answer[]
-
-  // timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model QuestionLike {
-  // fields
-  id String @id @default(uuid())
-
-  // foreign keys
-  question   Question @relation(fields: [questionId], references: [id])
-  questionId String
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String
-
-  // timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Answer {
-  // fields
-  id      String @id @default(uuid())
-  content String
-
-  // foreign keys
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String
-  question   Question @relation(fields: [questionId], references: [id])
-  questionId String
+  Post   Post   @relation(fields: [PostId], references: [id])
+  PostId String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 
   // timestamps
   createdAt DateTime @default(now())
@@ -232,15 +169,14 @@ model Career {
   latitude       Float
   longitude      Float
   description    String
-  slug           String @unique @default("")
+  slug           String @unique
 
   // foreign keys
   faculty   Faculty @relation(fields: [facultyId], references: [id])
   facultyId String
 
   // relations
-  Testimonies Testimony[]
-  Questions   Question[]
+  Posts       Post[]
   interesteds Interest[]
 
   // timestamps
@@ -271,6 +207,6 @@ model Image {
   updatedAt DateTime @updatedAt
 
   // Relaciones
-  testimonyId String?
-  testimony   Testimony? @relation(fields: [testimonyId], references: [id])
+  PostId String?
+  Post   Post?   @relation(fields: [PostId], references: [id])
 }

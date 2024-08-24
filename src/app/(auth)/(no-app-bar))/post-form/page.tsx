@@ -5,7 +5,7 @@ const PostPage = () => {
     <PostForm
       authorId="Partemnitiae aut sunt facilitia voluptas praeterius cum ipsa, in dialectis contra celer sed."
       careerId="Praeteret nullam eximicar molesse mei omnisi, voluptasse esse voluptatis bella philos evoli es est."
-      postType="testimony"
+      postType="TESTIMONY"
     />
   );
 };

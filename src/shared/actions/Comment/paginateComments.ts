@@ -2,14 +2,15 @@
 
 import prisma from "@/lib/prisma";
 
-export default async function paginateComments(take: number, skip: number, testimonyId: string) {
-  const testimonies = await prisma.comment.findMany({
+export default async function paginateComments(take: number, skip: number, postId: string) {
+  const testimonies = await prisma.post.findMany({
     where: {
-      testimonyId
+      parentId: postId
     },
     include: {
-      user: { select: { name: true, image: true, } },
-    },
+      author: { select: { name: true, image: true, } },
+    }
+    ,
     skip,
     take,
   });

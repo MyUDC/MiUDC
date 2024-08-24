@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import paginateComments from "@/shared/actions/Comment/paginateComments";
-import getTestimonyBySlug from "@/shared/actions/Testimony/getTestimonyBySlug";
+import getPostBySlug from "@/shared/actions/Testimony/getPostBySlug";
 import Testimony from "@/shared/components/Testimony/Testimony";
 import BackButton from "@/shared/components/BackButton";
 import { CommentsList } from "@/shared/components/Comments/CommentsList/CommentsList";
@@ -14,10 +14,10 @@ interface Props {
 
 export default async function TestimonyPage({ params }: Props) {
   const slug = params.testimonySlug;
-  const testimony = await getTestimonyBySlug(slug);
-  if (!testimony) notFound();
+  const post = await getPostBySlug(slug);
+  if (!post) notFound();
 
-  const initComments = await paginateComments(3, 0, testimony.id);
+  const initComments = await paginateComments(3, 0, post.id);
 
   return (
     <div className="flex flex-col items-center">
@@ -27,25 +27,25 @@ export default async function TestimonyPage({ params }: Props) {
       </div>
       <div className="flex flex-col items-center justify-center max-w-lg w-full">
         <Testimony
-          key={testimony.id}
-          createdAt={testimony.createdAt}
-          content={testimony.content}
-          testimonySlug={testimony.slug}
-          commentCount={testimony._count.Comments}
-          heartCount={testimony._count.TestimonyLike}
+          key={post.id}
+          createdAt={post.createdAt}
+          content={post.content}
+          testimonySlug={post.slug}
+          commentCount={post._count.children}
+          heartCount={post._count.PostLike}
           careerData={{
-            name: testimony.career.name,
-            slug: testimony.career.slug
+            name: post.career.name,
+            slug: post.career.slug
           }}
-          userName={testimony.user.name ?? "no name"}
-          userPhotoUrl={testimony.user.image ?? ""}
-          imageUrls={testimony.images.map(({url}) => (url))}
+          userName={post.author.name ?? "no name"}
+          userPhotoUrl={post.author.image ?? ""}
+          imageUrls={post.images.map(({url}) => (url))}
         />
         <div className="px-4 pb-4 w-full">
           <h2 className="font-semibold">Respuestas</h2>
         </div>
         <CommentsList
-          testimonyId={testimony.id}
+          testimonyId={post.id}
           initComments={initComments}
         />
       </div>

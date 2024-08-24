@@ -40,14 +40,14 @@ const main = async () => {
     image: u.index % 2 === 0 ? null : "https://res.cloudinary.com/dxdme71no/image/upload/v1722901389/hufhpfqpgmwr4p5kj1ja.jpg",
   })));
 
-  // Seed Testimonies
-  const { testimony: testimonies } = await seed.testimony((x) => x(30, (t) => {
+  // Seed post
+  const { post: posts } = await seed.post((x) => x(30, (t) => {
     const title = faker.lorem.sentence();
     return {
       title,
       content: faker.lorem.paragraphs(),
       slug: generateSlug(title),
-      userId: faker.helpers.arrayElement(users).id,
+      authorId: faker.helpers.arrayElement(users).id,
       careerId: faker.helpers.arrayElement(careers).id,
       createdAt: faker.date.past(),
     }
@@ -56,32 +56,9 @@ const main = async () => {
   const { image: images } = await seed.image(x => x(30, t => {
     return {
       url: "https://res.cloudinary.com/dxdme71no/image/upload/v1722901389/hufhpfqpgmwr4p5kj1ja.jpg",
-      testimonyId: faker.helpers.arrayElement(testimonies).id,
+      PostId: faker.helpers.arrayElement(posts).id,
     }
   }));
-
-  // Seed Questions
-  const { question: questions } = await seed.question((x) => x(25, (q) => ({
-    title: faker.lorem.sentence(),
-    content: faker.lorem.paragraphs(),
-    userId: faker.helpers.arrayElement(users).id,
-    careerId: faker.helpers.arrayElement(careers).id,
-  })));
-
-  // Seed Answers
-  await seed.answer((x) => x(50, (a) => ({
-    content: faker.lorem.paragraph(),
-    userId: faker.helpers.arrayElement(users).id,
-    questionId: faker.helpers.arrayElement(questions).id,
-  })));
-
-  // Seed Comments
-  await seed.comment((x) => x(60, (c) => ({
-    content: faker.lorem.paragraph(),
-    userId: faker.helpers.arrayElement(users).id,
-    testimonyId: faker.helpers.arrayElement(testimonies).id,
-    createdAt: faker.date.past(),
-  })));
 
   // Seed Interests
   await seed.interest((x) => x(40, (i) => ({
@@ -89,16 +66,10 @@ const main = async () => {
     careerId: faker.helpers.arrayElement(careers).id,
   })));
 
-  // Seed TestimonyLikes
-  await seed.testimonyLike((x) => x(100, (tl) => ({
+  // Seed PostLikes
+  await seed.postLike((x) => x(100, (tl) => ({
     userId: faker.helpers.arrayElement(users).id,
-    testimonyId: faker.helpers.arrayElement(testimonies).id,
-  })));
-
-  // Seed QuestionLikes
-  await seed.questionLike((x) => x(80, (ql) => ({
-    userId: faker.helpers.arrayElement(users).id,
-    questionId: faker.helpers.arrayElement(questions).id,
+    PostId: faker.helpers.arrayElement(posts).id,
   })));
 
   console.log("Database seeded successfully!");

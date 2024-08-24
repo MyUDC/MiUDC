@@ -3,8 +3,8 @@
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { TestimonyWithRelations } from "@/shared/types/TestimonyWithRelations";
-import paginateTestimony from "@/shared/actions/Testimony/paginateTestimonies";
+import { PostWithRelations } from "@/shared/types/PostWithRelations";
+import paginateTestimony from "@/shared/actions/Testimony/paginatePosts";
 import TestimonyComponent from "../Testimony";
 import { Loading } from "./Loading";
 import { EndMessage } from "./EndMessage";
@@ -12,7 +12,7 @@ import { Refresh } from "./Refresh";
 import { ReleaseRefresh } from "./ReleaseRefresh";
 
 interface Props {
-  initTestimonies: TestimonyWithRelations[];
+  initTestimonies: PostWithRelations[];
 }
 
 export const TestimoniesList = ({ initTestimonies }: Props) => {
@@ -40,23 +40,23 @@ export const TestimoniesList = ({ initTestimonies }: Props) => {
           setTestimonies(testimonies.concat(...newTestimonies));
         }}
       >
-        {testimonies.map((testimony) => {
+        {testimonies.map((post) => {
           return (
             <TestimonyComponent
-              key={testimony.id}
-              testimonySlug={testimony.slug}
-              createdAt={testimony.createdAt}
-              content={testimony.content}
-              commentCount={testimony._count.Comments}
-              heartCount={testimony._count.TestimonyLike}
+              key={post.id}
+              testimonySlug={post.slug}
+              createdAt={post.createdAt}
+              content={post.content}
+              commentCount={post._count.children}
+              heartCount={post._count.PostLike}
               careerData={{
-                name: testimony.career.name,
-                slug: testimony.career.slug
+                name: post.career.name,
+                slug: post.career.slug
               }}
-              userName={testimony.user.name ?? "no name"}
-              userPhotoUrl={testimony.user.image ?? ""}
+              userName={post.author.name ?? "no name"}
+              // userPhotoUrl={post.author.image ?? ""}
               // todo: refactor to delete map
-              imageUrls={testimony.images.map(({url}) => (url))}
+              imageUrls={post.images.map(({url}) => (url))}
             />
           )
         })}
