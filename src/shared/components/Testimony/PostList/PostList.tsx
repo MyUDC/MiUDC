@@ -11,16 +11,22 @@ import { Refresh } from "./Refresh";
 import { ReleaseRefresh } from "./ReleaseRefresh";
 import { PostType } from "@prisma/client";
 import Post from '../Post';
+import { useRouter } from "next/navigation";
 
 interface Props {
   postType: PostType;
   initPosts: PostWithRelations[];
 }
 
-export const PostList = ({ initPosts, postType}: Props) => {
+export const PostList = ({ initPosts, postType }: Props) => {
+  const router = useRouter();
 
   const [testimonies, setTestimonies] = useState(initPosts)
   const [hasMore, setHasMore] = useState(true);
+
+  const handleTestimonyClick = (careerSlug: string, postSlug: string) => {
+    router.push(`/career-forum/${careerSlug}/testimony/${postSlug}`)
+  }
 
   return (
     <div className="flex flex-col items-center">
@@ -44,22 +50,26 @@ export const PostList = ({ initPosts, postType}: Props) => {
       >
         {testimonies.map((post) => {
           return (
-            <Post
-              key={post.id}
-              postType={post.type}
-              postTitle={post.title}
-              postSlug={post.slug}
-              createdAt={post.createdAt}
-              content={post.content}
-              repliesCount={post._count.children}
-              heartCount={post._count.PostLike}
-              careerName={post.career.name}
-              careerSlug={post.career.slug}
-              userName={post.author.name ?? "no name"}
-              // userPhotoUrl={post.author.image ?? ""}
-              // todo: refactor to delete map
-              imageUrls={post.images.map(({ url }) => (url))}
-            />
+            <div
+              onClick={() => handleTestimonyClick(post.career.slug, post.slug)}
+            >
+              <Post
+                key={post.id}
+                postType={post.type}
+                postTitle={post.title}
+                postSlug={post.slug}
+                createdAt={post.createdAt}
+                content={post.content}
+                repliesCount={post._count.children}
+                heartCount={post._count.PostLike}
+                careerName={post.career.name}
+                careerSlug={post.career.slug}
+                userName={post.author.name ?? "no name"}
+                userPhotoUrl={post.author.image ?? ""}
+                // todo: refactor to delete map
+                imageUrls={post.images.map(({ url }) => (url))}
+              />
+            </div>
           )
         })}
       </InfiniteScroll>

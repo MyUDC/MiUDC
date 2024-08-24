@@ -12,7 +12,7 @@ interface Props {
   }
 }
 
-const postTypeHumanized = {
+export const postTypeHumanized = {
   "TESTIMONY": "Testimonio",
   "QUESTION": "Pregunta",
   "REPLY": "Respuesta"
@@ -27,12 +27,15 @@ export default async function TestimonyPage({ params }: Props) {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="sticky mb-4 w-full top-0 z-20 bg-white pt-5 p-3 flex items-center gap-6">
+      {/* Header */}
+      <div className="sticky w-full top-0 z-20 bg-white pt-5 p-3 flex items-center gap-6">
         <BackButton className="left-item mr-auto"/>
-        <h2 className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-semibold">
+        <h2 className="absolute left-1/2 transform -translate-x-1/2 text-xl font-semibold">
           {postTypeHumanized[post.type]}
         </h2>
       </div>
+
+
       <div className="flex flex-col items-center justify-center max-w-lg w-full">
         <Post
           key={post.id}
@@ -49,6 +52,8 @@ export default async function TestimonyPage({ params }: Props) {
           imageUrls={post.images.map(({url}) => (url))}
           createdAt={post.createdAt}
         />
+
+
         <div className="px-4 pb-4 w-full">
           <h2 className="font-semibold">Respuestas</h2>
         </div>

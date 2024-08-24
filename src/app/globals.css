@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+
   .custom-scrollbar::-webkit-scrollbar {
     height: 3px; /* Altura del scrollbar (para scroll horizontal) */
     width: 4px; /* Ancho del scrollbar */
