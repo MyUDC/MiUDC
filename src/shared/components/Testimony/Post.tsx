@@ -17,6 +17,7 @@ import { PostType } from '@prisma/client';
 import { title } from "process";
 import Image from "next/image";
 import { postTypeHumanized } from "@/app/(auth)/(no-app-bar))/career-forum/[careerSlug]/testimony/[testimonySlug]/page";
+import { PostImages } from "./PostImages";
 
 type Props = {
   postType: PostType;
@@ -117,23 +118,10 @@ export default function Post({
             <p className="text-sm break-words leading-5 text-gray-700 mb-4">{content}</p>
           </div>
 
-          {imageUrls &&
-            <div className="flex z-30 overflow-x-auto no-scrollbar gap-4 p-4">
-              {imageUrls.map((src, index) => (
-                <div key={index} className="flex-none h-36 relative min-w-36">
-                  <Image
-                    src={src}
-                    alt={`Image ${index + 1}`}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-md border"
-                  />
-                </div>
-              ))}
-            </div>
-          }
-          <Reactions heartCount={heartCount} commentCount={commentCount} />
+
         </div>
+        <PostImages imageUrls={imageUrls} />
+        <Reactions heartCount={heartCount} commentCount={commentCount} />
       </div>
     </div >
   );
