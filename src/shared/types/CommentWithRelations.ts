@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client'
 
-export type CommentWithRelations = Prisma.CommentGetPayload<{
+export type CommentWithRelations = Prisma.PostGetPayload<{
   include: {
-    user: { select: { name: true, image: true, } },
-  },
+    author: { select: { name: true, image: true, } },
+  }
 }>

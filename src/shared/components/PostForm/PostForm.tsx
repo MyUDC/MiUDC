@@ -6,11 +6,12 @@ import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 
-import saveTestimony, { TestimonyData } from "@/shared/actions/Testimony/SaveTestimony";
+import SavePost, { PostData } from "@/shared/actions/Testimony/SavePost";
 import { uploadImage } from "@/shared/actions/uploadImage";
 import { ImagePreview } from "./ImagePreview";
 import { PostFormHeader } from "./PostFormHeader";
 import { PostFromErrors } from './PostFromErrors';
+import { PostType } from "@prisma/client";
 
 type Images = Array<string | ArrayBuffer | null>;
 export interface FormInputs {
@@ -20,9 +21,9 @@ export interface FormInputs {
 }
 
 interface Props {
+  postType: PostType;
   authorId: string;
   careerId: string;
-  postType: "question" | "testimony"
 }
 
 export default function PostForm({ careerId, authorId, postType}: Props) {
@@ -59,7 +60,8 @@ export default function PostForm({ careerId, authorId, postType}: Props) {
       imageUrls.push(...(result as string[]))
     }
 
-    const newTestimonyData: TestimonyData = {
+    const newTestimonyData: PostData = {
+      type: postType,
       title,
       content,
       authorId,
@@ -67,7 +69,7 @@ export default function PostForm({ careerId, authorId, postType}: Props) {
       imageUrls
     }
 
-    await saveTestimony(newTestimonyData);
+    await SavePost(newTestimonyData);
     clearForm();
   };
 
