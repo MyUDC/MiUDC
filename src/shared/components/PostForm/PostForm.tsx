@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 
-import SavePost, { PostData } from "@/shared/actions/Testimony/SavePost";
+import SavePost, { PostData } from "@/shared/actions/Post/SavePost";
 import { uploadImage } from "@/shared/actions/uploadImage";
 import { ImagePreview } from "./ImagePreview";
 import { PostFormHeader } from "./PostFormHeader";

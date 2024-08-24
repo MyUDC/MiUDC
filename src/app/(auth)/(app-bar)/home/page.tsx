@@ -1,5 +1,5 @@
-import paginateTestimonies from "@/shared/actions/Testimony/paginatePosts";
-import { TestimoniesList } from "@/shared/components/Testimony/TestimoniesList/TestimoniesList";
+import paginateTestimonies from "@/shared/actions/Post/paginatePosts";
+import { PostList } from "@/shared/components/Testimony/PostList/PostList";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,8 +13,9 @@ export default async function HomePage() {
 
   return (
     <div>
-      <TestimoniesList
-        initTestimonies={initTestimonies}
+      <PostList
+        postType="QUESTION"
+        initPosts={initTestimonies}
       />
     </div>
   );

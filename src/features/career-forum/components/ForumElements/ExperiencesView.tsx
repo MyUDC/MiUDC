@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel } from "swiper/modules";
 import "swiper/css";
-import Testimony from "@/shared/components/Testimony/Testimony";
+import Post from "@/shared/components/Testimony/Post";
 
 type TestimonyType = {
   id: number;
@@ -58,7 +58,7 @@ export default function ExperiencesView() {
     >
       {testimonies.map((testimony) => (
         <SwiperSlide key={testimony.id}>
-          <Testimony {...testimony} testimonySlug="" />
+          <Post {...testimony} testimonySlug="" />
         </SwiperSlide>
       ))}
     </Swiper>

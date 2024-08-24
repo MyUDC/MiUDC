@@ -4,20 +4,22 @@ import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import { PostWithRelations } from "@/shared/types/PostWithRelations";
-import paginateTestimony from "@/shared/actions/Testimony/paginatePosts";
-import TestimonyComponent from "../Testimony";
+import paginateTestimony from "@/shared/actions/Post/paginatePosts";
 import { Loading } from "./Loading";
 import { EndMessage } from "./EndMessage";
 import { Refresh } from "./Refresh";
 import { ReleaseRefresh } from "./ReleaseRefresh";
+import { PostType } from "@prisma/client";
+import Post from '../Post';
 
 interface Props {
-  initTestimonies: PostWithRelations[];
+  postType: PostType;
+  initPosts: PostWithRelations[];
 }
 
-export const TestimoniesList = ({ initTestimonies }: Props) => {
+export const PostList = ({ initPosts, postType}: Props) => {
 
-  const [testimonies, setTestimonies] = useState(initTestimonies)
+  const [testimonies, setTestimonies] = useState(initPosts)
   const [hasMore, setHasMore] = useState(true);
 
   return (
@@ -42,21 +44,21 @@ export const TestimoniesList = ({ initTestimonies }: Props) => {
       >
         {testimonies.map((post) => {
           return (
-            <TestimonyComponent
+            <Post
               key={post.id}
-              testimonySlug={post.slug}
+              postType={post.type}
+              postTitle={post.title}
+              postSlug={post.slug}
               createdAt={post.createdAt}
               content={post.content}
-              commentCount={post._count.children}
+              repliesCount={post._count.children}
               heartCount={post._count.PostLike}
-              careerData={{
-                name: post.career.name,
-                slug: post.career.slug
-              }}
+              careerName={post.career.name}
+              careerSlug={post.career.slug}
               userName={post.author.name ?? "no name"}
               // userPhotoUrl={post.author.image ?? ""}
               // todo: refactor to delete map
-              imageUrls={post.images.map(({url}) => (url))}
+              imageUrls={post.images.map(({ url }) => (url))}
             />
           )
         })}

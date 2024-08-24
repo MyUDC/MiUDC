@@ -13,33 +13,37 @@ import Reactions from "../Reactions";
 import RelativeTime from "../RelativeTime";
 import SkeletonText from "../Skeletons/SkeletonText";
 import TestimonyImages from "./TestimonyImages";
+import { PostType } from '@prisma/client';
 
-type TestimonyProps = {
-  userName?: string;
+type Props = {
+  postType: PostType;
+  postTitle: string;
+  postSlug: string;
   userPhotoUrl?: string;
-  testimonySlug: string;
-  careerData?: {
-    name: string,
-    slug: string
-  };
+  userName?: string;
   content?: string;
+  careerSlug: string;
+  careerName: string;
   heartCount?: number;
-  commentCount?: number;
+  repliesCount?: number;
   imageUrls?: string[]
   createdAt: Date;
 };
 
-export default function Testimony({
-  userName,
+export default function Post({
+  postType,
+  postTitle,
+  postSlug,
   userPhotoUrl,
-  testimonySlug,
-  careerData,
+  userName,
   content,
+  careerSlug,
+  careerName,
   heartCount,
-  commentCount,
+  repliesCount: commentCount,
   imageUrls,
   createdAt,
-}: TestimonyProps) {
+}: Props) {
   const router = useRouter();
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
 
@@ -52,7 +56,7 @@ export default function Testimony({
   }, []);
 
   const handleTestimonyClick = () => {
-    router.push(`/career-forum/${careerData?.slug}/testimony/${testimonySlug}`)
+    router.push(`/career-forum/${careerSlug}/testimony/${postSlug}`)
   }
 
   return (
@@ -82,9 +86,9 @@ export default function Testimony({
             </p>
           </div>
           <div className="text-gray-500 mt-2 font-semibold">
-            {careerData ? (
-              <Link href={`/career-forum/${careerData.slug}`}>
-                {careerData.name}
+            {(careerName && careerSlug) ? (
+              <Link href={`/career-forum/${careerSlug}`}>
+                {careerName}
               </Link>
             ) : (
               <SkeletonText width="80px" height="1rem" />
