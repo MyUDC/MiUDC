@@ -24,12 +24,9 @@ export const PostList = ({ initPosts, postType }: Props) => {
   const [testimonies, setTestimonies] = useState(initPosts)
   const [hasMore, setHasMore] = useState(true);
 
-  const handleTestimonyClick = (careerSlug: string, postSlug: string) => {
-    router.push(`/career-forum/${careerSlug}/testimony/${postSlug}`)
-  }
+  const post = testimonies[0]
 
   return (
-    <div className="flex flex-col items-center">
       <InfiniteScroll
         hasMore={hasMore}
         dataLength={testimonies.length}
@@ -50,29 +47,23 @@ export const PostList = ({ initPosts, postType }: Props) => {
       >
         {testimonies.map((post) => {
           return (
-            <div
-              onClick={() => handleTestimonyClick(post.career.slug, post.slug)}
-            >
-              <Post
-                key={post.id}
-                postType={post.type}
-                postTitle={post.title}
-                postSlug={post.slug}
-                createdAt={post.createdAt}
-                content={post.content}
-                repliesCount={post._count.children}
-                heartCount={post._count.PostLike}
-                careerName={post.career.name}
-                careerSlug={post.career.slug}
-                userName={post.author.name ?? "no name"}
-                userPhotoUrl={post.author.image ?? ""}
-                // todo: refactor to delete map
-                imageUrls={post.images.map(({ url }) => (url))}
-              />
-            </div>
+            <Post
+              key={post.id}
+              postType={post.type}
+              postSlug={post.slug}
+              postTitle={post.title}
+              content={post.content}
+              userPhotoUrl={post.author.image ?? ""}
+              userName={post.author.name ?? "no name"}
+              careerName={post.career.name}
+              careerSlug={post.career.slug}
+              repliesCount={post._count.children}
+              heartCount={post._count.PostLike}
+              imageUrls={post.images.map(({ url }) => (url))}
+              createdAt={post.createdAt}
+            />
           )
         })}
       </InfiniteScroll>
-    </div >
   )
 }

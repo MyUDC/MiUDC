@@ -12,11 +12,13 @@ export default async function HomePage() {
   const initTestimonies = await paginateTestimonies(3, 0);
 
   return (
-    <div>
-      <PostList
-        postType="QUESTION"
-        initPosts={initTestimonies}
-      />
+    <div className="flex justify-center">
+      <div className="w-svw sm:max-w-lg ">
+        <PostList
+          postType="QUESTION"
+          initPosts={initTestimonies}
+        />
+      </div>
     </div>
   );
 }

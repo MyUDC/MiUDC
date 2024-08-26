@@ -60,18 +60,17 @@ export default function Post({
   }
 
   return (
-    <div className="border-b pb-2 max-w-lg w-full bg-white border-gray-200">
+    <div className="border-b-2  pb-2 w-full border-gray-200">
       <div className="mt-10 xs:mt-4">
 
         {/* Post Header */}
         <div className=" mx-4 flex gap-4 mb-2">
-          <UserAvatar
+        <UserAvatar
             name={userName}
             photoUrl={userPhotoUrl}
             width={36}
             height={36}
           />
-
           <div>
             <div className="flex gap-1 items-center">
               <p className="text-sm font-medium">
