@@ -7,9 +7,10 @@ interface Props {
 }
 
 export const PostImages = ({ imageUrls }: Props) => {
-  if (!imageUrls) return;
   const [showImageView, setShowImageView] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  
+  if (!imageUrls) return;
 
   const handleImageOpen = (index: number) => {
     setImageIndex(index);
@@ -54,7 +55,7 @@ const PostImage = ({ src, handleClick }: PostImageProps) => {
       <Image
         src={src}
         alt="Image"
-        layout="fill"
+        fill
         objectFit="cover"
         className="rounded-md border"
         onClick={handleClick}

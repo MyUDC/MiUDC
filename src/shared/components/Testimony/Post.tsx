@@ -11,11 +11,7 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import UserAvatar from "@/features/user/components/UserAvatar";
 import Reactions from "../Reactions";
 import RelativeTime from "../RelativeTime";
-import SkeletonText from "../Skeletons/SkeletonText";
-import TestimonyImages from "./TestimonyImages";
 import { PostType } from '@prisma/client';
-import { title } from "process";
-import Image from "next/image";
 import { postTypeHumanized } from "@/app/(auth)/(no-app-bar))/career-forum/[careerSlug]/testimony/[testimonySlug]/page";
 import { PostImages } from "./PostImages";
 
@@ -64,7 +60,7 @@ export default function Post({
   }
 
   return (
-    <div className="max-w-lg w-full bg-white rounded-lg border-gray-200">
+    <div className="border-b pb-2 max-w-lg w-full bg-white border-gray-200">
       <div className="mt-10 xs:mt-4">
 
         {/* Post Header */}
@@ -102,7 +98,9 @@ export default function Post({
           {/* Post Title */}
           <div className="flex flex-col gap- mb-1">
             <div>
-              <p className="font-semibold break-words leading-5 text-gray-800">{postTitle}</p>
+              <Link href={`/career-forum/${careerSlug}/testimony/${postSlug}`}>
+                <p className="font-semibold break-words leading-5 text-gray-800">{postTitle}</p>
+              </Link>
             </div>
 
             {/* Post Career */}
@@ -117,8 +115,6 @@ export default function Post({
           <div className="pr-4">
             <p className="text-sm break-words leading-5 text-gray-700 mb-4">{content}</p>
           </div>
-
-
         </div>
         <PostImages imageUrls={imageUrls} />
         <Reactions heartCount={heartCount} commentCount={commentCount} />

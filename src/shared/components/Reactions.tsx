@@ -1,6 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
+import {
+  FaRegHeart,
+  FaRegComment,
+  FaRegBookmark
+} from "react-icons/fa";
 import SkeletonText from "@/shared/components/Skeletons/SkeletonText";
+import { TfiExport } from "react-icons/tfi";
+
 
 interface ReactionsProps {
   heartCount?: number;
@@ -12,9 +17,9 @@ export default function Reactions({
   commentCount,
 }: ReactionsProps) {
   return (
-    <div className="flex space-x-4 mt-4">
+    <div className="ml-[4.3rem] flex space-x-4 mt-2">
       <button className="flex items-center space-x-1 text-green">
-        <FontAwesomeIcon icon={faHeart} className="w-4 h-4" />
+        <FaRegHeart />
         <span className="text-black">
           {heartCount !== undefined ? (
             heartCount
@@ -24,7 +29,7 @@ export default function Reactions({
         </span>
       </button>
       <button className="flex items-center space-x-1 text-green">
-        <FontAwesomeIcon icon={faComment} className="w-4 h-4" />
+        <FaRegComment />
         <span className="text-black">
           {commentCount !== undefined ? (
             commentCount
@@ -34,7 +39,10 @@ export default function Reactions({
         </span>
       </button>
       <button title="share" className="flex items-center space-x-1 text-green">
-        <FontAwesomeIcon icon={faShare} className="w-4 h-4" />
+        <FaRegBookmark />
+      </button>
+      <button title="share" className="flex items-center space-x-1 text-green">
+        <TfiExport/>
       </button>
     </div>
   );
