@@ -15,7 +15,7 @@ export default async function HomePage() {
     <div className="flex justify-center">
       <div className="w-svw sm:max-w-lg ">
         <PostList
-          postType="QUESTION"
+          paginateHandler={(take: number, skip: number) => paginateTestimonies(take, skip)}
           initPosts={initTestimonies}
         />
       </div>

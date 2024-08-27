@@ -13,9 +13,9 @@ export const Loading = () => {
           />
           <div className="ml-16">
             <div className="mt-2">
-              <p className="text-gray-500">
+              <div className="text-gray-500">
                 <SkeletonText width="100px" height="1rem" />
-              </p>
+              </div>
             </div>
             <div className="text-gray-500 mt-2 font-semibold">
               <SkeletonText width="80px" height="1rem" />
