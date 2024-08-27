@@ -5,7 +5,7 @@ import Post from "@/shared/components/Testimony/Post";
 export default function Page() {
   return (
     <div className="flex flex-col items-center">
-      <Refresh/>
+      <Refresh />
       <Post
         userName="Roberto Pedragonosa"
         testimonySlug=""
@@ -24,9 +24,7 @@ export default function Page() {
         content="Mi experiencia por la licenciatura de Arquitectura fue bastante grata, ya que conocí grandes compañeros como maestros. Las materias te enseñan más de lo que crees."
         heartCount={12}
         repliesCount={4}
-        imageUrls={[
-          "/svgs/logo-full.svg",
-        ]}
+        imageUrls={["/svgs/logo-full.svg"]}
         createdAt={new Date()}
       />
       <Post
@@ -36,10 +34,7 @@ export default function Page() {
         content="Mi experiencia por la licenciatura de Arquitectura fue bastante grata, ya que conocí grandes compañeros como maestros. Las materias te enseñan más de lo que crees."
         heartCount={12}
         repliesCount={4}
-        imageUrls={[
-          "/svgs/logo-full.svg",
-          "/svgs/logo-inline.svg",
-        ]}
+        imageUrls={["/svgs/logo-full.svg", "/svgs/logo-inline.svg"]}
         createdAt={new Date()}
       />
       <Post
@@ -74,7 +69,6 @@ export default function Page() {
         ]}
         createdAt={new Date()}
       />
-
     </div>
   );
 }

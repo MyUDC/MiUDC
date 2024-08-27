@@ -1,11 +1,7 @@
 'use client';
 
-// ***[dependencies]***
-// react
 import { useState, useEffect, useRef, useCallback } from "react";
-// nextjs
 import Image from "next/image";
-// third-party
 import SwiperCore from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSpring, animated } from "@react-spring/web";
@@ -16,26 +12,25 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import "swiper/swiper-bundle.css";
 
 type ImageViewProps = {
   imageUrls: string[];
-  initialIndex: number;
+  initialIndex?: number;
   onClose: () => void;
 };
 
 export default function ImageView({
   imageUrls,
-  initialIndex,
+  initialIndex = 0,
   onClose,
 }: ImageViewProps) {
-  // ***[constants from hooks]***
-  // react
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isDragging, setIsDragging] = useState(false);
   const [dragMovement, setDragMovement] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  // third-party
+
   const [{ y }, api] = useSpring(() => ({ y: 0 }));
   const bind = useDrag(
     ({ down, movement: [, my], cancel }) => {
@@ -50,12 +45,11 @@ export default function ImageView({
     },
     { axis: "y", filterTaps: true }
   );
-  // own constants
+
   const opacity = isDragging
     ? 1 - Math.min(Math.abs(dragMovement) / 300, 1)
     : 1;
-  
-  // ***[functions]***
+
   const handlePrev = useCallback(() => {
     if (swiperInstance) {
       swiperInstance.slidePrev();
@@ -93,7 +87,6 @@ export default function ImageView({
     [onClose]
   );
 
-  // ***[effects]***
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => {
@@ -148,13 +141,13 @@ export default function ImageView({
           initialSlide={initialIndex}
           onSwiper={setSwiperInstance}
           onSlideChange={(swiper) => setCurrentIndex(swiper.activeIndex)}
-          className="w-full h-full z-0"
+          className="w-full h-full"
+          spaceBetween={0}
+          slidesPerView={1}
+          centeredSlides={true}
         >
           {imageUrls.map((url, index) => (
-            <SwiperSlide
-              key={index}
-              className="flex items-center justify-center"
-            >
+            <SwiperSlide key={index} className="flex items-center justify-center">
               <animated.div
                 {...bind()}
                 style={{ y, cursor: isDragging ? "grabbing" : "grab" }}
@@ -163,9 +156,9 @@ export default function ImageView({
                 <Image
                   src={url}
                   alt={`Image ${index}`}
-                  width={800}
-                  height={600}
-                  className="max-w-full max-h-full object-contain"
+                  layout="fill"
+                  objectFit="contain"
+                  className="max-w-full max-h-full"
                   style={{ opacity }}
                 />
               </animated.div>
