@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import ForumView from "@/features/career-forum/components/ForumView";
-import DetailsView from "@/features/career-forum/components/DetailsView";
+import ForumView from "@/features/career/components/ForumView";
+import DetailsView from "@/features/career/components/DetailsView";
 import SwitchButton from "@/shared/components/SwitchButton";
 import FavoritesButton from "@/shared/components/FavoritesButton";
 

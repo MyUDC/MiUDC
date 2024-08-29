@@ -13,7 +13,7 @@ interface Props {
   imageUrls: string[]
 }
 
-const CareerImage = ({ imageUrls }: Props) => {
+const CareerImages = ({ imageUrls }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showImageView, setShowImageView] = useState(false);
 
@@ -61,4 +61,4 @@ const CareerImage = ({ imageUrls }: Props) => {
   )
 }
 
-export default CareerImage;
+export default CareerImages;

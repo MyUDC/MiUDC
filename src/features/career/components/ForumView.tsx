@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import ExperiencesView from "@/features/career-forum/components/ForumElements/ExperiencesView";
-import AsksView from "@/features/career-forum/components/ForumElements/AsksView";
+import ExperiencesView from "@/features/career/components/ForumElements/ExperiencesView";
+import AsksView from "@/features/career/components/ForumElements/AsksView";
 
 export default function ForumView() {
   const [selectedTab, setSelectedTab] = useState<"experiencias" | "preguntas">(

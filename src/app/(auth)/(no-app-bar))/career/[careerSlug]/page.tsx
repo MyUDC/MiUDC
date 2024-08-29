@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
 
-import getCareerWithRelations from "@/features/career-forum/actions/getCareerWithRelations";
-import CareerImage from "@/features/career-forum/components/CareerImage/CareerImage";
-import { CareerTitle } from "@/features/career-forum/components/CareerTitle";
-import CareerContent from "@/features/career-forum/CareerContent";
+import getCareerWithRelations from "@/features/career/actions/getCareerWithRelations";
+import CareerImages from "@/features/career/components/CareerImages";
+import { CareerTitle } from "@/features/career/components/CareerTitle";
+import CareerContent from "@/features/career/CareerContent";
 import AddButton from "@/shared/components/AddButton";
 import paginateCareerPosts from "@/shared/actions/Post/PaginateCareerPost";
 import { useCareerStore } from "@/stores/useCareerStore";
-import DataInitializer from "@/features/career-forum/components/DataInitialaizer";
+import DataInitializer from "@/features/career/components/DataInitialaizer";
 
 interface Props {
   params: {
@@ -39,9 +39,7 @@ export default async function CareerForumView({ params }: Props) {
     <div className="max-w-2xl mx-auto pb-2">
         <DataInitializer initialTestimonies={initialTestimonies} initialQuestions={initialQuestions} careerId={career.id} />
         <div className="border border-gray-300 rounded-lg">
-          <CareerImage
-            imageUrls={imageUrls}
-          />
+          <CareerImages imageUrls={imageUrls}/>
           <div className="">
             <CareerTitle facultyName={career.faculty.name} careerName={career.name} />
             <CareerContent />
