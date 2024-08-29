@@ -12,8 +12,8 @@ import UserAvatar from "@/features/user/components/UserAvatar";
 import Reactions from "../Reactions";
 import RelativeTime from "../RelativeTime";
 import { PostType } from '@prisma/client';
-import { postTypeHumanized } from "@/app/(auth)/(no-app-bar))/career-forum/[careerSlug]/testimony/[testimonySlug]/page";
 import { PostImages } from "./PostImages";
+import postTypeHumanized from "@/utils/PostTypeHumanized";
 
 type Props = {
   postType: PostType;

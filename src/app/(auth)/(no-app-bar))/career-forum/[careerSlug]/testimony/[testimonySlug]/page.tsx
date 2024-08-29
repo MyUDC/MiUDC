@@ -5,17 +5,12 @@ import getPostBySlug from "@/shared/actions/Post/getPostBySlug";
 import Post from "@/shared/components/Testimony/Post";
 import BackButton from "@/shared/components/BackButton";
 import { CommentsList } from "@/shared/components/Comments/CommentsList/CommentsList";
+import postTypeHumanized from "@/utils/PostTypeHumanized";
 
 interface Props {
   params: {
     testimonySlug: string;
   }
-}
-
-export const postTypeHumanized = {
-  "TESTIMONY": "Testimonio",
-  "QUESTION": "Pregunta",
-  "REPLY": "Respuesta"
 }
 
 export default async function TestimonyPage({ params }: Props) {
