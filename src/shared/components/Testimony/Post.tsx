@@ -56,7 +56,7 @@ export default function Post({
   }, []);
 
   const handleTestimonyClick = () => {
-    router.push(`/career-forum/${careerSlug}/testimony/${postSlug}`)
+    router.push(`/career/${careerSlug}/testimony/${postSlug}`)
   }
 
   return (

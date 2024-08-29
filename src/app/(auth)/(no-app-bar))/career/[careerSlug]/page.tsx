@@ -15,6 +15,12 @@ interface Props {
   }
 }
 
+const imageUrls = [
+  '/telematica.jpg',
+  'https://res.cloudinary.com/dxdme71no/image/upload/v1722901389/hufhpfqpgmwr4p5kj1ja.jpg',
+  '/telematica.jpg',
+]
+
 export default async function CareerForumView({ params }: Props) {
   const slug = params.careerSlug;
   const career = await getCareerWithRelations(slug);
@@ -28,14 +34,13 @@ export default async function CareerForumView({ params }: Props) {
     initialTestimonies,
     initialQuestions
   })
-  
 
   return (
     <div className="max-w-2xl mx-auto pb-2">
         <DataInitializer initialTestimonies={initialTestimonies} initialQuestions={initialQuestions} careerId={career.id} />
         <div className="border border-gray-300 rounded-lg">
           <CareerImage
-            src="/telematica.jpg"
+            imageUrls={imageUrls}
           />
           <div className="">
             <CareerTitle facultyName={career.faculty.name} careerName={career.name} />
