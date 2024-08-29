@@ -1,5 +1,7 @@
-import paginateTestimonies from "@/shared/actions/Testimony/paginatePosts";
-import { TestimoniesList } from "@/shared/components/Testimony/TestimoniesList/TestimoniesList";
+import { PostListWraper } from "@/features/home/components/PostListWraper";
+import paginatePosts from "@/shared/actions/Post/paginatePosts";
+import paginateTestimonies from "@/shared/actions/Post/paginatePosts";
+import { PostList } from "@/shared/components/Testimony/PostList/PostList";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,13 +11,11 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
 
-  const initTestimonies = await paginateTestimonies(3, 0);
+  const initPosts = await paginatePosts(4, 0)
 
   return (
-    <div>
-      <TestimoniesList
-        initTestimonies={initTestimonies}
-      />
+    <div className="flex justify-center">
+      <PostListWraper initPosts={initPosts}/>
     </div>
   );
 }
