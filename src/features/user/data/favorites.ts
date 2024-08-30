@@ -1,5 +1,4 @@
-// src\features\user\data\interests.ts
-interface Interests {
+interface Favorites {
   title: string;
   location: string;
   imageUrl: string;
@@ -7,7 +6,7 @@ interface Interests {
   category: string; // Nueva propiedad
 }
 
-const interests: Interests[] = [
+const favorites: Favorites[] = [
   {
     title: "Licenciatura en Mercadotecnia",
     location: "Campus central",
@@ -31,4 +30,4 @@ const interests: Interests[] = [
   },
 ];
 
-export default interests;
+export default favorites;

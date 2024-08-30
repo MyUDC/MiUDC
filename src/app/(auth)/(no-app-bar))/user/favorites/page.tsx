@@ -1,11 +1,10 @@
 "use client";
 
-// src\app\(auth)\(no-app-bar)\user\interests\page.tsx
 import { useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import Link from "next/link";
-import interests from "@/features/user/data/interests";
-import InterestCard from "@/shared/components/InterestCard";
+import favorites from "@/features/user/data/favorites";
+import FavoritesCard from "@/shared/components/FavoritesCard";
 import Tabs from "@/shared/components/Tabs";
 
 export default function Favorites() {
@@ -17,13 +16,13 @@ export default function Favorites() {
     { label: "Ingenierías", value: "ingenierias" },
   ];
 
-  // Filtrar los intereses según la tab activa
-  const filteredInterests = interests.filter((interest) => {
+  // Filtrar los favoritos según la tab activa
+  const filteredFavorites = favorites.filter((favorite) => {
     if (activeTab === "todo") return true;
     if (activeTab === "licenciaturas")
-      return interest.title.includes("Licenciatura");
+      return favorite.title.includes("Licenciatura");
     if (activeTab === "ingenierias")
-      return interest.title.includes("Ingeniería");
+      return favorite.title.includes("Ingeniería");
     return false;
   });
 
@@ -40,10 +39,10 @@ export default function Favorites() {
         <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 
         {/* Contenido de la página */}
-        {filteredInterests.length > 0 ? (
+        {filteredFavorites.length > 0 ? (
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-2">
-            {filteredInterests.map((interest, index) => (
-              <InterestCard key={index} {...interest} />
+            {filteredFavorites.map((favorite, index) => (
+              <FavoritesCard key={index} {...favorite} />
             ))}
           </div>
         ) : (

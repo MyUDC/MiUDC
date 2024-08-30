@@ -1,24 +1,22 @@
-// src\shared\components\InterestCard.tsx
-
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 
-interface InterestCardProps {
+interface FavoritesCardProps {
   title: string;
   location: string;
   imageUrl: string;
   notifications: number;
 }
 
-export default function InterestCard({
+export default function FavoritesCard({
   title,
   location,
   imageUrl,
   notifications,
-}: InterestCardProps) {
+}: FavoritesCardProps) {
   return (
-    <div className="pt-2 pb-4 max-w-[750px]">
+    <div className="pt-2 pb-4 max-w-[750px] min-w-[250px]">
       <div className="flex flex-col mb-4 rounded-lg overflow-hidden shadow-md relative bg-white">
         <div className="relative w-full h-40">
           <Image
