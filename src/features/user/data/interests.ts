@@ -1,28 +1,33 @@
+// src\features\user\data\interests.ts
 interface Interests {
   title: string;
   location: string;
   imageUrl: string;
   notifications: number;
+  category: string; // Nueva propiedad
 }
 
 const interests: Interests[] = [
   {
-    title: "Mercadotecnia",
+    title: "Licenciatura en Mercadotecnia",
     location: "Campus central",
-    imageUrl: "/svgs/logo-full.svg",
+    imageUrl: "/telematica.jpg",
     notifications: 3,
+    category: "licenciaturas",
   },
   {
     title: "Arquitectura",
     location: "FIME",
-    imageUrl: "/svgs/logo-full.svg",
+    imageUrl: "/telematica.jpg",
     notifications: 2,
+    category: "licenciaturas",
   },
   {
     title: "Ingeniería de Software",
     location: "Telemática",
-    imageUrl: "/svgs/logo-full.svg",
+    imageUrl: "/telematica.jpg",
     notifications: 0,
+    category: "ingenierias",
   },
 ];
 
