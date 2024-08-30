@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-
-import Testimonios from "../views/Testimonios";
-import Preguntas from "../views/Preguntas";
-import Likes from "../views/Likes";
-import Guardados from "../views/Guardados";
+import Testimonios from "@/app/(auth)/(no-app-bar))/user/testimonials/page";
+import Preguntas from "@/app/(auth)/(no-app-bar))/user/questions/page";
+import Likes from "@/app/(auth)/(no-app-bar))/user/likes/page";
+import Guardados from "@/app/(auth)/(no-app-bar))/user/saved-items/page";
 
 const tabs = [
   { id: "testimonios", label: "Testimonios", component: Testimonios },
