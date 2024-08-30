@@ -56,11 +56,7 @@ interface Props {
   };
 }
 
-export default function NamePage({params}: Props) {
-  console.log(params.careerSlug);
-  
-
-  return (
-    <div>sss</div>
-  )
+export default function NamePage({ params }: Props) {
+  const {careerSlug} = params
+  redirect(`/career/${careerSlug}/forum`);
 }

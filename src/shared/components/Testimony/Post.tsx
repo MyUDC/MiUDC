@@ -97,14 +97,14 @@ export default function Post({
           {/* Post Title */}
           <div className="flex flex-col gap- mb-1">
             <div>
-              <Link href={`/career-forum/${careerSlug}/testimony/${postSlug}`}>
+              <Link href={`/career/${careerSlug}/testimony/${postSlug}`}>
                 <p className="font-semibold break-words leading-5 text-gray-800">{postTitle}</p>
               </Link>
             </div>
 
             {/* Post Career */}
             <div className="text-gray-500 text-xs">
-              <Link href={`/career-forum/${careerSlug}`}>
+              <Link href={`/career/${careerSlug}`}>
                 {careerName}
               </Link>
             </div>
