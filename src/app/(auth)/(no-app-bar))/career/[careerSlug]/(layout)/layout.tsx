@@ -1,13 +1,10 @@
+import { notFound } from "next/navigation";
+
 import getCareerWithRelations from "@/features/career/actions/getCareerWithRelations";
 import ForumDetailsTabs from "@/features/career/components/ForumDetailsTabs";
 import CareerImages from "@/features/career/components/CareerImages";
-import { CareerTitle } from "@/features/career/components/CareerTitle";
-import DataInitializer from "@/features/career/components/DataInitialaizer";
-import paginateCareerPosts from "@/shared/actions/Post/PaginateCareerPost";
 import AddButton from "@/shared/components/AddButton";
-import { useCareerStore } from "@/stores/useCareerStore";
-import { notFound } from "next/navigation";
-import React from "react";
+import { CareerTitle } from "@/features/career/components/CareerTitle";
 
 export const metadata = {
   title: 'SEO Title',
@@ -33,20 +30,10 @@ export default async function CareerLayout({ children, params }: Props) {
   const career = await getCareerWithRelations(slug);
   if (!career) notFound();
 
-  const initialTestimonies = await paginateCareerPosts(4, 0, career.id, "TESTIMONY");
-  const initialQuestions = await paginateCareerPosts(4, 0, career.id, "QUESTION");
-
-  useCareerStore.setState({
-    careerId: career.id,
-    initialTestimonies,
-    initialQuestions
-  })
-
   const path = `/career/${slug}`
 
   return (
     <div className="max-w-2xl mx-auto pb-2">
-      <DataInitializer initialTestimonies={initialTestimonies} initialQuestions={initialQuestions} careerId={career.id} />
       <div className="border border-gray-300 rounded-lg">
         <CareerImages imageUrls={imageUrls} />
         <CareerTitle facultyName={career.faculty.name} careerName={career.name} />
