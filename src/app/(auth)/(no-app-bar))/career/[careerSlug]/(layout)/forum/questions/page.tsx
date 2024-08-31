@@ -15,7 +15,7 @@ interface Props {
   }
 }
 
-export default async function ({ params }: Props) {
+export default async function ForumQuestionsPage ({ params }: Props) {
   const { careerSlug } = params;
   const career = await getCareerWithRelations(careerSlug);
 

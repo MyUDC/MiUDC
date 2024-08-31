@@ -7,7 +7,7 @@ interface Props {
   }
 }
 
-export default async function CareerLayout({ children, params }: Props) {
+export default async function CareerForumLayout({ children, params }: Props) {
   const { careerSlug } = params;
 
   const tabs = [

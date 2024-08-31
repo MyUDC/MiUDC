@@ -6,8 +6,7 @@ interface Props {
   }
 }
 
-// todo redirecct to forum page
-export default function ({ params }: Props) {
+export default function CareerForumPage ({ params }: Props) {
   const { careerSlug } = params;
 
   redirect(`/career/${careerSlug}/forum/testimonies`);
