@@ -1,8 +1,14 @@
+import { redirect } from "next/navigation";
 
-export default function NamePage() {
-  return (
-    <div>
-      <h1>Hello Page</h1>
-    </div>
-  );
+interface Props {
+  params: {
+    careerSlug: string;
+  }
+}
+
+// todo redirecct to forum page
+export default function ({ params }: Props) {
+  const { careerSlug } = params;
+
+  redirect(`/career/${careerSlug}/forum/testimonies`);
 }

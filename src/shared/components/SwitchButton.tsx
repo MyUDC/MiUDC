@@ -4,8 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
-
-
 interface SwitchButtonProps {
   itemLeft: item;
   itemRight: item;
@@ -24,7 +22,7 @@ export default function SwitchButton({ itemLeft, itemRight }: SwitchButtonProps)
       className="flex items-center w-44 p-1 bg-smoothGreen rounded-full cursor-pointer select-none"
     >
       {[itemLeft, itemRight].map((item, index) => {
-        const isActive = currentPath === item.path;
+        const isActive = currentPath.includes(item.path);
         
         return (
           <Link
