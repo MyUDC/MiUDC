@@ -27,12 +27,14 @@ export default async function CareerLayout({ children, params }: Props) {
       path: `/career/${careerSlug}/forum/questions`
     },
   ]
-  
+
 
   return (
-    <div className="">
-      <ForumTabs tabs={tabs}/>
-      {children}
+    <div>
+      <ForumTabs tabs={tabs} />
+      <div>
+        {children}
+      </div>
     </div>
   )
 }

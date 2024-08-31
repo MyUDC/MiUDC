@@ -65,7 +65,7 @@ export default function Post({
 
         {/* Post Header */}
         <div className=" mx-4 flex gap-4 mb-2">
-        <UserAvatar
+          <UserAvatar
             name={userName}
             photoUrl={userPhotoUrl}
             width={36}
@@ -112,7 +112,9 @@ export default function Post({
 
           {/* Post Content */}
           <div className="pr-4">
-            <p className="text-sm break-words leading-5 text-gray-700 mb-4">{content}</p>
+            <Link href={`/career/${careerSlug}/testimony/${postSlug}`}>
+              <p className="text-sm break-words leading-5 text-gray-700 mb-4">{content}</p>
+            </Link>
           </div>
         </div>
         <PostImages imageUrls={imageUrls} />
