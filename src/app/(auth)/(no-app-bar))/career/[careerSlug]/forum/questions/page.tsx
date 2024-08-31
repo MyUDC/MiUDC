@@ -1,7 +1,28 @@
-export default function QuestionsPage() {
+import getCareerWithRelations from "@/features/career/actions/getCareerWithRelations";
+import paginateCareerPosts from "@/shared/actions/Post/PaginateCareerPost";
+import { PostList } from "@/shared/components/Testimony/PostList/PostList";
+
+interface Props {
+  params: {
+    careerSlug: string;
+  }
+}
+
+export default async function ({ params }: Props) {
+  const { careerSlug } = params;
+  const career = await getCareerWithRelations(careerSlug);
+
+  const initQuestions = await paginateCareerPosts(4, 0, career?.id!, 'QUESTION');
+
   return (
     <div>
-      <h1>Hello Page Questions</h1>
+      <PostList
+        initPosts={initQuestions}
+        paginateHandler={async (take: number, skip: number) => {
+          'use server';
+          return await paginateCareerPosts(take, skip, career?.id!, 'QUESTION');
+        }}
+      />
     </div>
   );
 }
