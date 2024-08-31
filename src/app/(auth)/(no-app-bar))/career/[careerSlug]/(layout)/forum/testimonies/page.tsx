@@ -23,13 +23,22 @@ export default async function ({ params }: Props) {
 
   return (
     <div>
-      <PostList
-        initPosts={initTestimonies}
-        paginateHandler={async (take: number, skip: number) => {
-          'use server';
-          return await paginateCareerPosts(take, skip, career?.id!, 'QUESTION');
-        }}
-      />
-    </div>
+    {initTestimonies.length === 0
+      ? (
+        <div className="flex justify-center items-center h-96">
+          <h1 className="text-2xl text-gray-500">No hay testimonios</h1>
+        </div>
+      )
+      : (
+        <PostList
+          initPosts={initTestimonies}
+          paginateHandler={async (take: number, skip: number) => {
+            'use server';
+            return await paginateCareerPosts(take, skip, career?.id!, 'QUESTION');
+          }}
+        />
+      )
+    }
+  </div>
   );
 }
