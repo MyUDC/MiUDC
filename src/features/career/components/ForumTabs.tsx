@@ -23,6 +23,7 @@ export const ForumTabs = ({tabs}: Props) => {
         
         return (
           <Link
+            key={item.text}
             href={item.path}
             className={clsx('text-center flex-1 py-2 border-b-2 transition-all duration-300 text-lg',
               {

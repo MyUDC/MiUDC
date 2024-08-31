@@ -56,8 +56,7 @@ const PostImage = ({ src, handleClick }: PostImageProps) => {
         src={src}
         alt="Image"
         fill
-        objectFit="cover"
-        className="rounded-md border"
+        className="rounded-md border object-cover"
         onClick={handleClick}
       />
     </div>

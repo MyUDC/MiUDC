@@ -45,7 +45,8 @@ const CareerImages = ({ imageUrls }: Props) => {
               src={imageUrl}
               alt={`Image ${index}`}
               fill
-              objectFit="cover"
+              priority
+              className="object-cover h-full"
             />
           </SwiperSlide>
         ))}
