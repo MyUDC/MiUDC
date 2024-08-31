@@ -13,13 +13,15 @@ export default async function HomePage() {
 
   return (
     <div className="flex justify-center">
-      <PostList
-        initPosts={initPosts}
-        paginateHandler={async (take: number, skip: number) => {
-          'use server';
-          return await paginatePosts(take, skip);
-        }}
-      />
+      <div className="w-svw sm:max-w-lg ">
+        <PostList
+          initPosts={initPosts}
+          paginateHandler={async (take: number, skip: number) => {
+            'use server';
+            return await paginatePosts(take, skip);
+          }}
+        />
+      </div>
     </div>
   );
 }

@@ -36,7 +36,7 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
         // pullDownToRefreshContent={<Refresh />}
         // releaseToRefreshContent={<ReleaseRefresh />}
         // pullDownToRefreshThreshold={100}
-        loader={<p>sasassssssssss</p>}
+        loader={<Loading />}
         endMessage={<EndMessage />}
         // refreshFunction={async () => {
         //   setTestimonies(await paginateHandler(4, 0));
