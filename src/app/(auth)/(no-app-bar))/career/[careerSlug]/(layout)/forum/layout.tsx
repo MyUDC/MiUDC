@@ -23,7 +23,9 @@ export default async function CareerForumLayout({ children, params }: Props) {
 
   return (
     <div>
-      <ForumTabs tabs={tabs} />
+      <div className="sticky z-50 top-0">
+        <ForumTabs tabs={tabs} />
+      </div>
       <div>
         {children}
       </div>
