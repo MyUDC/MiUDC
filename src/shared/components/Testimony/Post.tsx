@@ -55,9 +55,7 @@ export default function Post({
     return () => clearInterval(interval);
   }, []);
 
-  const handleTestimonyClick = () => {
-    router.push(`/career/${careerSlug}/testimony/${postSlug}`)
-  }
+  const postUrl = `/career/${careerSlug}/post/${postSlug}`;
 
   return (
     <div className="border-b-2  pb-2 w-full border-gray-200">
@@ -97,7 +95,7 @@ export default function Post({
           {/* Post Title */}
           <div className="flex flex-col gap- mb-1">
             <div>
-              <Link href={`/career/${careerSlug}/testimony/${postSlug}`}>
+              <Link href={postUrl}>
                 <p className="font-semibold break-words leading-5 text-gray-800">{postTitle}</p>
               </Link>
             </div>
@@ -112,7 +110,7 @@ export default function Post({
 
           {/* Post Content */}
           <div className="pr-4">
-            <Link href={`/career/${careerSlug}/testimony/${postSlug}`}>
+            <Link href={postUrl}>
               <p className="text-sm break-words leading-5 text-gray-700 mb-4">{content}</p>
             </Link>
           </div>
