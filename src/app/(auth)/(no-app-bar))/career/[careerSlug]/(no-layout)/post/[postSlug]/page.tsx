@@ -19,7 +19,7 @@ interface Props {
   }
 }
 
-export default async function ({ params }: Props) {
+export default async function PostPage ({ params }: Props) {
   const slug = params.postSlug;
   const post = await getPostBySlug(slug);
   if (!post) notFound();
