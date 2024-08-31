@@ -1,18 +1,11 @@
 import { ForumTabs } from "@/features/career/components/ForumTabs";
 
-export const metadata = {
-  title: 'SEO Title',
-  description: 'SEO Title',
-};
-
 interface Props {
   children: React.ReactNode;
   params: {
     careerSlug: string;
   }
 }
-
-
 
 export default async function CareerLayout({ children, params }: Props) {
   const { careerSlug } = params;
@@ -27,7 +20,6 @@ export default async function CareerLayout({ children, params }: Props) {
       path: `/career/${careerSlug}/forum/questions`
     },
   ]
-
 
   return (
     <div>

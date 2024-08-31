@@ -3,7 +3,7 @@ import { PostList } from "@/shared/components/Testimony/PostList/PostList";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Home Page",
+  title: "MiUDC | Home",
   description: "Home page",
 };
 

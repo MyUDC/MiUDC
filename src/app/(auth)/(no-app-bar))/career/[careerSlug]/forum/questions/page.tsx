@@ -1,6 +1,13 @@
+import { Metadata } from "next";
+
 import getCareerWithRelations from "@/features/career/actions/getCareerWithRelations";
 import paginateCareerPosts from "@/shared/actions/Post/PaginateCareerPost";
 import { PostList } from "@/shared/components/Testimony/PostList/PostList";
+
+export const metadata: Metadata = {
+  title: 'Career Questions | MiUDC',
+  description: 'All the questions of the career',
+};
 
 interface Props {
   params: {
