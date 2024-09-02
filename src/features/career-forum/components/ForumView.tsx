@@ -40,18 +40,18 @@ export default function ForumView() {
           Preguntas
         </button>
       </div>
-      <div className="mt-6 h-[400px]">
+      <div className="mt-">
         <Swiper
           onSlideChange={(swiper) => {
             const activeIndex = swiper.activeIndex;
             setSelectedTab(activeIndex === 0 ? "experiencias" : "preguntas");
           }}
-          allowTouchMove={true}
+          allowTouchMove={false}
           onSwiper={(swiper) => (swiperRef.current = swiper)} // Guardar la referencia del swiper
-          className="h-full"
+          className="w-full bg-red-5"
         >
           <SwiperSlide>
-            <div className="flex justify-center items-center h-full">
+            <div className="flex items-center">
               <ExperiencesView />
             </div>
           </SwiperSlide>
