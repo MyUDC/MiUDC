@@ -8,10 +8,11 @@ interface Props {
   };
 }
 
-export default async function UserQuestionsPage({params}: Props) {
+export default async function UserRepliesPage({params}: Props) {
   const { username } = params;
   const user = await getUserByUsername(username);
-  const initPosts = await paginatePostByUser(4, 0, user!.id, 'TESTIMONY');
+
+  const initPosts = await paginatePostByUser(4, 0, user!.id, 'REPLY');
 
   return (
     <div className="flex justify-center">
@@ -20,7 +21,7 @@ export default async function UserQuestionsPage({params}: Props) {
           initPosts={initPosts}
           paginateHandler={async (take: number, skip: number) => {
             'use server';
-            return await paginatePostByUser(take, skip, user!.id, 'TESTIMONY');
+            return await paginatePostByUser(take, skip, user!.id, 'REPLY');
           }}
         />
       </div>
