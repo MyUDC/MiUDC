@@ -30,9 +30,9 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
         // pullDownToRefreshThreshold={100}
         loader={<Loading />}
         endMessage={<EndMessage />}
-        refreshFunction={async () => {
-          setTestimonies(await paginateHandler(4, 0));
-        }}
+        // refreshFunction={async () => {
+        //   setTestimonies(await paginateHandler(4, 0));
+        // }}
         next={async () => {
           const newTestimonies = await paginateHandler(4, testimonies.length)
           if (!newTestimonies.length) setHasMore(false);

@@ -4,7 +4,7 @@ import SkeletonText from '../../Skeletons/SkeletonText'
 export const Loading = () => {
   return (
     <div>
-      <div className="h-[155px] overflow-hidden max-w-lg bg-white rounded-t-lg p-4  relative border border-gray-200">
+      <div className="h-[155px] overflow-hidden  bg-white rounded-t-lg p-4  relative border border-gray-200">
         <div className="mt-10 xs:mt-4">
           <UserAvatar
             width={48}

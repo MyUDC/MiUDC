@@ -6,7 +6,7 @@ import { PostType } from "@prisma/client";
 export default async function paginateCareerPosts(take: number, skip: number, careerId: string, postType: PostType) {
   const testimonies = await prisma.post.findMany({
     where: {
-      // careerId,
+      careerId,
       type: postType
     },
     include: {
