@@ -1,35 +1,39 @@
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FaUser } from "react-icons/fa";
 
 interface ProfileButtonProps {
-  href: string;
   label: string;
+  isSelected: boolean;
+  onClick: () => void;
+  description: string; // Make description required
 }
 
-export default function ProfileButton({ href, label }: ProfileButtonProps) {
+export default function ProfileButton({
+  label,
+  isSelected,
+  onClick,
+  description,
+}: ProfileButtonProps) {
   const colors = {
-    Egresado: {
-      bgColor: "bg-smoothGreen",
-      iconColor: "text-green",
+    Estudiante: {
+      bgColor: isSelected ? "bg-green" : "bg-smoothGreen",
+      iconColor: isSelected ? "text-white" : "text-green",
+      textColor: isSelected ? "text-white" : "text-green",
     },
     Aspirante: {
-      bgColor: "bg-smoothYellow",
-      iconColor: "text-yellow",
+      bgColor: isSelected ? "bg-yellow" : "bg-smoothYellow",
+      iconColor: isSelected ? "text-white" : "text-yellow",
+      textColor: isSelected ? "text-white" : "text-yellow",
     },
   }[label];
 
   return (
-    <Link href={href}>
-      <div
-        className={`gap-2 font-semibold text-primary text-center py-4 px-6 rounded-xl flex flex-col ${colors?.bgColor}`}
-      >
-        <FontAwesomeIcon
-          icon={faUser}
-          className={`${colors?.iconColor} text-4xl`}
-        />
-        <h2 className={colors?.iconColor}>{label}</h2>
-      </div>
-    </Link>
+    <div
+      className={`flex flex-col items-center gap-4 font-semibold text-left py-6 px-8 rounded-xl cursor-pointer ${colors.bgColor} w-full max-w-xs`} // Set max width
+      onClick={onClick}
+    >
+      <FaUser className={`text-8xl ${colors.iconColor}`} />
+      <h2 className={`text-base ${colors.textColor}`}>{label}</h2>
+      <p className={`text-sm ${colors.textColor}`}>{description}</p>
+    </div>
   );
 }
