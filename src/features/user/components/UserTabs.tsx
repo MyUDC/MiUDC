@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Testimonios from "@/app/(auth)/(no-app-bar))/user/testimonials/page";
-import Preguntas from "@/app/(auth)/(no-app-bar))/user/[email]/questions/page";
-import Likes from "@/app/(auth)/(no-app-bar))/user/[email]/likes/page";
-import Guardados from "@/app/(auth)/(no-app-bar))/user/[email]/saved-items/page";
+import Preguntas from "@/app/(auth)/(no-app-bar))/user/[username]/questions/page";
+import Likes from "@/app/(auth)/(no-app-bar))/user/[username]/likes/page";
+import Guardados from "@/app/(auth)/(no-app-bar))/user/[username]/saved-items/page";
 
 const tabs = [
   { id: "testimonios", label: "Testimonios", component: Testimonios },

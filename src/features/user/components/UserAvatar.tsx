@@ -6,6 +6,7 @@ import Link from "next/link";
 
 interface UserAvatarProps {
   name?: string;
+  username?: string;
   photoUrl?: string;
   width?: number;
   height?: number;
@@ -16,13 +17,14 @@ interface UserAvatarProps {
 export default function UserAvatar({
   name,
   photoUrl,
+  username,
   width = 48,
   height = 48,
   textColor = "text-black",
   showName = false,
 }: UserAvatarProps) {
   return (
-    <Link href="/user" className="flex items-center gap-4">
+    <Link href={`/user/${username}`} className="flex items-center gap-4">
       {photoUrl ? (
         <Image
           src={photoUrl}

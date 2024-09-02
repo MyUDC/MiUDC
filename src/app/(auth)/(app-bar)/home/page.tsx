@@ -1,7 +1,5 @@
 import { PostListWraper } from "@/features/home/components/PostListWraper";
 import paginatePosts from "@/shared/actions/Post/paginatePosts";
-import paginateTestimonies from "@/shared/actions/Post/paginatePosts";
-import { PostList } from "@/shared/components/Testimony/PostList/PostList";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

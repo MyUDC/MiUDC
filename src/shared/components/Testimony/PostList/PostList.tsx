@@ -1,16 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import { PostWithRelations } from "@/shared/types/PostWithRelations";
-import paginateTestimony from "@/shared/actions/Post/paginatePosts";
-import { Loading } from "./Loading";
 import { EndMessage } from "./EndMessage";
 import { Refresh } from "./Refresh";
 import { ReleaseRefresh } from "./ReleaseRefresh";
-import { useRouter } from "next/navigation";
 import Post from "../Post";
+import { Loading } from "./Loading";
 
 interface Props {
   paginateHandler: (take: number, skip: number) => Promise<PostWithRelations[]>;
@@ -18,25 +16,19 @@ interface Props {
 }
 
 export const PostList = ({ initPosts, paginateHandler }: Props) => {
-  const router = useRouter();
 
   const [testimonies, setTestimonies] = useState<PostWithRelations[]>(initPosts)
   const [hasMore, setHasMore] = useState(true);
-
-  // useEffect(() => {
-  //   console.log(testimonies);
-  // }, [testimonies])
-  
 
   return (
       <InfiniteScroll
         hasMore={hasMore}
         dataLength={testimonies.length}
-        pullDownToRefresh
-        pullDownToRefreshContent={<Refresh />}
-        releaseToRefreshContent={<ReleaseRefresh />}
-        pullDownToRefreshThreshold={100}
-        loader={<p>sasassssssssss</p>}
+        // pullDownToRefresh
+        // pullDownToRefreshContent={<Refresh />}
+        // releaseToRefreshContent={<ReleaseRefresh />}
+        // pullDownToRefreshThreshold={100}
+        loader={<Loading />}
         endMessage={<EndMessage />}
         refreshFunction={async () => {
           setTestimonies(await paginateHandler(4, 0));
@@ -56,7 +48,8 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
               postTitle={post.title}
               content={post.content}
               userPhotoUrl={post.author.image ?? ""}
-              userName={post.author.name ?? "no name"}
+              userName={post.author.username ?? "no name"}
+              email={post.author.username}
               careerName={post.career.name}
               careerSlug={post.career.slug}
               repliesCount={post._count.children}

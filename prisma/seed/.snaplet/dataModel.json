@@ -1551,6 +1551,20 @@
           "maxLength": null
         },
         {
+          "id": "public.User.username",
+          "name": "username",
+          "columnName": "username",
+          "type": "text",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
           "name": "Account",
           "type": "Account",
           "isRequired": false,
@@ -1647,6 +1661,13 @@
           "name": "User_email_key",
           "fields": [
             "email"
+          ],
+          "nullNotDistinct": false
+        },
+        {
+          "name": "User_username_key",
+          "fields": [
+            "username"
           ],
           "nullNotDistinct": false
         }

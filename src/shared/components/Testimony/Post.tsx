@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import { useState, useEffect } from "react";
 
@@ -21,6 +20,7 @@ type Props = {
   postSlug: string;
   userPhotoUrl?: string;
   userName?: string;
+  email?: string;
   content?: string;
   careerSlug: string;
   careerName: string;
@@ -44,7 +44,6 @@ export default function Post({
   imageUrls,
   createdAt,
 }: Props) {
-  const router = useRouter();
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
 
   useEffect(() => {
@@ -54,10 +53,6 @@ export default function Post({
 
     return () => clearInterval(interval);
   }, []);
-
-  const handleTestimonyClick = () => {
-    router.push(`/career-forum/${careerSlug}/testimony/${postSlug}`)
-  }
 
   return (
     <div className="border-b-2  pb-2 w-full border-gray-200">
@@ -70,6 +65,7 @@ export default function Post({
             photoUrl={userPhotoUrl}
             width={36}
             height={36}
+            username={userName}
           />
           <div>
             <div className="flex gap-1 items-center">
