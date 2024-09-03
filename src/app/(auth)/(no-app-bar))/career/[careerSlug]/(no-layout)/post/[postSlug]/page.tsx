@@ -5,21 +5,22 @@ import getPostBySlug from "@/shared/actions/Post/getPostBySlug";
 import Post from "@/shared/components/Testimony/Post";
 import BackButton from "@/shared/components/BackButton";
 import { CommentsList } from "@/shared/components/Comments/CommentsList/CommentsList";
+import postTypeHumanized from "@/utils/PostTypeHumanized";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Post | MiUDC',
+  description: 'Post details',
+};
 
 interface Props {
   params: {
-    testimonySlug: string;
+    postSlug: string;
   }
 }
 
-export const postTypeHumanized = {
-  "TESTIMONY": "Testimonio",
-  "QUESTION": "Pregunta",
-  "REPLY": "Respuesta"
-}
-
-export default async function TestimonyPage({ params }: Props) {
-  const slug = params.testimonySlug;
+export default async function PostPage ({ params }: Props) {
+  const slug = params.postSlug;
   const post = await getPostBySlug(slug);
   if (!post) notFound();
 

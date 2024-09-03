@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import { PostWithRelations } from "@/shared/types/PostWithRelations";
@@ -9,38 +9,40 @@ import { Loading } from "./Loading";
 import { EndMessage } from "./EndMessage";
 import { Refresh } from "./Refresh";
 import { ReleaseRefresh } from "./ReleaseRefresh";
-import { PostType } from "@prisma/client";
-import Post from '../Post';
 import { useRouter } from "next/navigation";
+import Post from "../Post";
 
 interface Props {
-  postType: PostType;
+  paginateHandler: (take: number, skip: number) => Promise<PostWithRelations[]>;
   initPosts: PostWithRelations[];
 }
 
-export const PostList = ({ initPosts, postType }: Props) => {
+export const PostList = ({ initPosts, paginateHandler }: Props) => {
   const router = useRouter();
 
-  const [testimonies, setTestimonies] = useState(initPosts)
+  const [testimonies, setTestimonies] = useState<PostWithRelations[]>(initPosts)
   const [hasMore, setHasMore] = useState(true);
 
-  const post = testimonies[0]
+  // useEffect(() => {
+  //   console.log(testimonies);
+  // }, [testimonies])
+  
 
   return (
       <InfiniteScroll
         hasMore={hasMore}
         dataLength={testimonies.length}
-        pullDownToRefresh
-        pullDownToRefreshContent={<Refresh />}
-        releaseToRefreshContent={<ReleaseRefresh />}
-        pullDownToRefreshThreshold={100}
+        // pullDownToRefresh
+        // pullDownToRefreshContent={<Refresh />}
+        // releaseToRefreshContent={<ReleaseRefresh />}
+        // pullDownToRefreshThreshold={100}
         loader={<Loading />}
         endMessage={<EndMessage />}
-        refreshFunction={async () => {
-          setTestimonies(await paginateTestimony(3, 0));
-        }}
+        // refreshFunction={async () => {
+        //   setTestimonies(await paginateHandler(4, 0));
+        // }}
         next={async () => {
-          const newTestimonies = await paginateTestimony(3, testimonies.length)
+          const newTestimonies = await paginateHandler(4, testimonies.length)
           if (!newTestimonies.length) setHasMore(false);
           setTestimonies(testimonies.concat(...newTestimonies));
         }}
