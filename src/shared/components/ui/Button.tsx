@@ -14,7 +14,7 @@ interface ButtonProps {
 }
 
 const flexClasses = {
-  forgetGreen: "justify-start", // Aligns the button to the right
+  forgetGreen: "justify-start",
   default: "justify-center",
   green: "justify-center",
   link: "justify-center",
@@ -42,6 +42,7 @@ export default function Button({
     <div className={`flex ${flexClasses[variant]} ${mobileWidth}`}>
       <Link
         className={`font-semibold rounded-full ${variantClasses[variant]}`}
+        className={`font-semibold ${variantClasses[variant]}`}
         href={path}
         {...rest}
       >

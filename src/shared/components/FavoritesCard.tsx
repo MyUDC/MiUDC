@@ -1,31 +1,29 @@
-// src/components/InterestCard.tsx
-
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 
-interface InterestCardProps {
+interface FavoritesCardProps {
   title: string;
   location: string;
   imageUrl: string;
   notifications: number;
 }
 
-export default function InterestCard({
+export default function FavoritesCard({
   title,
   location,
   imageUrl,
   notifications,
-}: InterestCardProps) {
+}: FavoritesCardProps) {
   return (
-    <div className="pt-2 pb-4 max-w-[750px]">
-      <div className="flex flex-col mb-4 rounded-lg overflow-hidden shadow-md relative">
+    <div className="pt-2 pb-4 max-w-[750px] min-w-[250px]">
+      <div className="flex flex-col mb-4 rounded-lg overflow-hidden shadow-md relative bg-white">
         <div className="relative w-full h-40">
           <Image
             src={imageUrl}
             alt={title}
             layout="fill"
-            className="max-w-full max-h-full object-cover"
+            className="object-cover"
           />
         </div>
         {notifications > 0 && (
@@ -40,8 +38,8 @@ export default function InterestCard({
           </div>
         )}
       </div>
-      <div className="p-1">
-        <h2 className="text-lg font-bold">{title}</h2>
+      <div className="p-2">
+        <h2 className="text-base font-bold text-black">{title}</h2>
         <p className="text-sm text-gray-600">{location}</p>
       </div>
     </div>
