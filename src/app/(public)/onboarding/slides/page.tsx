@@ -2,17 +2,17 @@
 
 import { useRouter } from "next/navigation";
 import Slide from "@/shared/components/Slide";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, SwiperClass } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination, Swiper as SwiperType } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 import { useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { slidesData } from "@/features/onboarding/data/slidesData";
 
 export default function OnboardingSlides() {
   const router = useRouter();
-  const swiperRef = useRef<SwiperType | null>(null);
+  const swiperRef = useRef<SwiperClass | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleSlideChange = () => {

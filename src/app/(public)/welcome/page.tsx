@@ -23,15 +23,11 @@ export default function WelcomePage() {
           text="Regístrate"
           path="/sign-up/profile-type"
           variant="green"
-          mobileSize="text-base py-3"
-          mobileWidth="w-full"
         />
         <Button
           text="Inicia sesión"
           path="/sign-in"
-          variant="transparentGreen"
-          mobileSize="text-base py-3"
-          mobileWidth="w-full"
+          variant="smoothGreen"
         />
       </div>
     </div>

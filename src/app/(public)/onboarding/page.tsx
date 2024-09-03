@@ -28,7 +28,6 @@ export default function OnboardingPage() {
             text="Continuar"
             path="/onboarding/slides"
             variant="green"
-            mobileWidth="py-3 w-28"
           />
         </div>
       </div>
