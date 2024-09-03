@@ -7,7 +7,7 @@ import { FaUserGraduate, FaUser } from "react-icons/fa";
 
 interface ProfileCardProps {
   selectedProfile: string | null;
-  onSelect: (profile: string) => void;
+  onSelect: (profile: string | null) => void;
 }
 
 const profileDescriptions: { [key: string]: JSX.Element } = {
