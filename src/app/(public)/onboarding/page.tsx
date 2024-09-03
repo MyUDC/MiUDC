@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function OnboardingPage() {
   return (
-    <div className="h-screen flex flex-col items-center justify-between p-4 pb-0">
+    <div className="h-svh flex flex-col items-center justify-between p-4 pb-0">
       <div className="flex flex-col justify-center flex-grow">
         <div className="flex justify-start w-full max-w-2xl mb-8">
           <Image

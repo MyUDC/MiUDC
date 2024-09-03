@@ -5,7 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 
 export default function WelcomePage() {
   return (
-    <div className="h-screen flex flex-col justify-center items-center p-4 gap-6 bg-gradient-to-b from-green-500 to-green-700 relative">
+    <div className="h-svh flex flex-col justify-center items-center p-4 gap-6 bg-gradient-to-b from-green-500 to-green-700 relative">
       <Link href="/" className="absolute top-4 left-4 text-green">
         <FaArrowLeft className="w-6 h-6" />
       </Link>

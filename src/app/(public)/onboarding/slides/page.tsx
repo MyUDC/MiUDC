@@ -44,7 +44,7 @@ export default function OnboardingSlides() {
   const isSingleSlide = slidesData.length === 1;
 
   return (
-    <div className="relative h-screen">
+    <div className="relative h-svh">
       <Swiper
         spaceBetween={0}
         slidesPerView={1}

@@ -30,7 +30,7 @@ const Slide: React.FC<SlideProps> = ({
   }
 
   return (
-    <div className={`h-screen px-4 flex flex-col justify-between ${bgColor}`}>
+    <div className={`h-svh px-4 flex flex-col justify-between ${bgColor}`}>
       {currentStep === 0 && (
         <button
           className="absolute top-4 left-4 text-white text-3xl"
