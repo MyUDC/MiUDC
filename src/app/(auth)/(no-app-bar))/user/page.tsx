@@ -33,12 +33,12 @@ export default async function UserPage() {
             <Button
               text="Editar perfil"
               path="/edit-profile"
-              variant="outlinedGreen"
+              variant="transparentGreen"
             />
             <Button
               text="Compartir"
               path="/share-profile"
-              variant="outlinedGreen"
+              variant="transparentGreen"
             />
           </div>
           <Link href="/home">
