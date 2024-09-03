@@ -3,33 +3,31 @@ import Link from "next/link";
 interface ButtonProps {
   text: string;
   path: string;
-  variant: "green" | "smoothGreen" | "link" | "forgetGreen";
+  variant: "green" | "smoothGreen" | "link" | "forgetGreen" | "outlinedGreen";
 }
 
-// puede sacarse del componente porque solo son strings planos
-const flexClasses =
-{
+const flexClasses = {
   forgetGreen: "justify-start",
   default: "justify-center",
   green: "justify-center",
   link: "justify-center",
   smoothGreen: "justify-center",
+  outlinedGreen: "justify-center",
 };
 
-export default function Button({ text, path, variant,...rest }: ButtonProps) {
-
-  // este objeto no puede sacarse del componente porque depende de la variante
+export default function Button({ text, path, variant, ...rest }: ButtonProps) {
   const variantClasses = {
     link: "text-gray-700 text-lg w-full text-center hover:underline",
     forgetGreen: "underline text-green text-sm text-left",
-    green: `bg-${variant} text-white w-full text-center shadow-md rounded-full`,
-    smoothGreen: `bg-${variant} text-green w-full text-center shadow-md rounded-full`,
+    green: `bg-green text-white text-center shadow-md rounded-full px-4 py-2`,
+    smoothGreen: `bg-smoothGreen text-green text-center shadow-md rounded-full px-4 py-2`,
+    outlinedGreen: "border border-green text-green text-center rounded-full px-4 py-1",
   };
 
   return (
-    <div className={`flex ${flexClasses[variant]} w-full py-2`}>
+    <div className={`flex ${flexClasses[variant]}`}>
       <Link
-        className={`font-semibold py-3 rounded-full ${variantClasses[variant]}`}
+        className={`font-semibold ${variantClasses[variant]}`}
         href={path}
         {...rest}
       >
