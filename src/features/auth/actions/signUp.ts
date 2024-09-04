@@ -9,6 +9,7 @@ export const SignUp = async (email: string, password: string) => {
     const user = await prisma.user.create({
       data: {
         email: email.toLowerCase(),
+        username: email.toLowerCase(),
         password: bcryptjs.hashSync(password),
         role: Role.STUDENT
       },
