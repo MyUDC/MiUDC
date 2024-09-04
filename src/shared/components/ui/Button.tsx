@@ -35,13 +35,13 @@ export default function Button({
     forgetGreen: "text-green text-sm",
     green: `bg-green text-white ${mobileWidth} text-center shadow-md rounded-md ${mobileSize}`,
     smoothGreen: `bg-smoothGreen text-green ${mobileWidth} text-center shadow-md rounded-md ${mobileSize}`,
-    transparentGreen: `border border-green text-green ${mobileWidth} text-center rounded-md ${mobileSize}`,
+    transparentGreen: `border border-green text-green text-center rounded-md px-3 min-w-[120px]`,
   };
 
   return (
     <div className={`flex ${flexClasses[variant]} ${mobileWidth}`}>
       <Link
-        className={`font-semibold ${variantClasses[variant]}`}
+        className={`font-semibold py-3 ${variantClasses[variant]}`}
         href={path}
         {...rest}
       >
