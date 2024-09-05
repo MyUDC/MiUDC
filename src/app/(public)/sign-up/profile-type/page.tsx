@@ -4,8 +4,12 @@ import ProfileCard from "@/features/onboarding/components/ProfileCard";
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import Cookie from "js-cookie";
 
 export default function ProfileSelection() {
+  const router = useRouter();
+
   const [selectedProfile, setSelectedProfile] = useState<string | null>(null);
 
   const handleSelect = (profile: string | null) => {
@@ -37,12 +41,14 @@ export default function ProfileSelection() {
               onSelect={handleSelect}
             />
             <button
-              onClick={() => console.log("Continuar clicked")}
-              className={`mt-4 py-2 px-4 w-full rounded-md text-white font-semibold ${
-                selectedProfile
+              onClick={() => {
+                Cookie.set("profile", selectedProfile!);
+                router.push("/sign-up/career");
+              }}
+              className={`mt-4 py-2 px-4 w-full rounded-md text-white font-semibold ${selectedProfile
                   ? "bg-green hover:bg-green-600"
                   : "bg-gray-300 cursor-not-allowed"
-              }`}
+                }`}
               disabled={!selectedProfile}
             >
               Continuar
