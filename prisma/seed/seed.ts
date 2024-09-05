@@ -34,6 +34,7 @@ const main = async () => {
   // Seed Users
   const { user: users } = await seed.user((x) => x(20, (u) => ({
     email: faker.internet.email(),
+    username: faker.internet.userName(),
     name: faker.internet.userName(),
     password: bcryptjs.hashSync('password', 10),
     role: faker.helpers.arrayElement(['ASPIRANT', 'STUDENT', 'ADMIN']),

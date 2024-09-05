@@ -13,11 +13,11 @@ interface Tab {
   path: string;
 }
 
-export const ForumTabs = ({tabs}: Props) => {
+export const ServerTabs = ({tabs}: Props) => {
   const currentPath = usePathname();
 
   return (
-    <div className="flex w-full bg-white border-b-2">
+    <div className="flex w-full gap-3 px-2 overflow-x-auto no-scrollbar bg-white border-b-2">
       {tabs.map(item => {
         const isActive = currentPath.includes(item.path);
         

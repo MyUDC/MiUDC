@@ -1,4 +1,4 @@
-import { ForumTabs } from "@/features/career/components/ForumTabs";
+import { ServerTabs } from "@/features/career/components/ServerTabs";
 
 interface Props {
   children: React.ReactNode;
@@ -24,7 +24,7 @@ export default async function CareerForumLayout({ children, params }: Props) {
   return (
     <div>
       <div className="sticky z-50 top-0">
-        <ForumTabs tabs={tabs} />
+        <ServerTabs tabs={tabs} />
       </div>
       <div>
         {children}

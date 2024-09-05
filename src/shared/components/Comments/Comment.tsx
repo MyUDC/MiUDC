@@ -12,7 +12,8 @@ import SkeletonText from "../Skeletons/SkeletonText";
 interface Props {
   authorData: {
     name: string,
-    photoUrl: string
+    photoUrl: string,
+    username: string
   },
   content: string
   createdAt: Date
@@ -46,6 +47,7 @@ const Comment = ({ authorData, content, createdAt }: Props) => {
           width={48}
           height={48}
           showName
+          username={authorData.username}
         />
       </div>
       <div className="ml-16">
