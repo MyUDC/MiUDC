@@ -16,10 +16,7 @@ export default async function UserQuestionsPage({params}: Props) {
 
   if (!initPosts.length) return (
     <h1>no hay</h1>
-  );
-
-  console.log(initPosts);
-  
+  ); 
 
   return (
     <div className="flex justify-center">

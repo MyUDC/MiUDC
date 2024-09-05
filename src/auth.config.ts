@@ -8,6 +8,7 @@ import bcryptjs from 'bcryptjs';
 import { z } from 'zod';
 
 import prisma from './lib/prisma';
+import getUsernameByEmail from './utils/getUsernameByEmail';
 
 
 export default {
@@ -90,7 +91,6 @@ export default {
           // Actualizar los datos del usuario en el token y la sesión
           const { password, ...userWithoutPassword } = existingUser;
           Object.assign(updatedUser, userWithoutPassword);
-          console.log(userWithoutPassword);
           
           return true;
         } else {
@@ -102,7 +102,7 @@ export default {
               role: "ASPIRANT",
               emailVerified: null,
               image: profile?.picture!,
-              username: user.email!,
+              username: getUsernameByEmail(user.email!),
               password: null,
             },
           });
@@ -134,10 +134,12 @@ export default {
       return true;
     },
     async jwt({ token, user }) {
+      
       if (user) {
         token.role = user.role;
         token.id = user.  id!;
         token.picture = user.image;
+        token.username = user.username;
       }
       return token;
     },
@@ -146,6 +148,7 @@ export default {
         session.user.role = token.role;
         session.user.id = token.id;
         session.user.image = token.picture;
+        session.user.username = token.username;
       }
       return session;
     }

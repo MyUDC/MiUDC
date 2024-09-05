@@ -14,8 +14,6 @@ export default async function UserTestimoniesPage({params}: Props) {
 
   const initPosts = await paginatePostByUser(4, 0, user!.id, 'TESTIMONY');
 
-  console.log(initPosts);
-
   return (
     <div className="flex justify-center">
       <div className="w-svw sm:max-w-lg ">

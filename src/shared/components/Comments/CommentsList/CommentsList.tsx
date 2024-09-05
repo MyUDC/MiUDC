@@ -41,6 +41,7 @@ export const CommentsList = ({ initComments, testimonyId }: Props) => {
               authorData={{
                 name: comment.author.name ?? 'no name',
                 photoUrl: comment.author.image ?? '',
+                username: comment.author.username,
               }}
               content={comment.content}
               createdAt={comment.createdAt}

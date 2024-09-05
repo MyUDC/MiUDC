@@ -12,7 +12,12 @@ export const AppBar = async () => {
 
   return (
     <div className="sticky w-svw top-0 z-20 bg-white bg-opacity-80 backdrop-blur-md flex justify-between items-center py-2 px-4 shadow-sm">
-      <UserAvatar photoUrl={user?.image || ""} height={32} width={32} />
+      <UserAvatar
+        username={user?.username!}
+        photoUrl={user?.image || ""}
+        height={32}
+        width={32}
+      />
       <Link href="/home">
         <Image
           src="/svgs/logo-full.svg"
