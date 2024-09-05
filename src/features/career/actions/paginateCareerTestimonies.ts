@@ -8,7 +8,7 @@ export default async function paginateCareerTestimonies(take: number, skip: numb
       careerId
     },
     include: {
-      author: { select: { name: true, image: true, } },
+      author: { select: { name: true, image: true, username: true} },
       career: { select: { name: true, slug: true } },
       _count: { select: { children: true, PostLike: true } },
     },

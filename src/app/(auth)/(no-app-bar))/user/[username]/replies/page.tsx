@@ -11,8 +11,10 @@ interface Props {
 export default async function UserRepliesPage({params}: Props) {
   const { username } = params;
   const user = await getUserByUsername(username);
-
+  
+  
   const initPosts = await paginatePostByUser(4, 0, user!.id, 'REPLY');
+  console.log(initPosts);
 
   return (
     <div className="flex justify-center">

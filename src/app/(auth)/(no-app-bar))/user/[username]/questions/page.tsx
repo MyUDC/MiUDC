@@ -1,6 +1,7 @@
 import getUserByUsername from "@/features/auth/actions/getUserByUsername";
 import paginatePostByUser from "@/shared/actions/Post/paginatePostByUser";
 import { PostList } from "@/shared/components/Testimony/PostList/PostList";
+import { PostWithRelations } from "@/shared/types/PostWithRelations";
 
 interface Props {
   params: {
@@ -11,7 +12,14 @@ interface Props {
 export default async function UserQuestionsPage({params}: Props) {
   const { username } = params;
   const user = await getUserByUsername(username);
-  const initPosts = await paginatePostByUser(4, 0, user!.id, 'TESTIMONY');
+  const initPosts: PostWithRelations[] = await paginatePostByUser(4, 0, user!.id, 'QUESTION');
+
+  if (!initPosts.length) return (
+    <h1>no hay</h1>
+  );
+
+  console.log(initPosts);
+  
 
   return (
     <div className="flex justify-center">
