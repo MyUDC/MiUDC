@@ -30,6 +30,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.12",
     "dotenv": "^16.4.5",
+    "js-cookie": "^3.0.5",
     "next": "14.2.5",
     "next-auth": "^5.0.0-beta.20",
     "next-cloudinary": "^6.10.0",
@@ -46,6 +47,7 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
