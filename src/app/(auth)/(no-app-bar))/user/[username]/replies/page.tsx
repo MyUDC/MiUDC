@@ -9,7 +9,8 @@ interface Props {
 }
 
 export default async function UserRepliesPage({ params }: Props) {
-  const { username } = params;
+  let { username } = params;
+  username = decodeURIComponent(username);
   const user = await getUserByUsername(username);
 
   const initPosts = await paginatePostByUser(4, 0, user!.id, "REPLY");

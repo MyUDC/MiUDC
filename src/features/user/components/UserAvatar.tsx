@@ -23,8 +23,13 @@ export default function UserAvatar({
   textColor = "text-black",
   showName = false,
 }: UserAvatarProps) {
+
+  const userUrl = username 
+    ? `/user/${username}`
+    : ``;
+
   return (
-    <Link href={`/user/${username}`} className="flex items-center gap-4">
+    <Link href={userUrl} className="flex items-center gap-4">
       {photoUrl ? (
         <Image
           src={photoUrl}

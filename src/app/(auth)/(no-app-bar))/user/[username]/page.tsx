@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default async function UserPage({ params }: Props) {
-  const { username } = params;
+  let { username } = params;
 
   if (!username) notFound();
   const userBasePath = `/user/${username}`;

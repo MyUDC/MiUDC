@@ -55,6 +55,7 @@ export default async function UserLayout({ children, params }: Props) {
               photoUrl={user?.image!}
               width={80}
               height={80}
+              username={user?.username!}
             />
             <h1 className="text-xl font-bold pt-2">{user?.name!}</h1>
             <p className="text-sm text-gray-500">Arquitectura · 5° Semestre</p>

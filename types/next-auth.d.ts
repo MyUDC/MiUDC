@@ -5,6 +5,7 @@ import {JWT} from "next-auth/jwt";
 interface IUser extends User {
   id: string;
   role: $Enums["Role"];
+  username: string;
 }
 
 declare module "next-auth" {
