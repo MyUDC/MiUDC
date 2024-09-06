@@ -22,26 +22,19 @@ const flexClasses = {
   transparentGreen: "justify-center",
 };
 
-export default function Button({
-  text,
-  path,
-  variant,
-  mobileSize = "",
-  mobileWidth = "w-full",
-  ...rest
-}: ButtonProps) {
+export default function Button({ text, path, variant, ...rest }: ButtonProps) {
   const variantClasses = {
-    link: "text-gray-700 text-sm w-full text-center hover:underline",
-    forgetGreen: "text-green text-sm",
-    green: `bg-green text-white ${mobileWidth} text-center shadow-md rounded-md ${mobileSize}`,
-    smoothGreen: `bg-smoothGreen text-green ${mobileWidth} text-center shadow-md rounded-md ${mobileSize}`,
-    transparentGreen: `border border-green text-green ${mobileWidth} text-center rounded-md ${mobileSize}`,
+    link: "text-gray-700 text-lg w-full text-center hover:underline",
+    forgetGreen: "underline text-green text-sm text-left",
+    green: 'bg-green text-white text-center shadow-md rounded-md px-4 py-2',
+    smoothGreen: 'bg-smoothGreen text-green text-center shadow-md rounded-full px-4 py-2',
+    transparentGreen: "border border-green text-green text-center rounded-full px-4 py-1",
   };
 
   return (
-    <div className={`flex ${flexClasses[variant]} ${mobileWidth}`}>
+    <div className={`flex ${flexClasses[variant]}`}>
       <Link
-        className={`font-semibold rounded-md py-3 ${variantClasses[variant]}`}
+        className={`font-semibold ${variantClasses[variant]}`}
         href={path}
         {...rest}
       >

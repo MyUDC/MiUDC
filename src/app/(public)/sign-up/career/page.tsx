@@ -18,7 +18,7 @@ export default async function CareerPage() {
         />
       </div>
       <div className="flex flex-col gap-3">
-        <h1 className="font-bold text-lg">Semestre y Carrera</h1>
+        <h1 className="font-bold text-lg">Datos del estudiante</h1>
         <ChooseCareerForm careers={careers} />
       </div>
     </div>

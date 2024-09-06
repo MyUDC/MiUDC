@@ -70,12 +70,12 @@ export default async function UserLayout({ children, params }: Props) {
               <Button
                 text="Editar perfil"
                 path="/edit-profile"
-                variant="outlinedGreen"
+                variant="transparentGreen"
               />
               <Button
                 text="Compartir"
                 path="/share-profile"
-                variant="outlinedGreen"
+                variant="transparentGreen"
               />
             </div>
             <Link href="/home">

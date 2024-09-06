@@ -158,8 +158,8 @@ export default function ChooseCareerForm({ careers }: Props) {
             <input
                 type="submit"
                 value="continuar"
-                className="flex bg-green font-semibold text-white text-center shadow-md rounded-full w-full py-3"
-            />
+                className="flex bg-green font-semibold text-white text-center shadow-md rounded-md w-full py-3"
+            />  
         </form>
     );
 }
