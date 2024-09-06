@@ -8,7 +8,7 @@ export default async function paginateComments(take: number, skip: number, postI
       parentId: postId
     },
     include: {
-      author: { select: { name: true, image: true, } },
+      author: { select: { name: true, image: true, username: true} },
     }
     ,
     skip,

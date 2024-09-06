@@ -41,7 +41,7 @@ export default function Button({
   return (
     <div className={`flex ${flexClasses[variant]} ${mobileWidth}`}>
       <Link
-        className={`font-semibold rounded-full ${variantClasses[variant]}`}
+        className={`font-semibold rounded-md py-3 ${variantClasses[variant]}`}
         href={path}
         {...rest}
       >
