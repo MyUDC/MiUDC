@@ -31,7 +31,7 @@ export const SignInForm = () => {
       setSignInErrorMessage(resp.message);
       return;
     }
-    router.replace("/user");
+    router.replace("/home");
   };
 
   return (

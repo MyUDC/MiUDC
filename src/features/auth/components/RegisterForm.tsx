@@ -32,7 +32,7 @@ export const RegisterForm = () => {
       return;
     }
     await SignIn(email, password);
-    router.replace("/user");
+    router.replace("/home");
   };
 
   const passwordInpValue = watch("password");
