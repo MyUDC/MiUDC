@@ -32,7 +32,8 @@ export default function Button({
 }: ButtonProps) {
   const variantClasses = {
     link: "text-gray-700 text-sm w-full text-center hover:underline",
-    forgetGreen: "text-green text-sm",
+    forgetGreen:
+      "text-green text-sm focus:border focus:border-green focus:outline-none rounded-md py-0",
     green: `bg-green text-white ${mobileWidth} text-center shadow-md rounded-md ${mobileSize}`,
     smoothGreen: `bg-smoothGreen text-green ${mobileWidth} text-center shadow-md rounded-md ${mobileSize}`,
     transparentGreen: `border border-green text-green ${mobileWidth} text-center rounded-md ${mobileSize}`,
@@ -41,7 +42,7 @@ export default function Button({
   return (
     <div className={`flex ${flexClasses[variant]} ${mobileWidth}`}>
       <Link
-        className={`font-semibold rounded-full py-3 ${variantClasses[variant]}`}
+        className={`font-semibold py-3 ${variantClasses[variant]}`}
         href={path}
         {...rest}
       >

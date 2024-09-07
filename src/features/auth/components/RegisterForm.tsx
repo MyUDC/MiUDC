@@ -5,6 +5,7 @@ import Input from "@/shared/components/ui/Input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SignIn, SignUp } from "../actions";
+import { RiErrorWarningFill } from "react-icons/ri";
 
 type FormInputs = {
   email: string;
@@ -19,7 +20,7 @@ export const RegisterForm = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormInputs>();
 
   const onSubmit = async (data: FormInputs) => {
@@ -58,10 +59,8 @@ export const RegisterForm = () => {
               message: "Esto no luce como un email",
             },
           })}
+          error={errors.email?.message}
         />
-        {errors.email?.message && (
-          <span className="text-red-500 text-xs">{`*${errors.email.message}`}</span>
-        )}
       </div>
 
       <div>
@@ -81,10 +80,8 @@ export const RegisterForm = () => {
               message: "Introduce al menos 8 caracteres",
             },
           })}
+          error={errors.password?.message}
         />
-        {errors.password?.message && (
-          <span className="text-red-500 text-xs">{`*${errors.password.message}`}</span>
-        )}
       </div>
 
       <div>
@@ -95,22 +92,31 @@ export const RegisterForm = () => {
           type="password"
           autoComplete="off"
           formHandler={register("confirm_password", {
+            required: {
+              value: true,
+              message: "Este campo es requerido",
+            },
             validate: (value) =>
               value === passwordInpValue || "Las contraseñas no coinciden",
           })}
+          error={errors.confirm_password?.message}
         />
-        {errors.confirm_password?.message && (
-          <span className="text-red-500 text-xs">{`*${errors.confirm_password.message}`}</span>
-        )}
       </div>
 
       {signUpErrorMessage && (
-        <span className="text-red-500 text-xs">{signUpErrorMessage}</span>
+        <div className="flex items-center text-red-500 text-xs mt-1">
+          <RiErrorWarningFill className="mr-1" />
+          <span>{signUpErrorMessage}</span>
+        </div>
       )}
 
       <div className="pt-2">
-        <button className="w-full text-white bg-green hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-          Continuar
+        <button
+          type="submit"
+          className="w-full text-white bg-green hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-sm px-5 py-2.5 text-center"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Cargando..." : "Continuar"}
         </button>
       </div>
     </form>
