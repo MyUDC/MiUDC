@@ -27,7 +27,7 @@ export default function WelcomePage() {
         <Button
           text="Inicia sesión"
           path="/sign-in"
-          variant="smoothGreen"
+          variant="transparentGreen"
         />
       </div>
     </div>
