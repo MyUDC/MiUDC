@@ -6,6 +6,7 @@ import Input from "@/shared/components/ui/Input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SignIn } from "../actions/signIn";
+import { RiErrorWarningFill } from "react-icons/ri";
 
 type FormInputs = {
   email: string;
@@ -30,7 +31,7 @@ export const SignInForm = () => {
       setSignInErrorMessage(resp.message);
       return;
     }
-    router.replace("/user");
+    router.replace("/home");
   };
 
   return (
@@ -52,10 +53,8 @@ export const SignInForm = () => {
               message: "Esto no luce como un email",
             },
           })}
+          error={errors.email?.message}
         />
-        {errors.email?.message && (
-          <span className="text-red-500 text-xs">{`*${errors.email.message}`}</span>
-        )}
       </div>
 
       <div>
@@ -68,10 +67,8 @@ export const SignInForm = () => {
           formHandler={register("password", {
             required: { value: true, message: "Este campo es requerido" },
           })}
+          error={errors.password?.message}
         />
-        {errors.password?.message && (
-          <span className="text-red-500 text-xs">{`*${errors.password.message}`}</span>
-        )}
       </div>
 
       <div className="flex justify-end">
@@ -83,11 +80,14 @@ export const SignInForm = () => {
       </div>
 
       {signInErrorMessage && (
-        <span className="text-red-500 text-xs">Credenciales incorrectas</span>
+        <div className="flex items-center text-red-500 text-sm mt-1">
+          <RiErrorWarningFill className="mr-1" />
+          <span>Credenciales incorrectas</span>
+        </div>
       )}
 
       <div className="pt-2">
-        <button className="w-full text-white bg-green hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+        <button className="w-full text-white bg-green hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-sm px-5 py-2.5 text-center">
           {isSubmitting ? "Cargando..." : "Continuar"}
         </button>
       </div>

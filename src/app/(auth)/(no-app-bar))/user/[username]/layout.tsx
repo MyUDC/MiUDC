@@ -1,11 +1,12 @@
 import getUserByUsername from "@/features/auth/actions/getUserByUsername";
 import UserAvatar from "@/features/user/components/UserAvatar";
-import Tabs from "@/shared/components/Tabs";
-import Button from "@/shared/components/ui/Button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IoArrowBack } from "react-icons/io5";
-import { ServerTabs } from '../../../../../features/career/components/ServerTabs';
+import { ServerTabs } from "../../../../../features/career/components/ServerTabs";
+import { Button } from "@/components/ui/button";
+
+import UserProfileEditor from "@/shared/components/UserProfileEditor";
 
 interface Props {
   children: React.ReactNode;
@@ -23,31 +24,31 @@ export default async function UserLayout({ children, params }: Props) {
 
   const tabs = [
     {
-      text: 'Testimonios',
-      path: `/user/${username}/testimonies`
+      text: "Testimonios",
+      path: `/user/${username}/testimonies`,
     },
     {
-      text: 'Preguntas',
-      path: `/user/${username}/questions`
+      text: "Preguntas",
+      path: `/user/${username}/questions`,
     },
     {
-      text: 'Respuestas',
-      path: `/user/${username}/replies`
+      text: "Respuestas",
+      path: `/user/${username}/replies`,
     },
     {
-      text: 'Likes',
-      path: `/user/${username}/likes`
+      text: "Likes",
+      path: `/user/${username}/likes`,
     },
     {
-      text: 'Guardados',
-      path: `/user/${username}/saved`
-    }
-  ]
+      text: "Guardados",
+      path: `/user/${username}/saved`,
+    },
+  ];
 
   return (
     <div>
       <div className="h-svh bg-white flex flex-col items-center">
-        <div className=" w-full relative">
+        <div className="w-full relative">
           <div className="bg-green-500 relative p-8 pt-16 flex flex-col items-start text-black">
             <UserAvatar
               showName={false}
@@ -63,20 +64,12 @@ export default async function UserLayout({ children, params }: Props) {
               Ingreso a la carrera en el 2021
             </p>
             <p className="text-sm text-black mt-2">
-              Me encantaban demasiado los juegos de construir como SimCity y ahora
-              soy estudiante de Arquitectura :)
+              Me encantaban demasiado los juegos de construir como SimCity y
+              ahora soy estudiante de Arquitectura :)
             </p>
-            <div className="mt-4 flex gap-2">
-              <Button
-                text="Editar perfil"
-                path="/edit-profile"
-                variant="transparentGreen"
-              />
-              <Button
-                text="Compartir"
-                path="/share-profile"
-                variant="transparentGreen"
-              />
+            <div className="w-full max-w-xs flex gap-4 mt-4">
+              <UserProfileEditor />
+              <Button variant="outlineGreen">Compartir</Button>
             </div>
             <Link href="/home">
               <IoArrowBack className="text-green text-3xl absolute top-6 left-6 cursor-pointer select-none" />
@@ -86,11 +79,8 @@ export default async function UserLayout({ children, params }: Props) {
             <ServerTabs tabs={tabs} />
           </div>
         </div>
-        <div>
-          {children}
-        </div>
+        <div>{children}</div>
       </div>
     </div>
-
   );
 }
