@@ -53,7 +53,7 @@ export default function UserProfileEditor() {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">Editar perfil</Button>
+          <Button variant="outlineGreen">Editar perfil</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">{content}</DialogContent>
       </Dialog>
@@ -89,6 +89,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
   return (
     <form className={cn("grid items-start gap-4", className)}>
       <div className="grid gap-2">
+        {/** agregar el cambiar foto */}
         <Label htmlFor="name">Nombre de usuario</Label>
         <Input
           type="text"
@@ -109,6 +110,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
       </div>
       <div className="grid gap-2">
         <Label htmlFor="major">Carrera Universitaria</Label>
+        {/** cambiar por un select de shadcn*/}
         <Input type="text" id="major" defaultValue="Ingeniería en Sistemas" />
       </div>
       <div className="grid gap-2">
