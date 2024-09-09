@@ -1,5 +1,5 @@
 services:
-  todosDB:
+  DB:
     image: postgres:15.3
     container_name: mi-udc-db
     ports:
