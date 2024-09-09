@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Career" ALTER COLUMN "slug" DROP DEFAULT;
