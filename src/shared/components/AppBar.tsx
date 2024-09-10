@@ -17,6 +17,7 @@ export const AppBar = async () => {
         photoUrl={user?.image || ""}
         height={32}
         width={32}
+        redirect={false}
       />
       <Link href="/home">
         <Image
