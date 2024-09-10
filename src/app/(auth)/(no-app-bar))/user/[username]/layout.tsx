@@ -68,7 +68,11 @@ export default async function UserLayout({ children, params }: Props) {
               ahora soy estudiante de Arquitectura :)
             </p>
             <div className="w-full max-w-xs flex gap-4 mt-4">
-              <UserProfileEditor />
+              <UserProfileEditor
+                triggerButton={
+                  <Button variant="outlineGreen">Editar perfil</Button>
+                }
+              />{" "}
               <Button variant="outlineGreen">Compartir</Button>
             </div>
             <Link href="/home">
