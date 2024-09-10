@@ -24,7 +24,13 @@ import { Button } from "@/components/ui/button";
 
 import ProfileForm from "./ProfileForm";
 
-export default function UserProfileEditor() {
+interface UserProfileEditorProps {
+  triggerButton: React.ReactNode;
+}
+
+export default function UserProfileEditor({
+  triggerButton,
+}: UserProfileEditorProps) {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -50,9 +56,7 @@ export default function UserProfileEditor() {
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button variant="outlineGreen">Editar perfil</Button>
-        </DialogTrigger>
+        <DialogTrigger asChild>{triggerButton}</DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">{content}</DialogContent>
       </Dialog>
     );
@@ -61,7 +65,7 @@ export default function UserProfileEditor() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild className="">
-        <Button variant="outlineGreen">Editar perfil</Button>
+        {triggerButton}
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
