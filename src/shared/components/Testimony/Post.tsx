@@ -65,8 +65,6 @@ export default function Post({
           <UserAvatar
             name={userName}
             photoUrl={userPhotoUrl}
-            width={36}
-            height={36}
             username={userName}
           />
           <div>
