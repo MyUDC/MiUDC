@@ -12,24 +12,23 @@ interface UserAvatarProps {
   height?: number;
   textColor?: string;
   showName?: boolean;
+  redirect?: boolean;
 }
 
 export default function UserAvatar({
   name,
   photoUrl,
   username,
-  width = 48,
-  height = 48,
+  width = 32,
+  height = 32,
   textColor = "text-black",
   showName = false,
+  redirect = true,
 }: UserAvatarProps) {
+  const userUrl = username ? `/user/${username}` : ``;
 
-  const userUrl = username 
-    ? `/user/${username}`
-    : ``;
-
-  return (
-    <Link href={userUrl} className="flex items-center gap-4">
+  const content = (
+    <>
       {photoUrl ? (
         <Image
           src={photoUrl}
@@ -39,11 +38,7 @@ export default function UserAvatar({
           height={height}
         />
       ) : (
-        <SkeletonImage
-          width={width}
-          height={height}
-          className="rounded-full"
-        />
+        <SkeletonImage width={width} height={height} className="rounded-full" />
       )}
       {showName && (
         <div className={`text-lg font-semibold ${textColor}`}>
@@ -54,6 +49,14 @@ export default function UserAvatar({
           )}
         </div>
       )}
+    </>
+  );
+
+  return redirect ? (
+    <Link href={userUrl} className="flex items-center gap-4">
+      {content}
     </Link>
+  ) : (
+    <div className="flex items-center gap-4">{content}</div>
   );
 }
