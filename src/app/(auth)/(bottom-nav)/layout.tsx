@@ -1,9 +1,9 @@
+import React from "react";
 import { auth } from "@/auth";
-import { AppBar } from "@/shared/components/AppBar";
 import BottomNavigation from "@/shared/components/BottomNavigation";
 import { redirect } from "next/navigation";
 
-export default async function AppBarLayout({
+export default async function BottomNavLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const session = await auth();
@@ -11,8 +11,12 @@ export default async function AppBarLayout({
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="flex-grow pb-16">{children}</div>
-      <BottomNavigation user={session.user} />
+      <main className="flex-grow overflow-y-auto">
+        <div>{children}</div>
+      </main>
+      <nav className="sticky bottom-0 left-0 right-0 z-50">
+        <BottomNavigation user={session.user} />
+      </nav>
     </div>
   );
 }
