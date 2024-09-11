@@ -1,9 +1,9 @@
 "use client";
-
-import clsx from "clsx";
-import Link from "next/link";
+import React, { useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
-import { useRef, useEffect } from "react";
+import Link from "next/link";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface Props {
   tabs: Tab[];
@@ -16,60 +16,58 @@ interface Tab {
 
 export const ServerTabs = ({ tabs }: Props) => {
   const currentPath = usePathname();
-  const tabsRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
-  useEffect(() => {
-    const activeTab = document.querySelector(".active");
-    if (activeTab) {
-      const tabsContainer = tabsRef.current;
-      if (tabsContainer) {
-        const containerWidth = tabsContainer.offsetWidth;
-        const activeTabLeft = activeTab.getBoundingClientRect().left;
-        const activeTabWidth = activeTab.getBoundingClientRect().width;
-        const containerLeft = tabsContainer.getBoundingClientRect().left;
-
-        let scrollPosition =
-          activeTabLeft -
-          containerLeft -
-          containerWidth / 2 +
-          activeTabWidth / 2;
-        if (scrollPosition < 0) {
-          scrollPosition = 0;
-        }
-
-        tabsContainer.scrollTo({
-          left: scrollPosition,
-          behavior: "smooth",
-        });
-      }
+  const handleTabClick = useCallback((index: number) => {
+    const tab = tabRefs.current[index];
+    if (tab) {
+      tab.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
     }
-  }, [currentPath]);
+  }, []);
 
   return (
-    <div
-      ref={tabsRef}
-      className="flex w-full gap-3 px-2 overflow-x-auto no-scrollbar bg-white border-b-2"
-    >
-      {tabs.map((item, index) => {
-        const isActive = currentPath.includes(item.path);
+    <Tabs value={currentPath} className="w-full">
+      <ScrollArea className="w-full">
+        <TabsList className="flex w-full bg-gray-200 rounded-t-none rounded-b-lg border-t border-gray-300 py-6 shadow-inner">
+          {tabs.map((tab, index) => {
+            const isActive = currentPath === tab.path;
 
-        return (
-          <Link
-            key={item.text}
-            href={item.path}
-            scroll={false}
-            className={clsx(
-              "text-center flex-1 py-2 border-b-2 transition-all duration-300 text-lg",
-              {
-                "border-green text-green font-semibold active": isActive,
-                "border-transparent text-gray-600 hover:text-green": !isActive,
-              }
-            )}
-          >
-            {item.text}
-          </Link>
-        );
-      })}
-    </div>
+            return (
+              <TabsTrigger
+                key={tab.path}
+                value={tab.path}
+                className={`flex-1 text-center px-3 transition-colors ${
+                  isActive
+                    ? "bg-white text-black shadow-md py-2"
+                    : "text-gray-600"
+                }`}
+                asChild
+              >
+                <Link
+                  href={tab.path}
+                  scroll={false}
+                  ref={(el) => {
+                    tabRefs.current[index] = el;
+                  }}
+                  onClick={() => handleTabClick(index)}
+                >
+                  {tab.text}
+                </Link>
+              </TabsTrigger>
+            );
+          })}
+        </TabsList>
+        <ScrollBar
+          orientation="horizontal"
+          className="bg-transparent text-transparent"
+        />
+      </ScrollArea>
+    </Tabs>
   );
 };
+
+export default ServerTabs;
