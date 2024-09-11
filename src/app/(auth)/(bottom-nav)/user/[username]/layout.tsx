@@ -47,7 +47,7 @@ export default async function UserLayout({ children, params }: Props) {
   return (
     <div>
       <div className="h-svh bg-white flex flex-col items-center">
-        <div className="w-full relative">
+        <div className="w-full relative border-b">
           <div className="bg-green-500 relative p-8 pt-16 flex flex-col items-start text-black">
             {/* Botón de retroceso colocado aquí */}
             <Link href="/home">

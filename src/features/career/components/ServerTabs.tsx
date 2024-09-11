@@ -32,7 +32,7 @@ export const ServerTabs = ({ tabs }: Props) => {
   return (
     <Tabs value={currentPath} className="w-full bg-gray-100">
       <ScrollArea className="w-full">
-        <TabsList className="flex w-full bg-gray-200 rounded-md border-t border-gray-300 py-6 shadow-inner">
+        <TabsList className="flex w-full border-gray-300 py-6">
           {tabs.map((tab, index) => {
             const isActive = currentPath === tab.path;
 
