@@ -9,7 +9,7 @@ export const AppBar = async () => {
   const session = await auth();
 
   return (
-    <div className="sticky w-full top-0 z-20 bg-white bg-opacity-80 backdrop-blur-md flex justify-between items-center py-2 px-4 shadow-sm">
+    <div className="fixed w-full top-0 z-20 border bg-white bg-opacity-80 backdrop-blur-md flex justify-between items-center py-2 px-4 shadow-sm">
       <div className="w-8 h-8 flex items-center justify-center">
         <UserMenuSheet user={session?.user} />
       </div>
