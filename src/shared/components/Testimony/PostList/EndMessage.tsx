@@ -20,7 +20,7 @@ export const EndMessage = () => {
               animate={{ rotate: 360 }}
               transition={{ duration: 0.5 }}
             >
-              <FlagIcon className="w-12 h-12 mx-auto mb-4 text-primary" />
+              <FlagIcon className="w-12 h-12 mx-auto mb-4 text-green" />
             </motion.div>
             ¡Es todo por ahora!
           </CardTitle>
