@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { IoArrowBack } from "react-icons/io5";
 import { ServerTabs } from "../../../../../features/career/components/ServerTabs";
 import { Button } from "@/components/ui/button";
-
 import UserProfileEditor from "@/shared/components/UserProfileEditor";
 
 interface Props {
@@ -48,8 +47,17 @@ export default async function UserLayout({ children, params }: Props) {
   return (
     <div>
       <div className="h-svh bg-white flex flex-col items-center">
-        <div className="w-full relative">
+        <div className="w-full relative border-b">
           <div className="bg-green-500 relative p-8 pt-16 flex flex-col items-start text-black">
+            {/* Botón de retroceso colocado aquí */}
+            <Link href="/home">
+              <Button
+                variant="outline"
+                className="fixed top-4 left-4 flex items-center z-10"
+              >
+                <IoArrowBack className="text-green h-4 w-4" />
+              </Button>
+            </Link>
             <UserAvatar
               showName={false}
               name={user?.name!}
@@ -72,18 +80,15 @@ export default async function UserLayout({ children, params }: Props) {
                 triggerButton={
                   <Button variant="outlineGreen">Editar perfil</Button>
                 }
-              />{" "}
+              />
               <Button variant="outlineGreen">Compartir</Button>
             </div>
-            <Link href="/home">
-              <IoArrowBack className="text-green text-3xl absolute top-6 left-6 cursor-pointer select-none" />
-            </Link>
           </div>
           <div className="sticky top-0">
             <ServerTabs tabs={tabs} />
           </div>
         </div>
-        <div>{children}</div>
+        <div className="w-full mt-4">{children}</div>
       </div>
     </div>
   );

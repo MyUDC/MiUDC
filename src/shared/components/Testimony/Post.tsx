@@ -57,7 +57,7 @@ export default function Post({
   const postUrl = `/career/${careerSlug}/post/${postSlug}`;
 
   return (
-    <div className="border-b-2  pb-2 w-full border-gray-200">
+    <div className="border-b pb-2 w-full border-gray-200">
       <div className="mt-10 xs:mt-4">
 
         {/* Post Header */}
