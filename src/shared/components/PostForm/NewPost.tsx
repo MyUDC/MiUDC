@@ -1,6 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMediaQuery } from "@react-hook/media-query";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 import { PostCard } from "./PostCard";
 import PostForm from "./PostForm";
@@ -20,15 +22,47 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export default function NewPost() {
+interface NewPostProps {
+  careerSlug: string;
+}
+
+export default function NewPost({ careerSlug }: NewPostProps) {
   const [isOpen, setIsOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const pathname = usePathname();
+  const { data: session } = useSession();
+  const [postType, setPostType] = useState<"TESTIMONY" | "QUESTION">(
+    "TESTIMONY"
+  );
+  const [careerId, setCareerId] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Determine post type based on the current path
+    if (pathname.includes("/testimonies")) {
+      setPostType("TESTIMONY");
+    } else if (pathname.includes("/questions")) {
+      setPostType("QUESTION");
+    }
+
+    // Fetch career ID based on careerSlug
+    const fetchCareerId = async () => {
+      try {
+        const response = await fetch(`/api/career/${careerSlug}`);
+        const data = await response.json();
+        setCareerId(data.id);
+      } catch (error) {
+        console.error("Error fetching career ID:", error);
+      }
+    };
+
+    fetchCareerId();
+  }, [pathname, careerSlug]);
 
   const content = (
     <PostForm
-      authorId="Partemnitiae aut sunt facilitia voluptas praeterius cum ipsa, in dialectis contra celer sed."
-      careerId="Praeteret nullam eximicar molesse mei omnisi, voluptasse esse voluptatis bella philos evoli es est."
-      postType="TESTIMONY"
+      authorId={session?.user?.id || ""}
+      careerId={careerId || ""}
+      postType={postType}
       isDrawerOpen={isOpen}
       setIsDrawerOpen={setIsOpen}
     />
