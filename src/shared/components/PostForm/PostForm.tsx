@@ -1,7 +1,9 @@
+//src\shared\components\PostForm\PostForm.tsx
+// src/shared/components/PostForm/PostForm.tsx
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
@@ -28,7 +30,6 @@ const PostForm: React.FC<{
   const [images, setImages] = useState<string[]>([]);
   const { toast } = useToast();
 
-  // Initialize the form
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -39,7 +40,9 @@ const PostForm: React.FC<{
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    // Validación adicional de imágenes
+    console.log("Author ID:", authorId); // Verifica que este ID es el correcto
+    console.log("Data being submitted:", data);
+
     if (images.length > 6) {
       toast({
         variant: "destructive",
@@ -52,37 +55,48 @@ const PostForm: React.FC<{
 
     const { title, content } = data;
 
-    // Datos para enviar el nuevo post
-    const newPostData = {
-      type: postType,
-      title,
-      content,
-      authorId,
-      careerId,
-      imageUrls: images,
-    };
+    try {
+      const response = await fetch("/api/post/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type: postType === "TESTIMONY" ? "TESTIMONY" : "QUESTION",
+          title,
+          content,
+          authorId, // Asegúrate de que este valor es correcto
+          careerId,
+          imageUrls: images,
+        }),
+      });
 
-    // Simulación de guardar el post (puedes reemplazarlo con la lógica de tu backend)
-    console.log("Saving post:", newPostData);
+      if (!response.ok) {
+        throw new Error("Error al publicar el post");
+      }
 
-    // Mostrar un toast de éxito
-    toast({
-      title: "Post publicado",
-      description: "Tu post se ha publicado exitosamente.",
-      variant: "default",
-    });
+      const newPost = await response.json();
 
-    // Limpiar el formulario después de enviar
-    clearForm();
+      toast({
+        title: "Post publicado",
+        description: "Tu post se ha publicado exitosamente.",
+        variant: "default",
+      });
 
-    // Cerrar el drawer después de publicar
-    setIsDrawerOpen(false);
+      clearForm();
+      setIsDrawerOpen(false);
+    } catch (error) {
+      toast({
+        title: "Error al publicar",
+        description: "Hubo un error al publicar tu post. Inténtalo de nuevo.",
+        variant: "destructive",
+      });
+    }
   };
 
-  // Función para limpiar el formulario
   const clearForm = () => {
-    setImages([]); // Limpiar imágenes
-    form.reset(); // Reiniciar el formulario
+    setImages([]);
+    form.reset();
   };
 
   return (
@@ -93,7 +107,6 @@ const PostForm: React.FC<{
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-4"
         >
-          {/* Campo del Título */}
           <FormField
             control={form.control}
             name="title"
@@ -107,8 +120,6 @@ const PostForm: React.FC<{
               </FormItem>
             )}
           />
-
-          {/* Campo del Contenido */}
           <FormField
             control={form.control}
             name="content"
@@ -126,8 +137,6 @@ const PostForm: React.FC<{
               </FormItem>
             )}
           />
-
-          {/* Campo de Imágenes */}
           <FormField
             control={form.control}
             name="images"

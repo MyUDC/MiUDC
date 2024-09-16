@@ -1,5 +1,5 @@
 import { ServerTabs } from "@/features/career/components/ServerTabs";
-import NewPost from "@/shared/components/PostForm/NewPostDrawer";
+import NewPost from "@/shared/components/PostForm/NewPost";
 import { Toaster } from "@/components/ui/toaster";
 
 interface Props {
