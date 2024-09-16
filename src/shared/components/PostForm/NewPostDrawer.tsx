@@ -38,7 +38,7 @@ export default function NewPost() {
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <PostCard />
+          <PostCard onClick={() => setIsOpen(true)} />
         </DialogTrigger>
         <DialogContent className="h-svh max-h-xl mt-10 overflow-y-auto no-scrollbar">
           <div className="mx-auto w-full max-w-md h-full flex flex-col">
@@ -63,7 +63,7 @@ export default function NewPost() {
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <PostCard />
+        <PostCard onClick={() => setIsOpen(true)} />
       </DrawerTrigger>
       <DrawerContent className="h-svh mt-10">
         <div className="mx-auto w-full max-w-md h-full flex flex-col">
