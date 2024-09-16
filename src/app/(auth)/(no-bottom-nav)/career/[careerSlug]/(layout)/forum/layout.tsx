@@ -29,7 +29,7 @@ export default async function CareerForumLayout({ children, params }: Props) {
         <ServerTabs tabs={tabs} />
       </div>
       <div className="flex-grow">
-        <NewPost />
+        <NewPost careerSlug={careerSlug} />
         <div className="px-4 sm:px-6 lg:px-8">{children}</div>
       </div>
       <Toaster />
