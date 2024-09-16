@@ -7,8 +7,17 @@ import {
   DrawerTitle,
   DrawerDescription,
 } from "@/components/ui/drawer";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog"; // Import your AlertDialog components
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { useMediaQuery } from "@react-hook/media-query"; // Import the useMediaQuery hook
 
 interface ImagePreviewProps {
   images: string[];
@@ -22,6 +31,8 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ images, setImages }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
   );
+
+  const isDesktop = useMediaQuery("(min-width: 768px)"); // Check if the device is desktop
 
   const removeImage = (index: number) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
@@ -68,36 +79,69 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ images, setImages }) => {
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
 
-      <Drawer open={isImageOptionsOpen} onOpenChange={setIsImageOptionsOpen}>
-        <DrawerContent className="w-full sm:w-auto px-6">
-          <DrawerTitle className="sr-only">
-            Image Management Options
-          </DrawerTitle>
-          <DrawerDescription className="sr-only">
-            Choose an action to manage your images
-          </DrawerDescription>
-          <div className="p-4 space-y-2">
-            {selectedImageIndex !== null && (
-              <Button
-                onClick={() => removeImage(selectedImageIndex)}
+      {isDesktop ? (
+        // Desktop: Use AlertDialog
+        <AlertDialog
+          open={isImageOptionsOpen}
+          onOpenChange={setIsImageOptionsOpen}
+        >
+          <AlertDialogContent className="w-full sm:w-auto px-6">
+            <AlertDialogTitle> Opciones de borrado</AlertDialogTitle>
+            <AlertDialogDescription>
+              Elige una opción para borrar tus imágenes.
+            </AlertDialogDescription>
+            <div className="p-4 space-y-2">
+              {selectedImageIndex !== null && (
+                <AlertDialogAction
+                  onClick={() => removeImage(selectedImageIndex)}
+                  className="w-full"
+                >
+                  Borrar imagen seleccionada
+                </AlertDialogAction>
+              )}
+              <AlertDialogAction onClick={removeAllImages} className="w-full">
+                Borrar todas las imágenes
+              </AlertDialogAction>
+              <AlertDialogCancel
+                onClick={() => setIsImageOptionsOpen(false)}
                 className="w-full"
               >
-                Borrar imagen seleccionada
+                Cancelar
+              </AlertDialogCancel>
+            </div>
+          </AlertDialogContent>
+        </AlertDialog>
+      ) : (
+        // Mobile: Use Drawer
+        <Drawer open={isImageOptionsOpen} onOpenChange={setIsImageOptionsOpen}>
+          <DrawerContent className="w-full sm:w-auto px-6">
+            <DrawerTitle className="sr-only">Opciones de borrado</DrawerTitle>
+            <DrawerDescription className="sr-only">
+              Elige una opción para borrar tus imágenes.
+            </DrawerDescription>
+            <div className="p-4 space-y-2">
+              {selectedImageIndex !== null && (
+                <Button
+                  onClick={() => removeImage(selectedImageIndex)}
+                  className="w-full"
+                >
+                  Borrar imagen seleccionada
+                </Button>
+              )}
+              <Button onClick={removeAllImages} className="w-full">
+                Borrar todas las imágenes
               </Button>
-            )}
-            <Button onClick={removeAllImages} className="w-full">
-              Borrar todas las imágenes
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setIsImageOptionsOpen(false)}
-              className="w-full"
-            >
-              Cancelar
-            </Button>
-          </div>
-        </DrawerContent>
-      </Drawer>
+              <Button
+                variant="outline"
+                onClick={() => setIsImageOptionsOpen(false)}
+                className="w-full"
+              >
+                Cancelar
+              </Button>
+            </div>
+          </DrawerContent>
+        </Drawer>
+      )}
     </div>
   );
 };
