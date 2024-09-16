@@ -1,14 +1,11 @@
 "use client";
-
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import { PostWithRelations } from "@/shared/types/PostWithRelations";
 import { EndMessage } from "./EndMessage";
-import { Refresh } from "./Refresh";
-import { ReleaseRefresh } from "./ReleaseRefresh";
-import Post from "../Post";
 import { Loading } from "./Loading";
+import Post from "../Post";
 
 interface Props {
   paginateHandler: (take: number, skip: number) => Promise<PostWithRelations[]>;
@@ -16,49 +13,54 @@ interface Props {
 }
 
 export const PostList = ({ initPosts, paginateHandler }: Props) => {
-
-  const [testimonies, setTestimonies] = useState<PostWithRelations[]>(initPosts)
+  const [posts, setPosts] = useState<PostWithRelations[]>(initPosts);
   const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const loadMorePosts = useCallback(async () => {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    try {
+      const newPosts = await paginateHandler(4, posts.length);
+      if (newPosts.length === 0) {
+        setHasMore(false);
+      } else {
+        setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+      }
+    } catch (error) {
+      console.error("Error loading more posts:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [posts.length, paginateHandler, isLoading]);
 
   return (
-      <InfiniteScroll
-        hasMore={hasMore}
-        dataLength={testimonies.length}
-        // pullDownToRefresh
-        // pullDownToRefreshContent={<Refresh />}
-        // releaseToRefreshContent={<ReleaseRefresh />}
-        // pullDownToRefreshThreshold={100}
-        loader={<Loading />}
-        endMessage={<EndMessage />}
-        // refreshFunction={async () => {
-        //   setTestimonies(await paginateHandler(4, 0));
-        // }}
-        next={async () => {
-          const newTestimonies = await paginateHandler(4, testimonies.length)
-          if (!newTestimonies.length) setHasMore(false);
-          setTestimonies(testimonies.concat(...newTestimonies));
-        }}
-      >
-        {testimonies.map((post) => {
-          return (
-            <Post
-              key={post.id}
-              postType={post.type}
-              postSlug={post.slug}
-              postTitle={post.title}
-              content={post.content}
-              userPhotoUrl={post.author.image ?? ""}
-              userName={post.author.username ?? "no name"}
-              email={post.author.username}
-              careerName={post.career.name}
-              careerSlug={post.career.slug}
-              repliesCount={post._count.children}
-              heartCount={post._count.PostLike}
-              imageUrls={post.images.map(({ url }) => (url))}
-              createdAt={post.createdAt}
-            />
-          )
-        })}
-      </InfiniteScroll>
-  )
-}
+    <InfiniteScroll
+      dataLength={posts.length}
+      next={loadMorePosts}
+      hasMore={hasMore}
+      loader={<Loading />}
+      endMessage={hasMore ? null : <EndMessage />}
+    >
+      {posts.map((post) => (
+        <Post
+          key={post.id}
+          postType={post.type}
+          postSlug={post.slug}
+          postTitle={post.title}
+          content={post.content}
+          userPhotoUrl={post.author.image ?? ""}
+          userName={post.author.username ?? "no name"}
+          email={post.author.username}
+          careerName={post.career.name}
+          careerSlug={post.career.slug}
+          repliesCount={post._count.children}
+          heartCount={post._count.PostLike}
+          imageUrls={post.images.map(({ url }) => url)}
+          createdAt={post.createdAt}
+        />
+      ))}
+    </InfiniteScroll>
+  );
+};
