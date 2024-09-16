@@ -14,10 +14,10 @@ import {
   AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
-} from "@/components/ui/alert-dialog"; // Import your AlertDialog components
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import { useMediaQuery } from "@react-hook/media-query"; // Import the useMediaQuery hook
+import { useMediaQuery } from "@react-hook/media-query";
 
 interface ImagePreviewProps {
   images: string[];
@@ -32,7 +32,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ images, setImages }) => {
     null
   );
 
-  const isDesktop = useMediaQuery("(min-width: 768px)"); // Check if the device is desktop
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const removeImage = (index: number) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
@@ -42,6 +42,16 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ images, setImages }) => {
   const removeAllImages = () => {
     setImages([]);
     setIsImageOptionsOpen(false);
+  };
+
+  const handleXButtonClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedImageIndex(index);
+    setIsImageOptionsOpen(true);
   };
 
   return (
@@ -66,10 +76,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ images, setImages }) => {
                 variant="outline"
                 size="icon"
                 className="absolute top-1 right-1 z-10 h-6 w-6 bg-black text-white bg-opacity-50 backdrop-blur-md border-0 rounded-full"
-                onClick={() => {
-                  setSelectedImageIndex(index);
-                  setIsImageOptionsOpen(true);
-                }}
+                onClick={(e) => handleXButtonClick(e, index)}
               >
                 <X className="h-3 w-3" />
               </Button>
@@ -80,13 +87,12 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ images, setImages }) => {
       </ScrollArea>
 
       {isDesktop ? (
-        // Desktop: Use AlertDialog
         <AlertDialog
           open={isImageOptionsOpen}
           onOpenChange={setIsImageOptionsOpen}
         >
           <AlertDialogContent className="w-full sm:w-auto px-6">
-            <AlertDialogTitle> Opciones de borrado</AlertDialogTitle>
+            <AlertDialogTitle>Opciones de borrado</AlertDialogTitle>
             <AlertDialogDescription>
               Elige una opción para borrar tus imágenes.
             </AlertDialogDescription>
@@ -112,7 +118,6 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ images, setImages }) => {
           </AlertDialogContent>
         </AlertDialog>
       ) : (
-        // Mobile: Use Drawer
         <Drawer open={isImageOptionsOpen} onOpenChange={setIsImageOptionsOpen}>
           <DrawerContent className="w-full sm:w-auto px-6">
             <DrawerTitle className="sr-only">Opciones de borrado</DrawerTitle>
