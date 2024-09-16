@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -19,11 +19,13 @@ const fileSchema = z.object({
 });
 
 const ImageUpload: React.FC<{
+  id?: string;
   images: string[];
   setImages: React.Dispatch<React.SetStateAction<string[]>>;
   isDrawerOpen: boolean;
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ images, setImages, isDrawerOpen, setIsDrawerOpen }) => {
+  tabIndex?: number; // Agrega la propiedad tabIndex aquí
+}> = ({ id, images, setImages, isDrawerOpen, setIsDrawerOpen, tabIndex }) => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -100,12 +102,14 @@ const ImageUpload: React.FC<{
   return (
     <div className="space-y-4">
       <input
+        id={id}
         type="file"
         accept="image/png, image/jpeg, image/jpg, image/webp, image/gif"
         onChange={handleFileChange}
         multiple
         className="hidden"
         ref={fileInputRef}
+        tabIndex={tabIndex} // Usa tabIndex aquí
       />
       <Button
         onClick={handleButtonClick}
@@ -113,6 +117,7 @@ const ImageUpload: React.FC<{
         variant="outline"
         className="w-full"
         disabled={isUploading}
+        tabIndex={tabIndex} // Usa tabIndex aquí
       >
         <Upload className="mr-2 h-4 w-4" />
         {isUploading ? "Subiendo..." : "Cargar Imágenes"}
@@ -123,6 +128,7 @@ const ImageUpload: React.FC<{
           setImages={setImages}
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
+          tabIndex={tabIndex} // Usa tabIndex aquí si es necesario
         />
       )}
     </div>

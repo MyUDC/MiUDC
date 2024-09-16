@@ -112,9 +112,14 @@ const PostForm: React.FC<{
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Título</FormLabel>
+                <FormLabel htmlFor="title">Título</FormLabel>
                 <FormControl>
-                  <Input placeholder="Título" {...field} />
+                  <Input
+                    id="title"
+                    placeholder="Título"
+                    {...field}
+                    tabIndex={1}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -125,12 +130,14 @@ const PostForm: React.FC<{
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Contenido</FormLabel>
+                <FormLabel htmlFor="content">Contenido</FormLabel>
                 <FormControl>
                   <Textarea
+                    id="content"
                     placeholder="Comparte tu experiencia"
                     className="resize-none h-32"
                     {...field}
+                    tabIndex={2}
                   />
                 </FormControl>
                 <FormMessage />
@@ -142,13 +149,15 @@ const PostForm: React.FC<{
             name="images"
             render={() => (
               <FormItem>
-                <FormLabel>Imágenes</FormLabel>
+                <FormLabel htmlFor="images">Imágenes</FormLabel>
                 <FormControl>
                   <ImageUpload
+                    id="images"
                     images={images}
                     setImages={setImages}
                     isDrawerOpen={isDrawerOpen}
                     setIsDrawerOpen={setIsDrawerOpen}
+                    tabIndex={3}
                   />
                 </FormControl>
                 <FormMessage />

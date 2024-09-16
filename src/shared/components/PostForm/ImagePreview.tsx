@@ -24,9 +24,14 @@ interface ImagePreviewProps {
   setImages: React.Dispatch<React.SetStateAction<string[]>>;
   isDrawerOpen: boolean;
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  tabIndex?: number; // Agrega tabIndex aquí
 }
 
-const ImagePreview: React.FC<ImagePreviewProps> = ({ images, setImages }) => {
+const ImagePreview: React.FC<ImagePreviewProps> = ({
+  images,
+  setImages,
+  tabIndex,
+}) => {
   const [isImageOptionsOpen, setIsImageOptionsOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
