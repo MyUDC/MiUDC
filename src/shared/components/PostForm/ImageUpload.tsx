@@ -1,10 +1,11 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import ImagePreview from "./ImagePreview";
+import { uploadImage } from "@/shared/actions/uploadImage"; // Importa la acción del servidor
 
 // Definir los tipos permitidos usando Zod
 const fileSchema = z.object({
@@ -25,28 +26,28 @@ const ImageUpload: React.FC<{
 }> = ({ images, setImages, isDrawerOpen, setIsDrawerOpen }) => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const files = event.target.files;
     if (files) {
-      const newImages = Array.from(files)
-        .filter((file) => {
-          // Validar el tipo de archivo con Zod
-          const validation = fileSchema.safeParse({ type: file.type });
-          if (!validation.success) {
-            toast({
-              variant: "destructive",
-              title: "Formato no permitido",
-              description: `El archivo ${file.name} no es una imagen válida. Solo se permiten imágenes.`,
-              action: <ToastAction altText="Entendido">Entendido</ToastAction>,
-            });
-            return false;
-          }
-          return true;
-        })
-        .map((file) => URL.createObjectURL(file));
+      const validFiles = Array.from(files).filter((file) => {
+        const validation = fileSchema.safeParse({ type: file.type });
+        if (!validation.success) {
+          toast({
+            variant: "destructive",
+            title: "Formato no permitido",
+            description: `El archivo ${file.name} no es una imagen válida. Solo se permiten imágenes.`,
+            action: <ToastAction altText="Entendido">Entendido</ToastAction>,
+          });
+          return false;
+        }
+        return true;
+      });
 
-      if (images.length + newImages.length > 6) {
+      if (images.length + validFiles.length > 6) {
         toast({
           variant: "destructive",
           title: "Límite de imágenes alcanzado",
@@ -56,12 +57,43 @@ const ImageUpload: React.FC<{
         return;
       }
 
-      setImages((prevImages) => [...prevImages, ...newImages]);
+      setIsUploading(true);
+
+      const formData = new FormData();
+      validFiles.forEach((file) => formData.append("images", file));
+
+      try {
+        const response = await uploadImage(formData);
+        if (response.ok) {
+          const newImageUrls = response.result.filter(
+            (url): url is string => url !== null
+          );
+          setImages((prevImages) => [...prevImages, ...newImageUrls]);
+          toast({
+            title: "Imágenes subidas",
+            description: "Tus imágenes se han subido exitosamente.",
+            variant: "default",
+          });
+        } else {
+          throw new Error("Error al subir las imágenes");
+        }
+      } catch (error) {
+        console.error("Error al subir las imágenes:", error);
+        toast({
+          variant: "destructive",
+          title: "Error al subir las imágenes",
+          description:
+            "Ha ocurrido un error al subir las imágenes. Por favor, inténtalo de nuevo.",
+          action: <ToastAction altText="Entendido">Entendido</ToastAction>,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Previene que el formulario se envíe
+    e.preventDefault();
     fileInputRef.current?.click();
   };
 
@@ -80,8 +112,10 @@ const ImageUpload: React.FC<{
         type="button"
         variant="outline"
         className="w-full"
+        disabled={isUploading}
       >
-        <Upload className="mr-2 h-4 w-4" /> Cargar Imágenes
+        <Upload className="mr-2 h-4 w-4" />
+        {isUploading ? "Subiendo..." : "Cargar Imágenes"}
       </Button>
       {images.length > 0 && (
         <ImagePreview
