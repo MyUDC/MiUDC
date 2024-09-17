@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
@@ -29,6 +30,7 @@ const PostForm: React.FC<{
   const [images, setImages] = useState<string[]>([]);
   const { toast } = useToast();
   const router = useRouter();
+  const pathname = usePathname();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -48,8 +50,8 @@ const PostForm: React.FC<{
         authorId,
         careerId,
         imageUrls: images,
+        path: pathname,
       });
-      router.refresh();
       toast({
         title: "Post publicado",
         description: "Tu post se ha publicado exitosamente.",

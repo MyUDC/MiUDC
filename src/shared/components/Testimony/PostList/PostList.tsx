@@ -1,6 +1,7 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { usePathname } from "next/navigation";
 
 import { PostWithRelations } from "@/shared/types/PostWithRelations";
 import { EndMessage } from "./EndMessage";
@@ -16,6 +17,12 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
   const [posts, setPosts] = useState<PostWithRelations[]>(initPosts);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setPosts(initPosts);
+    setHasMore(true);
+  }, [initPosts, pathname]);
 
   const loadMorePosts = useCallback(async () => {
     if (isLoading) return;
