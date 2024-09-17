@@ -1,3 +1,5 @@
+"use server";
+
 import prisma from "@/lib/prisma";
 import { PostType } from "@prisma/client";
 
@@ -10,7 +12,7 @@ interface CreatePostInput {
   imageUrls: string[];
 }
 
-export default async function createPost(input: CreatePostInput) {
+export async function createPost(input: CreatePostInput) {
   const { type, title, content, authorId, careerId, imageUrls } = input;
 
   let slug = generateSlug(title);

@@ -1,6 +1,5 @@
-//src\shared\components\PostForm\PostForm.tsx
 // src/shared/components/PostForm/PostForm.tsx
-
+"use client";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +19,7 @@ import ImageUpload from "./ImageUpload";
 import { FormSchema } from "./validationSchema";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import { createPost } from "@/shared/actions/Post/createPost";
 
 const PostForm: React.FC<{
   postType: string;
@@ -41,10 +41,26 @@ const PostForm: React.FC<{
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log("Author ID:", authorId); // Verifica que este ID es el correcto
-    console.log("Data being submitted:", data);
+  const createPostAsync = async (data: z.infer<typeof FormSchema>) => {
+    try {
+      await createPost({
+        type: postType === "TESTIMONY" ? "TESTIMONY" : "QUESTION",
+        title: data.title,
+        content: data.content,
+        authorId,
+        careerId,
+        imageUrls: images,
+      });
+      router.refresh();
+      toast({ title: "Post publicado", variant: "default" });
+      clearForm();
+      setIsDrawerOpen(false);
+    } catch (error) {
+      toast({ title: "Error al publicar", variant: "destructive" });
+    }
+  };
 
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     if (images.length > 6) {
       toast({
         variant: "destructive",
@@ -54,48 +70,7 @@ const PostForm: React.FC<{
       });
       return;
     }
-
-    const { title, content } = data;
-
-    try {
-      const response = await fetch("/api/post/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: postType === "TESTIMONY" ? "TESTIMONY" : "QUESTION",
-          title,
-          content,
-          authorId, // Asegúrate de que este valor es correcto
-          careerId,
-          imageUrls: images,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error al publicar el post");
-      }
-
-      const newPost = await response.json();
-
-      router.refresh();
-
-      toast({
-        title: "Post publicado",
-        description: "Tu post se ha publicado exitosamente.",
-        variant: "default",
-      });
-
-      clearForm();
-      setIsDrawerOpen(false);
-    } catch (error) {
-      toast({
-        title: "Error al publicar",
-        description: "Hubo un error al publicar tu post. Inténtalo de nuevo.",
-        variant: "destructive",
-      });
-    }
+    createPostAsync(data);
   };
 
   const clearForm = () => {
