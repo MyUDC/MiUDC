@@ -61,10 +61,7 @@ export const ServerTabs = ({ tabs }: Props) => {
             );
           })}
         </TabsList>
-        <ScrollBar
-          orientation="horizontal"
-          className="bg-transparent text-transparent"
-        />
+        <ScrollBar orientation="horizontal" transparentThumb />
       </ScrollArea>
     </Tabs>
   );
