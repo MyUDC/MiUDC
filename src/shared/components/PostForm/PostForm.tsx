@@ -134,7 +134,7 @@ const PostForm: React.FC<{
                 <FormControl>
                   <Textarea
                     id="content"
-                    placeholder="Comparte tu experiencia"
+                    placeholder="Redacta tu post"
                     className="resize-none h-32"
                     {...field}
                     tabIndex={2}
