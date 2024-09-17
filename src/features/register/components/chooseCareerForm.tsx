@@ -1,21 +1,52 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import Cookies from "js-cookie";
-import { faInfo } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
+
+import Cookies from "js-cookie";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    FormProvider,
+    useForm
+} from "react-hook-form";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select";
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from "@/components/ui/form";
+
+const Form = FormProvider;
 
 interface Props {
     careers: { id: string; name: string }[];
 }
 
-interface FormInputs {
-    accountNumber: number | null;
-    career: string;
-    semester: number;
-}
+const FormSchema = z.object({
+    accountNumber: z
+        .string({ required_error: "Este campo es requerido" })
+        .min(8, { message: "El número de cuanta debe tener 8 dígitos" })
+        .max(8, { message: "El número de cuanta debe tener 8 dígitos" }),
+    career: z
+        .string({ required_error: "Este campo es requerido" })
+        .min(1, { message: "Este campo es requerido" }),
+    semester: z
+        .string({ required_error: "Este campo es requerido" })
+        .min(1, { message: "Este campo es requerido" }),
+});
 
+// todo: add this data to career model
 const semesters = [
     { value: "1", label: "Primero" },
     { value: "2", label: "Segundo" },
@@ -30,21 +61,18 @@ const semesters = [
 export default function ChooseCareerForm({ careers }: Props) {
     const router = useRouter();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting }
-    } = useForm<FormInputs>({
+    const form = useForm<z.infer<typeof FormSchema>>({
+        resolver: zodResolver(FormSchema),
         defaultValues: {
-            career: "0",
-            semester: 0,
-            accountNumber: null
+            career: undefined,
+            semester: undefined,
+            accountNumber: undefined
         }
     });
 
-    const onSubmit = async (data: FormInputs) => {
+    const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         const { career, semester, accountNumber } = data;
-        console.log(career, semester);
+        console.log(career, semester, accountNumber);
         Cookies.set("accountNumber", accountNumber?.toString()!);
         Cookies.set("career", career);
         Cookies.set("semester", semester.toString());
@@ -52,114 +80,92 @@ export default function ChooseCareerForm({ careers }: Props) {
     }
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-6"
-        >
-            <div>
-                <div className="flex flex-col gap-1">
-                    <label
-                        htmlFor="accountNumber"
-                        className="text-black font-light font-inter text-base"
-                    >
-                        Numero de cuenta
-                    </label>
-                    <input
-                        id="accountNumber"
-                        type="number"
-                        placeholder="Numero de cuenta"
-                        className="rounded-lg p-2 pl-4 font-light focus:border-green-500 focus:outline-none bg-smoothGreen shadow-md w-full h-14"
-                        {...register("accountNumber", {
-                            required: "Este campo es requerido",
-                            maxLength: {
-                                message: "Numero de cuenta invalido",
-                                value: 8
-                            },
-                            minLength: {
-                                message: "Numero de cuenta invalido",
-                                value: 8
-                            }
-                        })}
-                    />
-                </div>
-                {errors.accountNumber && (
-                    <span className="px-2 text-sm flex text-red-600 items-center gap-1">
-                        <FontAwesomeIcon className="w-2 h-2 text-white bg-red-700 p-1 rounded-full" icon={faInfo} />
-                        {errors.accountNumber.message}
-                    </span>
-                )}
-            </div>
+        <Form {...form}>
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-col gap-6"
+            >
+                {/* Account number field */}
+                <FormField
+                    control={form.control}
+                    name="accountNumber"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel htmlFor="accountNumber">
+                                Número de cuenta
+                            </FormLabel>
+                            <FormControl>
+                                <Input
+                                    id="accountNumber"
+                                    type="number"
+                                    placeholder="Número de cuenta"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
 
-            <div>
-                <div className="flex flex-col w-full">
-                    <label className="text-black font-light font-inter text-base">Carrera</label>
-                    <div className="bg-smoothGreen rounded-lg p-2">
-                        <select
-                            className="p-2 bg-transparent w-full rounded-full"
-
-                            {...register("career", {
-                                required: true,
-                                validate: (value) => {
-                                    if (value === "0") {
-                                        return "Este campo es requerido";
+                {/* Career field */}
+                <FormField
+                    control={form.control}
+                    name="career"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Carrera</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Selecciona tu carrera" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {
+                                        careers.map((career) => (
+                                            <SelectItem key={career.id} value={career.id}>{career.name}</SelectItem>
+                                        ))
                                     }
-                                    return true;
-                                }
-                            })}
-                        >
-                            <option value="0" disabled className="text-gray-500">Selecciona tu carrera</option>
-                            {careers.map((career) => (
-                                <option key={career.id} value={career.id}>{career.name}</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                {errors.career && (
-                    <span className="px-2 text-sm flex text-red-600 items-center gap-1">
-                        <FontAwesomeIcon className="w-2 h-2 text-white bg-red-700 p-1 rounded-full" icon={faInfo} />
-                        {errors.career.message}
-                    </span>
-                )}
-            </div>
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
 
-            <div>
-                <div className="flex flex-col w-full">
-                    <label className="text-black font-light font-inter text-base">Semestre</label>
-                    <div className="bg-smoothGreen rounded-lg p-2">
-                        <select
-                            className="p-2 bg-transparent w-full rounded-full"
-
-                            {...register("semester", {
-                                required: true,
-                                validate: (value) => {
-                                    if (value === 0) {
-                                        return "Este campo es requerido";
+                {/* Semester field */}
+                <FormField
+                    control={form.control}
+                    name="semester"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Semestre</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field?.value?.toString()!}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Selecciona tu semestre" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {
+                                        semesters.map((semester) => (
+                                            <SelectItem key={semester.value} value={semester.value}>{semester.label}</SelectItem>
+                                        ))
                                     }
-                                    return true;
-                                }
-                            })}
-                        >
-                            <option value="0" disabled className="text-gray-500">Selecciona tu semestre</option>
-                            {semesters.map((semester) => (
-                                <option key={semester.value} value={semester.value}>{semester.label}</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                {errors.semester && (
-                    <span className="px-2 text-sm flex text-red-600 items-center gap-1">
-                        <FontAwesomeIcon className="w-2 h-2 text-white bg-red-700 p-1 rounded-full" icon={faInfo} />
-                        {errors.semester.message}
-                    </span>
-                )}
-            </div>
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
 
-
-            <input
-                type="submit"
-                value="continuar"
-                className="flex bg-green font-semibold text-white text-center shadow-md rounded-md w-full py-3"
-            />  
-        </form>
+                <Button
+                    variant="green"
+                    type="submit"
+                >
+                    Continuar
+                </Button>
+            </form>
+        </Form >
     );
 }
