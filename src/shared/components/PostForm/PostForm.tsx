@@ -50,11 +50,19 @@ const PostForm: React.FC<{
         imageUrls: images,
       });
       router.refresh();
-      toast({ title: "Post publicado", variant: "default" });
+      toast({
+        title: "Post publicado",
+        description: "Tu post se ha publicado exitosamente.",
+        variant: "default",
+      });
       clearForm();
       setIsDrawerOpen(false);
     } catch (error) {
-      toast({ title: "Error al publicar", variant: "destructive" });
+      toast({
+        title: "Error al publicar",
+        description: "Hubo un error al publicar tu post. Inténtalo de nuevo.",
+        variant: "destructive",
+      });
     }
   };
 
