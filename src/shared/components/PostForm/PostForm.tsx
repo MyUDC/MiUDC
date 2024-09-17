@@ -19,6 +19,7 @@ import { ToastAction } from "@/components/ui/toast";
 import ImageUpload from "./ImageUpload";
 import { FormSchema } from "./validationSchema";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const PostForm: React.FC<{
   postType: string;
@@ -29,6 +30,7 @@ const PostForm: React.FC<{
 }> = ({ postType, authorId, careerId, isDrawerOpen, setIsDrawerOpen }) => {
   const [images, setImages] = useState<string[]>([]);
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -76,6 +78,8 @@ const PostForm: React.FC<{
       }
 
       const newPost = await response.json();
+
+      router.refresh();
 
       toast({
         title: "Post publicado",
