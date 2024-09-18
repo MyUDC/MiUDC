@@ -28,7 +28,7 @@ export default function BottomNavigation({ user }: BottomNavigationProps) {
       icon: <TbMessageChatbotFilled className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
     },
     {
-      href: "",
+      href: "/career-catalog",
       label: "Carreras",
       icon: <FaUniversity className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
     },
