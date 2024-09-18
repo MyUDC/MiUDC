@@ -26,11 +26,13 @@ import {
     FormLabel,
     FormMessage
 } from "@/components/ui/form";
+import { useEffect } from "react";
 
 const Form = FormProvider;
 
 interface Props {
     careers: { id: string; name: string }[];
+    initialValues?: z.infer<typeof FormSchema>;
 }
 
 const FormSchema = z.object({
@@ -58,16 +60,12 @@ const semesters = [
     { value: "8", label: "Octavo" },
 ]
 
-export default function ChooseCareerForm({ careers }: Props) {
+export default function ChooseCareerForm({ careers, initialValues }: Props) {
     const router = useRouter();
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
-        defaultValues: {
-            career: undefined,
-            semester: undefined,
-            accountNumber: undefined
-        }
+        defaultValues: initialValues,
     });
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
