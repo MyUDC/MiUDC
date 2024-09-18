@@ -30,9 +30,9 @@ export const ServerTabs = ({ tabs }: Props) => {
   }, []);
 
   return (
-    <Tabs value={currentPath} className="w-full bg-gray-100">
-      <ScrollArea className="w-full">
-        <TabsList className="flex w-full border-gray-300 py-6">
+    <Tabs value={currentPath} className="w-full ">
+      <ScrollArea className="w-full bg-gray-100">
+        <TabsList className="flex w-full border-gray-300 py-6 bg-gray-100">
           {tabs.map((tab, index) => {
             const isActive = currentPath === tab.path;
 
@@ -61,10 +61,7 @@ export const ServerTabs = ({ tabs }: Props) => {
             );
           })}
         </TabsList>
-        <ScrollBar
-          orientation="horizontal"
-          className="bg-transparent text-transparent"
-        />
+        <ScrollBar orientation="horizontal" transparentThumb />
       </ScrollArea>
     </Tabs>
   );

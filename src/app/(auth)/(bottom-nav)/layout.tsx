@@ -14,7 +14,7 @@ export default async function BottomNavLayout({
       <main className="flex-grow overflow-y-auto">
         <div>{children}</div>
       </main>
-      <nav className="sticky bottom-0 left-0 right-0 z-50">
+      <nav className="sticky bottom-0 left-0 right-0 z-40">
         <BottomNavigation user={session.user} />
       </nav>
     </div>
