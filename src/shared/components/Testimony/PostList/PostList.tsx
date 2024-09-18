@@ -1,9 +1,6 @@
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { usePathname } from "next/navigation";
-import { useInView } from "react-intersection-observer";
-
 import { PostWithRelations } from "@/shared/types/PostWithRelations";
 import { EndMessage } from "./EndMessage";
 import { Loading } from "./Loading";
@@ -20,10 +17,8 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
   const [visiblePosts, setVisiblePosts] = useState<Set<string>>(new Set());
-
-  const { ref: lastPostRef, inView } = useInView({
-    threshold: 0.5,
-  });
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const loadingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setPosts(initPosts);
@@ -33,10 +28,10 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
 
   const loadMorePosts = useCallback(async () => {
     if (isLoading || !hasMore) return;
-
     setIsLoading(true);
     try {
       const newPosts = await paginateHandler(4, posts.length);
+
       if (newPosts.length === 0) {
         setHasMore(false);
       } else {
@@ -50,10 +45,31 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
   }, [posts.length, paginateHandler, isLoading, hasMore]);
 
   useEffect(() => {
-    if (inView && !isLoading) {
-      loadMorePosts();
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const target = entries[0];
+      if (target.isIntersecting && !isLoading) {
+        loadMorePosts();
+      }
+    }, options);
+
+    observerRef.current = observer;
+
+    if (loadingRef.current) {
+      observer.observe(loadingRef.current);
     }
-  }, [inView, loadMorePosts, isLoading]);
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [loadMorePosts, isLoading]);
 
   const onPostVisible = useCallback((postId: string, isVisible: boolean) => {
     setVisiblePosts((prev) => {
@@ -68,19 +84,11 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
   }, []);
 
   return (
-    <InfiniteScroll
-      dataLength={posts.length}
-      next={loadMorePosts}
-      hasMore={hasMore}
-      loader={<Loading />}
-      endMessage={<EndMessage />}
-      scrollableTarget="scrollableDiv"
-    >
-      {posts.map((post, index) => (
+    <div id="scrollableDiv" style={{ height: "100%", overflow: "auto" }}>
+      {posts.map((post) => (
         <VisibilityWrapper
           key={post.id}
           onVisibilityChange={(isVisible) => onPostVisible(post.id, isVisible)}
-          useLastPostRef={index === posts.length - 1 ? lastPostRef : undefined}
         >
           <Post
             postType={post.type}
@@ -99,25 +107,43 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
           />
         </VisibilityWrapper>
       ))}
-    </InfiniteScroll>
+      {hasMore && (
+        <div ref={loadingRef}>
+          <Loading />
+        </div>
+      )}
+      {!hasMore && <EndMessage />}
+    </div>
   );
 };
 
 const VisibilityWrapper: React.FC<{
   children: React.ReactNode;
   onVisibilityChange: (isVisible: boolean) => void;
-  useLastPostRef?: (node?: Element | null) => void;
-}> = ({ children, onVisibilityChange, useLastPostRef }) => {
-  const { ref, inView } = useInView({
-    threshold: 0.5,
-    triggerOnce: false,
-  });
+}> = ({ children, onVisibilityChange }) => {
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    onVisibilityChange(inView);
-  }, [inView, onVisibilityChange]);
+    const currentRef = ref.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        onVisibilityChange(entry.isIntersecting);
+      },
+      { threshold: 0.5 }
+    );
 
-  return <div ref={useLastPostRef || ref}>{children}</div>;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [onVisibilityChange]);
+
+  return <div ref={ref}>{children}</div>;
 };
 
 export default PostList;
