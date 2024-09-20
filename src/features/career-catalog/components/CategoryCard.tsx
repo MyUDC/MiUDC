@@ -31,7 +31,7 @@ export default function CategoryCard({
           </div>
           {/* Título alineado a la izquierda */}
           <div className="flex justify-start mb-2 ml-2">
-            <span className="font-bold text-lg text-white max-w-36">
+            <span className="font-medium text-lg text-white max-w-36">
               {title}
             </span>
           </div>
