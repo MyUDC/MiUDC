@@ -1,25 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation"; // Importa el hook de Next.js
 import { useTextColor } from "@/shared/hooks/useTextColor";
 
 interface CardWithDynamicTextProps {
   title: string;
   subtitle: string;
   imageSrc: string;
+  slug: string; // Añade el slug de la carrera
 }
 
 export default function CardWithDynamicText({
   title,
   subtitle,
   imageSrc,
+  slug,
 }: CardWithDynamicTextProps) {
+  const router = useRouter();
   const textColor = useTextColor(imageSrc);
 
+  const handleCardClick = () => {
+    router.push(`/career/${slug}`);
+  };
+
   return (
-    <Card className="relative overflow-hidden h-[300px] w-2xl mx-auto">
+    <Card
+      className="relative overflow-hidden h-[300px] w-2xl mx-auto cursor-pointer"
+      onClick={handleCardClick}
+    >
       <CardHeader
         className={`absolute z-10 top-1 flex-col items-start ${textColor}`}
       >
@@ -32,24 +43,11 @@ export default function CardWithDynamicText({
       </CardHeader>
       <Image
         alt="Card background"
-        className="absolute inset-0 object-cover cursor-grab"
+        className="absolute inset-0 object-cover cursor-pointer"
         src={imageSrc}
         layout="fill"
       />
-      <CardFooter className="absolute bottom-0 left-0 right-0 bg-black/40 border-t border-default-600 flex justify-between items-center p-4">
-        <div className="flex items-center gap-2">
-          <Avatar className="w-10 h-10">
-            <Image alt="" src="/loro.png" layout="fill" />
-          </Avatar>
-          <div>
-            <p className="text-xs text-white/90">Testimonio</p>
-            <p className="text-xs text-white/80">Las clases de educación...</p>
-          </div>
-        </div>
-        <Button size="sm" variant="secondary">
-          Ver Detalles
-        </Button>
-      </CardFooter>
+      
     </Card>
   );
 }
