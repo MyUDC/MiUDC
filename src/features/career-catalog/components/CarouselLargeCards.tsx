@@ -1,12 +1,11 @@
 "use client";
-
 import React, { useState, useEffect, useRef } from "react";
 import { useMediaQuery } from "@react-hook/media-query";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import Autoplay from "embla-carousel-autoplay";
-import CardWithDynamicText from "../../components/CardWithDynamicText";
+import LargeCareerCard from "./LargeCareerCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Carousel,
@@ -15,17 +14,24 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { getCareersWithMoreInteractions } from "@/shared/actions/Careers/categories/basedOnData/getCareersWithMoreInteractions";
 
 type Career = {
   id: string;
   name: string;
   slug: string;
   faculty: string;
-  interactionsCount: number;
 };
 
-export default function MostPopularCareers() {
+type CarouselLargeCardsProps = {
+  fetchFunction: (limit: number) => Promise<Career[]>;
+
+  paginationClass: string;
+};
+
+export default function CarouselLargeCards({
+  fetchFunction,
+  paginationClass,
+}: CarouselLargeCardsProps) {
   const [careers, setCareers] = useState<Career[]>([]);
   const [loading, setLoading] = useState(true);
   const autoplayRef = useRef(
@@ -36,19 +42,15 @@ export default function MostPopularCareers() {
 
   useEffect(() => {
     const fetchCareers = async () => {
-      const popularCareers = await getCareersWithMoreInteractions(5);
-      setCareers(popularCareers);
+      const fetchedCareers = await fetchFunction(5);
+      setCareers(fetchedCareers);
       setLoading(false);
     };
     fetchCareers();
-  }, []);
+  }, [fetchFunction]);
 
   function renderSkeletons() {
-    return (
-      <>
-        <Skeleton className="h-[300px] w-full" />
-      </>
-    );
+    return <Skeleton className="h-[300px] w-full" />;
   }
 
   function renderCareers() {
@@ -62,21 +64,23 @@ export default function MostPopularCareers() {
             modules={[Pagination]}
             pagination={{
               clickable: true,
-              el: ".swiper-pagination-popular-careers",
+              el: `.${paginationClass}`,
             }}
           >
             {careers.map((career) => (
               <SwiperSlide key={career.id}>
-                <CardWithDynamicText
+                <LargeCareerCard
                   title={career.name}
                   subtitle={career.faculty}
                   imageSrc={`/telematica.jpg`}
-                  slug={career.slug} // Pasa el slug para redirigir
+                  slug={career.slug}
                 />
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="swiper-pagination-popular-careers flex justify-center space-x-2 mt-2"></div>
+          <div
+            className={`${paginationClass} flex justify-center space-x-2 mt-2`}
+          ></div>
         </>
       );
     } else {
@@ -90,11 +94,11 @@ export default function MostPopularCareers() {
           <CarouselContent>
             {careers.map((career) => (
               <CarouselItem key={career.id}>
-                <CardWithDynamicText
+                <LargeCareerCard
                   title={career.name}
                   subtitle={career.faculty}
                   imageSrc={`/telematica.jpg`}
-                  slug={career.slug} // Pasa el slug aquí también
+                  slug={career.slug}
                 />
               </CarouselItem>
             ))}

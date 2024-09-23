@@ -2,14 +2,15 @@ import { AppBar } from "@/shared/components/AppBar";
 import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 
-//based on data
-import MostPopularCareers from "@/features/career-catalog/categories-sections/basedOnData/MostPopularCareers";
-import CareersWithMoreQuestions from "@/features/career-catalog/categories-sections/basedOnData/CareersWithMoreQuestions";
-import CareersWithMoreTestimonies from "@/features/career-catalog/categories-sections/basedOnData/CareersWithMoreTestimonies";
-//based on tags
-import MostCreativeCareers from "@/features/career-catalog/categories-sections/basedOnTags/MostCreativeCareers";
-
+import CarouselLargeCards from "@/features/career-catalog/components/CarouselLargeCards";
+import CarouselSmallCards from "@/features/career-catalog/components/CarouselSmallCards";
 import CareerCategories from "@/features/career-catalog/CareerCategories";
+
+// career categories actions
+import { getCareersWithMoreInteractions } from "@/shared/actions/Careers/categories/basedOnData/getCareersWithMoreInteractions";
+import { getCareersWithMoreQuestions } from "@/shared/actions/Careers/categories/basedOnData/getCareersWithMoreQuestions";
+import { getCareersWithMoreTestimonies } from "@/shared/actions/Careers/categories/basedOnData/getCareersWithMoreTestimonies";
+import { getRandomCreativeCareers } from "@/shared/actions/Careers/categories/basedOnTags/getRandomCreativeCareers";
 
 export const metadata: Metadata = {
   title: "MiUDC | Career Catalog",
@@ -37,7 +38,10 @@ export default function CareerCatalogPage() {
                 Ver más
               </Button>
             </div>
-            <MostPopularCareers />
+            <CarouselLargeCards
+              fetchFunction={getCareersWithMoreInteractions}
+              paginationClass="swiper-pagination-popular"
+            />
           </section>
 
           {/** Categorías */}
@@ -55,8 +59,6 @@ export default function CareerCatalogPage() {
             <CareerCategories />
           </section>
 
-          {/** Carreras categorizadas con datos de la db */}
-
           {/** Carreras con más preguntas */}
           <section className="mt-8 pb-8 border-b border-gray-200">
             <div className="flex justify-between items-center">
@@ -72,7 +74,10 @@ export default function CareerCatalogPage() {
                 Ver más
               </Button>
             </div>
-            <CareersWithMoreQuestions />
+            <CarouselLargeCards
+              fetchFunction={getCareersWithMoreQuestions}
+              paginationClass="swiper-pagination-questions"
+            />
           </section>
 
           {/** Carreras con más testimonios */}
@@ -90,7 +95,10 @@ export default function CareerCatalogPage() {
                 Ver más
               </Button>
             </div>
-            <CareersWithMoreTestimonies />
+            <CarouselLargeCards
+              fetchFunction={getCareersWithMoreTestimonies}
+              paginationClass="swiper-pagination-testimonies"
+            />
           </section>
 
           {/** Carreras categorizadas por tags  */}
@@ -109,7 +117,10 @@ export default function CareerCatalogPage() {
                   Ver más
                 </Button>
               </div>
-              <MostCreativeCareers />
+              <CarouselSmallCards
+                fetchFunction={getRandomCreativeCareers}
+                paginationClass="swiper-pagination-creative"
+              />
             </section>
           </section>
         </div>

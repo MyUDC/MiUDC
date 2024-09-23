@@ -4,19 +4,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTextColor } from "@/shared/hooks/useTextColor";
 
-interface CardWithDynamicTextProps {
+interface LargeCareerCardProps {
   title: string;
   subtitle: string;
   imageSrc: string;
   slug: string;
 }
 
-export default function CardWithDynamicText({
+export default function LargeCareerCard({
   title,
   subtitle,
   imageSrc,
   slug,
-}: CardWithDynamicTextProps) {
+}: LargeCareerCardProps) {
   const textColor = useTextColor(imageSrc);
 
   return (

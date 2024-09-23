@@ -5,19 +5,25 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import Autoplay from "embla-carousel-autoplay";
-import SmallCardWithDynamicText from "../../components/SmallCardWithDynamicText";
+import SmallCareerCard from "./SmallCareerCard";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getRandomCreativeCareers } from "@/shared/actions/Careers/categories/basedOnTags/getRandomCreativeCareers";
 
 type Career = {
   id: string;
   name: string;
   slug: string;
   faculty: string;
-  creativeTags: string[];
 };
 
-const MostCreativeCareers: React.FC = () => {
+type CarouselSmallCardsProps = {
+  fetchFunction: (limit: number) => Promise<Career[]>;
+  paginationClass: string;
+};
+
+export default function CarouselSmallCards({
+  fetchFunction,
+  paginationClass,
+}: CarouselSmallCardsProps) {
   const [careers, setCareers] = useState<Career[]>([]);
   const [loading, setLoading] = useState(true);
   const autoplayRef = useRef(
@@ -26,12 +32,12 @@ const MostCreativeCareers: React.FC = () => {
 
   useEffect(() => {
     const fetchCareers = async () => {
-      const careersData = await getRandomCreativeCareers(5);
+      const careersData = await fetchFunction(5);
       setCareers(careersData);
       setLoading(false);
     };
     fetchCareers();
-  }, []);
+  }, [fetchFunction]);
 
   const renderSkeletons = () => <Skeleton className="h-[300px] w-full" />;
 
@@ -39,11 +45,11 @@ const MostCreativeCareers: React.FC = () => {
     careers.map((career) => (
       <SwiperSlide key={career.id} className="py-4">
         <div className="flex justify-center">
-          <SmallCardWithDynamicText
+          <SmallCareerCard
             title={career.name}
             subtitle={career.faculty}
             imageUrl="/telematica.jpg"
-            slug={career.slug} // Asegúrate de pasar el slug al componente
+            slug={career.slug}
           />
         </div>
       </SwiperSlide>
@@ -63,7 +69,7 @@ const MostCreativeCareers: React.FC = () => {
           onMouseLeave={autoplayRef.current.reset}
           pagination={{
             clickable: true,
-            el: ".swiper-pagination-creative",
+            el: `.${paginationClass}`,
           }}
           breakpoints={{
             600: {
@@ -84,9 +90,9 @@ const MostCreativeCareers: React.FC = () => {
           {renderSwiperSlides()}
         </Swiper>
       )}
-      <div className="swiper-pagination-creative flex justify-center space-x-2 mt-4"></div>
+      <div
+        className={`${paginationClass} flex justify-center space-x-2 mt-4`}
+      ></div>
     </div>
   );
-};
-
-export default MostCreativeCareers;
+}
