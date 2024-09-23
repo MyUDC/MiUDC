@@ -62,7 +62,8 @@ const PostForm: React.FC<{
     } catch (error) {
       toast({
         title: "Error al publicar",
-        description: "Hubo un error al publicar tu post. Inténtalo de nuevo.",
+        description:
+          "Hubo un error al publicar tu post. Inténtalo de nuevo o Intenta iniciar sesión nuevamente.",
         variant: "destructive",
       });
     }
