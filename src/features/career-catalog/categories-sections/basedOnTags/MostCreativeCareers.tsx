@@ -17,7 +17,7 @@ type Career = {
   creativeTags: string[];
 };
 
-export default function MostCreativeCareers() {
+const MostCreativeCareers: React.FC = () => {
   const [careers, setCareers] = useState<Career[]>([]);
   const [loading, setLoading] = useState(true);
   const autoplayRef = useRef(
@@ -33,13 +33,21 @@ export default function MostCreativeCareers() {
     fetchCareers();
   }, []);
 
-  function renderSkeletons() {
-    return (
-      <>
-        <Skeleton className="h-[300px] w-full" />
-      </>
-    );
-  }
+  const renderSkeletons = () => <Skeleton className="h-[300px] w-full" />;
+
+  const renderSwiperSlides = () =>
+    careers.map((career) => (
+      <SwiperSlide key={career.id} className="py-4">
+        <div className="flex justify-center">
+          <SmallCardWithDynamicText
+            title={career.name}
+            subtitle={career.faculty}
+            imageUrl="/telematica.jpg"
+            slug={career.slug} // Asegúrate de pasar el slug al componente
+          />
+        </div>
+      </SwiperSlide>
+    ));
 
   return (
     <div className="w-full px-4 md:px-6 lg:px-8 relative pb-10">
@@ -58,35 +66,27 @@ export default function MostCreativeCareers() {
             el: ".swiper-pagination-creative",
           }}
           breakpoints={{
-            400: {
-              slidesPerView: 1.5,
+            600: {
+              slidesPerView: 2,
               spaceBetween: 10,
             },
-            640: {
+            750: {
               slidesPerView: 2.5,
               spaceBetween: 20,
             },
             1024: {
-              slidesPerView: 3.5,
+              slidesPerView: 3.15,
               spaceBetween: 30,
             },
           }}
           className="w-full"
         >
-          {careers.map((career) => (
-            <SwiperSlide key={career.id} className="py-4">
-              <div className="flex justify-center">
-                <SmallCardWithDynamicText
-                  title={career.name}
-                  subtitle={career.faculty}
-                  imageUrl="/telematica.jpg"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
+          {renderSwiperSlides()}
         </Swiper>
       )}
       <div className="swiper-pagination-creative flex justify-center space-x-2 mt-4"></div>
     </div>
   );
-}
+};
+
+export default MostCreativeCareers;
