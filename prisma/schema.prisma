@@ -179,6 +179,7 @@ model Career {
   // relations
   Posts       Post[]
   interesteds Interest[]
+  CareerTag   CareerTag[]
 
   // timestamps
   createdAt DateTime @default(now())
@@ -210,4 +211,27 @@ model Image {
   // Relaciones
   PostId String?
   Post   Post?   @relation(fields: [PostId], references: [id])
+}
+
+model Tag {
+  //fields
+  id        String      @id @default(uuid())
+  name      String      @unique
+
+  //relations
+  careers   CareerTag[]
+
+  //timestamps
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model CareerTag {
+  //fields
+  career    Career   @relation(fields: [careerId], references: [id])
+  careerId  String
+  tag       Tag      @relation(fields: [tagId], references: [id])
+  tagId     String
+
+  @@id([careerId, tagId])
 }

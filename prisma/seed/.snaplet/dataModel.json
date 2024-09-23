@@ -563,6 +563,20 @@
           "hasDefaultValue": false
         },
         {
+          "name": "CareerTag",
+          "type": "CareerTag",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "CareerTagToCareer",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
           "name": "Interest",
           "type": "Interest",
           "isRequired": false,
@@ -603,6 +617,87 @@
           "name": "Career_slug_key",
           "fields": [
             "slug"
+          ],
+          "nullNotDistinct": false
+        }
+      ]
+    },
+    "CareerTag": {
+      "id": "public.CareerTag",
+      "schemaName": "public",
+      "tableName": "CareerTag",
+      "fields": [
+        {
+          "id": "public.CareerTag.careerId",
+          "name": "careerId",
+          "columnName": "careerId",
+          "type": "text",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "public.CareerTag.tagId",
+          "name": "tagId",
+          "columnName": "tagId",
+          "type": "text",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "name": "Career",
+          "type": "Career",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "CareerTagToCareer",
+          "relationFromFields": [
+            "careerId"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "Tag",
+          "type": "Tag",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "CareerTagToTag",
+          "relationFromFields": [
+            "tagId"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "CareerTag_pkey",
+          "fields": [
+            "careerId",
+            "tagId"
           ],
           "nullNotDistinct": false
         }
@@ -1414,6 +1509,99 @@
           "name": "Session_sessionToken_key",
           "fields": [
             "sessionToken"
+          ],
+          "nullNotDistinct": false
+        }
+      ]
+    },
+    "Tag": {
+      "id": "public.Tag",
+      "schemaName": "public",
+      "tableName": "Tag",
+      "fields": [
+        {
+          "id": "public.Tag.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "text",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "public.Tag.name",
+          "name": "name",
+          "columnName": "name",
+          "type": "text",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.Tag.createdAt",
+          "name": "createdAt",
+          "columnName": "createdAt",
+          "type": "timestamp",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.Tag.updatedAt",
+          "name": "updatedAt",
+          "columnName": "updatedAt",
+          "type": "timestamp",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "CareerTag",
+          "type": "CareerTag",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "CareerTagToTag",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "Tag_pkey",
+          "fields": [
+            "id"
+          ],
+          "nullNotDistinct": false
+        },
+        {
+          "name": "Tag_name_key",
+          "fields": [
+            "name"
           ],
           "nullNotDistinct": false
         }
