@@ -179,7 +179,7 @@ model Career {
   // relations
   Posts       Post[]
   interesteds Interest[]
-  CareerTag   CareerTag[]
+  CareerTag   CareerTag[] // renombrar a tags
 
   // timestamps
   createdAt DateTime @default(now())
