@@ -1,7 +1,9 @@
+"use client";
 import React from "react";
 import { FaUser, FaUniversity, FaHome } from "react-icons/fa";
 import { TbMessageChatbotFilled } from "react-icons/tb";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface User {
@@ -13,8 +15,8 @@ interface BottomNavigationProps {
 }
 
 export default function BottomNavigation({ user }: BottomNavigationProps) {
+  const pathname = usePathname();
   const username = user?.username;
-  const userUrl = username ? `/user/${username}` : "/profile";
 
   const navItems = [
     {
@@ -28,16 +30,46 @@ export default function BottomNavigation({ user }: BottomNavigationProps) {
       icon: <TbMessageChatbotFilled className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
     },
     {
-      href: "",
+      href: "/career-catalog",
       label: "Carreras",
       icon: <FaUniversity className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
     },
     {
-      href: userUrl,
+      href: `/user/${username}/testimonies`,
       label: "Perfil",
       icon: <FaUser className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
+      isActive: (path: string) => path.startsWith("/user"),
     },
   ];
+
+  const smoothScrollToTop = (duration: number) => {
+    const start = window.scrollY;
+    const startTime =
+      "now" in window.performance ? performance.now() : new Date().getTime();
+    const scroll = () => {
+      const now =
+        "now" in window.performance ? performance.now() : new Date().getTime();
+      const time = Math.min(1, (now - startTime) / duration);
+      window.scrollTo(0, Math.ceil((1 - time) * start));
+      if (time < 1) {
+        requestAnimationFrame(scroll);
+      }
+    };
+    requestAnimationFrame(scroll);
+  };
+
+  const handleLinkClick = (href: string) => {
+    if (href === pathname) {
+      smoothScrollToTop(200);
+    }
+  };
+
+  const isActive = (item: (typeof navItems)[0]) => {
+    if (item.isActive) {
+      return item.isActive(pathname);
+    }
+    return pathname === item.href;
+  };
 
   return (
     <nav className="h-14 pt-1 bg-white border-t border-gray-200">
@@ -47,12 +79,21 @@ export default function BottomNavigation({ user }: BottomNavigationProps) {
             <Link
               key={item.href}
               href={item.href}
-              className="flex flex-col items-center justify-center px-2 sm:px-3 hover:bg-gray-50 group transition-all duration-300 flex-1"
+              onClick={() => handleLinkClick(item.href)}
+              className={`flex flex-col items-center justify-center px-2 sm:px-3 hover:bg-gray-50 group transition-all duration-100 flex-1 ${
+                isActive(item) ? "text-green" : "text-gray-500"
+              }`}
             >
-              <div className="text-gray-500 group-hover:text-green transition-colors duration-300">
+              <div
+                className={`group-hover:text-green transition-colors duration-100`}
+              >
                 {item.icon}
               </div>
-              <span className="text-gray-500 text-[10px] sm:text-xs group-hover:text-green transition-colors duration-300 truncate w-full text-center">
+              <span
+                className={`text-[10px] sm:text-xs transition-colors duration-100 truncate w-full text-center ${
+                  isActive(item) ? "text-green" : "text-gray-500"
+                }`}
+              >
                 {item.label}
               </span>
             </Link>
