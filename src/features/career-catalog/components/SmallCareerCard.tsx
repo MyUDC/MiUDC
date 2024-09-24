@@ -20,7 +20,7 @@ export default function SmallCareerCard({
     <Link href={`/career/${slug}`} passHref>
       <Card className="w-[270px] h-[320px] flex flex-col cursor-pointer">
         <CardHeader className="flex-grow flex flex-col justify-center space-y-1">
-          <h4 className="text-lg font-bold line-clamp-2">{title}</h4>
+          <h4 className="text-lg font-bold line-clamp-2 text-black">{title}</h4>
           <p className="text-sm text-muted-foreground line-clamp-1">
             {subtitle}
           </p>
