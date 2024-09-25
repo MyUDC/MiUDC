@@ -13,7 +13,7 @@ import { getCareersWithMoreTestimonies } from "@/shared/actions/Careers/categori
 
 // server-side function
 import { getCareersBasedOnTags } from "@/shared/actions/Careers/categories/basedOnTags/getCareersBasedOnTags";
-import { creativeTags } from "@/shared/actions/Careers/categories/basedOnTags/data";
+import { artsAndHumanitiesTags } from "@/shared/actions/Careers/categories/basedOnTags/data";
 
 export const metadata: Metadata = {
   title: "MiUDC | Career Catalog",
@@ -21,9 +21,12 @@ export const metadata: Metadata = {
 };
 
 export default async function CareerCatalogPage() {
-  // Fetch the data on the server side
-  const creativeCareers = await getCareersBasedOnTags(creativeTags);
-
+  // Fetch creative careers
+  const creativeCareers = await getCareersBasedOnTags(
+    artsAndHumanitiesTags.filter((tag) =>
+      ["Creatividad", "Arte", "Pensamiento"].includes(tag)
+    )
+  );
   return (
     <>
       <AppBar />
