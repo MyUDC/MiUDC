@@ -10,14 +10,20 @@ import CareerCategories from "@/features/career-catalog/CareerCategories";
 import { getCareersWithMoreInteractions } from "@/shared/actions/Careers/categories/basedOnData/getCareersWithMoreInteractions";
 import { getCareersWithMoreQuestions } from "@/shared/actions/Careers/categories/basedOnData/getCareersWithMoreQuestions";
 import { getCareersWithMoreTestimonies } from "@/shared/actions/Careers/categories/basedOnData/getCareersWithMoreTestimonies";
-import { getRandomCreativeCareers } from "@/shared/actions/Careers/categories/basedOnTags/getRandomCreativeCareers";
+
+// server-side function
+import { getCareersBasedOnTags } from "@/shared/actions/Careers/categories/basedOnTags/getCareersBasedOnTags";
+import { creativeTags } from "@/shared/actions/Careers/categories/basedOnTags/data";
 
 export const metadata: Metadata = {
   title: "MiUDC | Career Catalog",
   description: "Catalog of careers available in the University of Colima",
 };
 
-export default function CareerCatalogPage() {
+export default async function CareerCatalogPage() {
+  // Fetch the data on the server side
+  const creativeCareers = await getCareersBasedOnTags(creativeTags);
+
   return (
     <>
       <AppBar />
@@ -101,7 +107,7 @@ export default function CareerCatalogPage() {
             />
           </section>
 
-          {/** Carreras categorizadas por tags  */}
+          {/** Carreras categorizadas por tags */}
           <section className="mt-8 pb-8">
             <h1 className="max-w-2xl text-4xl font-bold text-black tracking-tight leading-none">
               Carreras basadas en tu interés vocacional
@@ -118,7 +124,7 @@ export default function CareerCatalogPage() {
                 </Button>
               </div>
               <CarouselSmallCards
-                fetchFunction={getRandomCreativeCareers}
+                careers={creativeCareers}
                 paginationClass="swiper-pagination-creative"
               />
             </section>
