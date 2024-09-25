@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -16,35 +16,35 @@ type Career = {
 };
 
 type CarouselSmallCardsProps = {
-  fetchFunction: (limit: number) => Promise<Career[]>;
+  careers: Career[]; // Pre-fetched careers data
   paginationClass: string;
 };
 
 export default function CarouselSmallCards({
-  fetchFunction,
+  careers,
   paginationClass,
 }: CarouselSmallCardsProps) {
-  const [careers, setCareers] = useState<Career[]>([]);
   const [loading, setLoading] = useState(true);
   const autoplayRef = useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
 
   useEffect(() => {
-    const fetchCareers = async () => {
-      const careersData = await fetchFunction(5);
-      setCareers(careersData);
-      setLoading(false);
-    };
-    fetchCareers();
-  }, [fetchFunction]);
+    setLoading(careers.length === 0);
+  }, [careers]);
 
-  const renderSkeletons = () => <Skeleton className="h-[300px] w-full" />;
+  const renderSkeletons = () => (
+    <div className="flex space-x-4">
+      {[...Array(3)].map((_, index) => (
+        <Skeleton key={index} className="h-[300px] w-full" />
+      ))}
+    </div>
+  );
 
   const renderSwiperSlides = () =>
     careers.map((career) => (
       <SwiperSlide key={career.id} className="py-4">
-        <div className="flex justify-center">
+        <div className="">
           <SmallCareerCard
             title={career.name}
             subtitle={career.faculty}
@@ -56,14 +56,14 @@ export default function CarouselSmallCards({
     ));
 
   return (
-    <div className="w-full px-4 md:px-6 lg:px-8 relative pb-10">
+    <div className="w-full pb-10">
       {loading ? (
         renderSkeletons()
       ) : (
         <Swiper
           modules={[Pagination]}
-          slidesPerView={1}
-          spaceBetween={20}
+          slidesPerView={1.25}
+          spaceBetween={10}
           autoplay={{ delay: 2000, disableOnInteraction: false }}
           onMouseEnter={autoplayRef.current.stop}
           onMouseLeave={autoplayRef.current.reset}
@@ -72,6 +72,10 @@ export default function CarouselSmallCards({
             el: `.${paginationClass}`,
           }}
           breakpoints={{
+            340: {
+              slidesPerView: 1.5,
+              spaceBetween: 10,
+            },
             600: {
               slidesPerView: 2,
               spaceBetween: 10,
