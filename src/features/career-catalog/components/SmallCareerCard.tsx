@@ -7,7 +7,7 @@ interface SmallCareerCardProps {
   title: string;
   subtitle: string;
   imageUrl: string;
-  slug: string; // Nuevo campo para el slug de la carrera
+  slug: string;
 }
 
 export default function SmallCareerCard({

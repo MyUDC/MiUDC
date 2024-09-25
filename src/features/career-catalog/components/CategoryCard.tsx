@@ -3,13 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import CareerListSheet from "./CareerListSheet";
 import { getCareersBasedOnTags } from "@/shared/actions/Careers/categories/basedOnTags/getCareersBasedOnTags";
-
-type Career = {
-  id: string;
-  name: string;
-  slug: string;
-  faculty: string;
-};
+import { Career } from "@/features/career-catalog/types/Career";
 
 interface CategoryCardProps {
   title: string;

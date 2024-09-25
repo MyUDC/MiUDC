@@ -4,13 +4,7 @@ import { Button } from "@/components/ui/button";
 import CarouselLargeCards from "./CarouselLargeCards";
 import CarouselSmallCards from "./CarouselSmallCards";
 import CareerListSheet from "./CareerListSheet";
-
-type Career = {
-  id: string;
-  name: string;
-  slug: string;
-  faculty: string;
-};
+import { Career } from "@/features/career-catalog/types/Career";
 
 type CareerSectionProps = {
   title: string;
@@ -20,13 +14,13 @@ type CareerSectionProps = {
   isLarge?: boolean;
 };
 
-export const CareerSection: React.FC<CareerSectionProps> = ({
+export function CareerSection({
   title,
   subtitle,
   careers,
   paginationClass,
   isLarge = true,
-}) => {
+}: CareerSectionProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleViewMore = () => {
@@ -71,4 +65,4 @@ export const CareerSection: React.FC<CareerSectionProps> = ({
       />
     </section>
   );
-};
+}

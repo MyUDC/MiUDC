@@ -2,21 +2,16 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge"; // Import the Badge component from shadcn
-
-type Career = {
-  id: string;
-  name: string;
-  slug: string;
-  faculty: string;
-  tags: string[]; // Add tags to the Career type
-};
+import { Badge } from "@/components/ui/badge";
+import { Career } from "@/features/career-catalog/types/Career";
 
 interface VerticalCareerListProps {
   careers: Career[];
 }
 
-const VerticalCareerList: React.FC<VerticalCareerListProps> = ({ careers }) => {
+export default function VerticalCareerList({
+  careers,
+}: VerticalCareerListProps) {
   return (
     <div className="space-y-4">
       {careers.map((career) => (
@@ -53,6 +48,4 @@ const VerticalCareerList: React.FC<VerticalCareerListProps> = ({ careers }) => {
       ))}
     </div>
   );
-};
-
-export default VerticalCareerList;
+}

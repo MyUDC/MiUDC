@@ -7,16 +7,11 @@ import { Pagination } from "swiper/modules";
 import Autoplay from "embla-carousel-autoplay";
 import SmallCareerCard from "./SmallCareerCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Career } from "@/features/career-catalog/types/Career";
 
-type Career = {
-  id: string;
-  name: string;
-  slug: string;
-  faculty: string;
-};
 
 type CarouselSmallCardsProps = {
-  careers: Career[]; // Pre-fetched careers data
+  careers: Career[];
   paginationClass: string;
 };
 

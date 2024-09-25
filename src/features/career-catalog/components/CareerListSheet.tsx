@@ -6,13 +6,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import VerticalCareerList from "./VerticalCareerList";
-
-type Career = {
-  id: string;
-  name: string;
-  slug: string;
-  faculty: string;
-};
+import { Career } from "@/features/career-catalog/types/Career";
 
 interface CareerListSheetProps {
   isOpen: boolean;

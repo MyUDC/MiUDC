@@ -14,13 +14,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Career } from "@/features/career-catalog/types/Career";
 
-type Career = {
-  id: string;
-  name: string;
-  slug: string;
-  faculty: string;
-};
 
 type CarouselLargeCardsProps = {
   careers: Career[];
