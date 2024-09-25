@@ -1,21 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, ReactNode } from "react";
-import dynamic from "next/dynamic";
 import CategoryCard from "./components/CategoryCard";
 import { careerCategories } from "./data/careerCategoriesData";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import {
-  artsAndHumanitiesTags,
-  scienceTags,
-  engineeringTags,
-  healthTags,
-  businessAndManagementTags,
-  socialsAndLawTags,
-  educationTags,
-  others,
-} from "@/shared/actions/Careers/categories/basedOnTags/data";
 
 interface ClientOnlyProps {
   children: ReactNode;
@@ -49,22 +38,11 @@ export default function CareerCategories() {
     return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
-  const categoriesWithTags = [
-    { ...careerCategories[0], tags: scienceTags },
-    { ...careerCategories[1], tags: engineeringTags },
-    { ...careerCategories[2], tags: artsAndHumanitiesTags },
-    { ...careerCategories[3], tags: healthTags },
-    { ...careerCategories[4], tags: businessAndManagementTags },
-    { ...careerCategories[5], tags: socialsAndLawTags },
-    { ...careerCategories[6], tags: educationTags },
-    { ...careerCategories[7], tags: others },
-  ];
-
   function renderCategories() {
     if (isMobile) {
       const groupedCategories = [];
-      for (let i = 0; i < categoriesWithTags.length; i += 4) {
-        groupedCategories.push(categoriesWithTags.slice(i, i + 4));
+      for (let i = 0; i < careerCategories.length; i += 4) {
+        groupedCategories.push(careerCategories.slice(i, i + 4));
       }
 
       return (
@@ -89,7 +67,7 @@ export default function CareerCategories() {
     } else {
       return (
         <div className="grid grid-cols-4 gap-2">
-          {categoriesWithTags.map((category, index) => (
+          {careerCategories.map((category, index) => (
             <CategoryCard
               key={index}
               title={category.title}
