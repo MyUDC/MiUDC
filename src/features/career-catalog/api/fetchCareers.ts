@@ -3,13 +3,7 @@ import { getCareersWithMoreQuestions } from "@/shared/actions/Careers/categories
 import { getCareersWithMoreTestimonies } from "@/shared/actions/Careers/categories/basedOnData/getCareersWithMoreTestimonies";
 
 import { getCareersBasedOnTags } from "@/shared/actions/Careers/categories/basedOnTags/getCareersBasedOnTags";
-interface Career {
-  id: string;
-  name: string;
-  slug: string;
-  faculty: string;
-  tags: string[];
-}
+import { Career } from "@/features/career-catalog/types/Career";
 
 export async function fetchAllCareers(): Promise<{
   popularCareers: Career[];
