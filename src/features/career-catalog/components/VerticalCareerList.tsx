@@ -1,13 +1,15 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Card } from "@/components/ui/card"; // Import the Card component from shadcn
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge"; // Import the Badge component from shadcn
 
 type Career = {
   id: string;
   name: string;
   slug: string;
   faculty: string;
+  tags: string[]; // Add tags to the Career type
 };
 
 interface VerticalCareerListProps {
@@ -19,23 +21,32 @@ const VerticalCareerList: React.FC<VerticalCareerListProps> = ({ careers }) => {
     <div className="space-y-4">
       {careers.map((career) => (
         <Link href={`/career/${career.slug}`} key={career.id} className="block">
-          <Card className="flex items-center space-x-4 p-4">
-            <div className="flex-shrink-0 w-24 h-24 overflow-hidden rounded-sm">
-              <Image
-                src="/telematica.jpg"
-                alt={career.name}
-                width={150}
-                height={100}
-                className="object-cover w-full h-full rounded-sm"
-              />
+          <Card className="p-4">
+            <div className="flex items-center space-x-4 mb-2">
+              <div className="flex-shrink-0 w-24 h-24 overflow-hidden rounded-sm">
+                <Image
+                  src="/telematica.jpg"
+                  alt={career.name}
+                  width={150}
+                  height={100}
+                  className="object-cover w-full h-full rounded-sm"
+                />
+              </div>
+              <div>
+                <h3 className="font-semibold leading-none tracking-tight mb-1">
+                  {career.name}
+                </h3>
+                <p className="text-sm text-muted-foreground uppercase mb-2">
+                  {career.faculty}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold leading-none tracking-tight mb-1">
-                {career.name}
-              </h3>
-              <p className="text-sm text-muted-foreground uppercase">
-                {career.faculty}
-              </p>
+            <div className="flex flex-wrap gap-2">
+              {career.tags.map((tag, index) => (
+                <Badge key={index} variant="secondary" className="text-xs">
+                  {tag}
+                </Badge>
+              ))}
             </div>
           </Card>
         </Link>
