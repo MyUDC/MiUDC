@@ -30,8 +30,8 @@ export default function CareerListSheet({
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent side="bottom" className="h-full">
-        <SheetHeader>
-          <SheetTitle className="max-w-2xl text-3xl font-bold text-black tracking-tight leading-none">
+        <SheetHeader className="pb-4 border-b">
+          <SheetTitle className="max-w-2xl text-3xl font-bold text-black tracking-tight leading-none text-left">
             {title}
           </SheetTitle>
         </SheetHeader>

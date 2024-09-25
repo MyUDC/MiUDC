@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Card } from "@/components/ui/card"; // Import the Card component from shadcn
 
 type Career = {
   id: string;
@@ -18,21 +19,25 @@ const VerticalCareerList: React.FC<VerticalCareerListProps> = ({ careers }) => {
     <div className="space-y-4">
       {careers.map((career) => (
         <Link href={`/career/${career.slug}`} key={career.id} className="block">
-          <div className="flex items-center space-x-4 p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-            <div className="flex-shrink-0">
+          <Card className="flex items-center space-x-4 p-4">
+            <div className="flex-shrink-0 w-24 h-24 overflow-hidden rounded-sm">
               <Image
                 src="/telematica.jpg"
                 alt={career.name}
-                width={200}
-                height={200}
-                className="rounded-sm"
+                width={150}
+                height={100}
+                className="object-cover w-full h-full rounded-sm"
               />
             </div>
             <div>
-              <h3 className="text-lg font-semibold">{career.name}</h3>
-              <p className="text-sm text-gray-500">{career.faculty}</p>
+              <h3 className="font-semibold leading-none tracking-tight mb-1">
+                {career.name}
+              </h3>
+              <p className="text-sm text-muted-foreground uppercase">
+                {career.faculty}
+              </p>
             </div>
-          </div>
+          </Card>
         </Link>
       ))}
     </div>
