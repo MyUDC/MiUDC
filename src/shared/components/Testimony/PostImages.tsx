@@ -9,17 +9,17 @@ interface Props {
 export const PostImages = ({ imageUrls }: Props) => {
   const [showImageView, setShowImageView] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
-  
-  if (!imageUrls) return;
+
+  if (!imageUrls) return null;
 
   const handleImageOpen = (index: number) => {
     setImageIndex(index);
     setShowImageView(true);
-  }
+  };
 
   const handleImageClose = () => {
     setShowImageView(false);
-  }
+  };
 
   return (
     <>
@@ -32,17 +32,16 @@ export const PostImages = ({ imageUrls }: Props) => {
           />
         ))}
       </div>
-      {showImageView &&
-        //todo: la vista de imagen no funciona
+      {showImageView && (
         <ImageView
           imageUrls={imageUrls}
-          initialIndex={1}
+          initialIndex={imageIndex}
           onClose={handleImageClose}
         />
-      }
+      )}
     </>
-  )
-}
+  );
+};
 
 interface PostImageProps {
   src: string;
@@ -60,5 +59,5 @@ const PostImage = ({ src, handleClick }: PostImageProps) => {
         onClick={handleClick}
       />
     </div>
-  )
-}
+  );
+};
