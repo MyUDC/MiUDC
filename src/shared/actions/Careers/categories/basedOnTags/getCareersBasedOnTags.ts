@@ -1,8 +1,9 @@
 "use server";
 
+import { PrismaClient } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
-export async function getCareersBasedOnTags(tags: string[], limit: number = 5) {
+export async function getCareersBasedOnTags(tags: string[]) {
   const careers = await prisma.career.findMany({
     where: {
       CareerTag: {
@@ -34,7 +35,6 @@ export async function getCareersBasedOnTags(tags: string[], limit: number = 5) {
         },
       },
     },
-    take: limit,
   });
 
   return careers.map((career) => ({

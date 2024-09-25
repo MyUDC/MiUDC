@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import CarouselLargeCards from "./CarouselLargeCards";
@@ -34,6 +33,8 @@ export const CareerSection: React.FC<CareerSectionProps> = ({
     setIsSheetOpen(true);
   };
 
+  const carouselsCareerLimit = 5;
+
   return (
     <section className="mt-8 pb-8 border-b border-gray-200">
       <div className="flex justify-between items-center">
@@ -53,12 +54,12 @@ export const CareerSection: React.FC<CareerSectionProps> = ({
       </div>
       {isLarge ? (
         <CarouselLargeCards
-          careers={careers}
+          careers={careers.slice(0, carouselsCareerLimit)}
           paginationClass={paginationClass}
         />
       ) : (
         <CarouselSmallCards
-          careers={careers}
+          careers={careers.slice(0, carouselsCareerLimit)}
           paginationClass={paginationClass}
         />
       )}

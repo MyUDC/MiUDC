@@ -4,7 +4,9 @@ import { getCareersWithMoreTestimonies } from "@/shared/actions/Careers/categori
 
 import { getCareersBasedOnTags } from "@/shared/actions/Careers/categories/basedOnTags/getCareersBasedOnTags";
 
-export const fetchAllCareers = async () => {
+export async function fetchAllCareers() {
+  "use server";
+
   const popularCareers = await getCareersWithMoreInteractions();
   const questionCareers = await getCareersWithMoreQuestions();
   const testimonyCareers = await getCareersWithMoreTestimonies();
@@ -33,4 +35,4 @@ export const fetchAllCareers = async () => {
     techCareers,
     communicationCareers,
   };
-};
+}

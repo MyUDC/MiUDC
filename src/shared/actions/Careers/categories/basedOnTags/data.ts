@@ -1,75 +1,82 @@
+/**
+ *  Falta corregir bien que tags van en cada categoria.
+ *  Checar bien a detalle cuales carreras tienen cierta tag y ver como va quedando chido en la page
+ *  y comentar las que no van xd
+ *
+ */
+
 export const artsAndHumanitiesTags = [
-  "Pensamiento",
-  "Música",
+  // "Pensamiento",
+  // "Música",
   "Creatividad",
-  "Danza",
-  "Performance",
+  // "Danza",
+  // "Performance",
   "Arte",
   "Cultura",
-  "Diseño",
-  "Expresión Corporal",
+  //"Diseño",
+  // "Expresión Corporal",
   "Humanidades",
-  "Idiomas",
-  "Lenguas",
-  "Literatura",
-  "Lógica",
-  "Ética",
+  //"Idiomas",
+  //"Lenguas",
+  //"Literatura",
+  //"Lógica",
+  //"Ética",
 ];
 
 export const scienceTags = [
   "Ciencias",
-  "Matemáticas",
-  "Física",
-  "Biología",
-  "Investigación",
-  "Medio Ambiente",
-  "Oceanografía",
+  // "Matemáticas",
+  // "Física",
+  // "Química",
+  // "Biología",
+  // "Investigación",
+  // "Medio Ambiente",
+  // "Oceanografía",
 ];
 
 export const engineeringTags = [
-  "Diseño",
+  //"Diseño",
   "Ingeniería",
-  "Tecnología",
-  "Robótica",
-  "Electrónica",
-  "Mecánica",
-  "Construcción",
-  "Infraestructura",
-  "Química",
-  "Metalurgia",
-  "Innovación",
-  "Topografía",
-  "Geomática",
-  "Inteligencia Artificial",
-  "Computación",
+  //"Tecnología",
+  // "Robótica",
+  // "Electrónica",
+  // "Mecánica",
+  // "Metalurgia",
+  //"Construcción",
+  //"Infraestructura",
+  //"Innovación",
+  //"Topografía",
+  //"Geomática",
+  // "Inteligencia Artificial",
+  // "Computación",
 ];
 
 export const healthTags = [
   "Salud",
   "Medicina",
-  "Nutrición",
-  "Terapia",
-  "Cirugía",
-  "Deporte",
-  "Actividad Física",
+  // "Nutrición",
+  //"Terapia",
+  //"Cirugía",
+  //"Deporte",
+  //"Actividad Física",
 ];
 
 export const businessAndManagementTags = [
   "Administración",
   "Negocios",
   "Finanzas",
-  "Gestión",
-  "Auditoría",
+  // "Gestión",
+  // "Auditoría",
   "Comercio",
-  "Logística",
-  "Marketing",
-  "Economía",
+  //"Logística",
+  // "Marketing",
+  //"Economía",
 ];
 
 export const socialsAndLawTags = [
-  "Psicología",
+  //"Psicología",
   "Derecho",
-  "Justicia",
+  //"Justicia",
   "Política",
   "Relaciones Internacionales",
   "Servicios Sociales",
@@ -78,11 +85,12 @@ export const socialsAndLawTags = [
 
 export const educationTags = [
   "Educación",
-  "Inclusión",
+  // "Inclusión",
   "Pedagogía",
-  "Didáctica",
+  // "Didáctica",
 ];
 
+// Organizar bien este pedo y comentar las que se repiten y ya no tienen sentido porque otras la engloban
 export const others = [
   "Comunicación",
   "Medios",
