@@ -23,16 +23,14 @@ type Career = {
 };
 
 type CarouselLargeCardsProps = {
-  fetchFunction: (limit: number) => Promise<Career[]>;
-
+  careers: Career[];
   paginationClass: string;
 };
 
 export default function CarouselLargeCards({
-  fetchFunction,
+  careers,
   paginationClass,
 }: CarouselLargeCardsProps) {
-  const [careers, setCareers] = useState<Career[]>([]);
   const [loading, setLoading] = useState(true);
   const autoplayRef = useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
@@ -41,13 +39,8 @@ export default function CarouselLargeCards({
   const isMobile = useMediaQuery("only screen and (max-width: 768px)");
 
   useEffect(() => {
-    const fetchCareers = async () => {
-      const fetchedCareers = await fetchFunction(5);
-      setCareers(fetchedCareers);
-      setLoading(false);
-    };
-    fetchCareers();
-  }, [fetchFunction]);
+    setLoading(careers.length === 0);
+  }, [careers]);
 
   function renderSkeletons() {
     return <Skeleton className="h-[300px] w-full" />;
