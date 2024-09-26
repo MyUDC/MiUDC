@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, ReactNode } from "react";
-import dynamic from "next/dynamic";
 import CategoryCard from "./components/CategoryCard";
 import { careerCategories } from "./data/careerCategoriesData";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -57,6 +56,7 @@ export default function CareerCategories() {
                     title={category.title}
                     gradient={category.gradient}
                     image={category.image}
+                    tags={category.tags}
                   />
                 ))}
               </div>
@@ -73,6 +73,7 @@ export default function CareerCategories() {
               title={category.title}
               gradient={category.gradient}
               image={category.image}
+              tags={category.tags}
             />
           ))}
         </div>
