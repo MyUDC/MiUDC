@@ -8,12 +8,14 @@ import ChooseCareerForm from "./ChooseCareerForm";
 import RegisterForm from "./RegisterForm";
 
 import "swiper/css";
+import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
 
 interface Props {
   onSwiper: (swiper: SwiperType) => void;
 }
 
 export default function FormSwiper({ onSwiper }: Props) {
+
   return (
     <div className="max-w-sm">
       <Swiper        

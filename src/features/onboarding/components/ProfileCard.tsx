@@ -4,10 +4,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { FaUserGraduate, FaUser } from "react-icons/fa";
+import { Role } from "@prisma/client";
 
 interface ProfileCardProps {
-  selectedProfile: string | null;
-  onSelect: (profile: string | null) => void;
+  selectedProfile: Role | null;
+  onSelect: (profile: Role | null) => void;
 }
 
 const profileDescriptions: { [key: string]: JSX.Element } = {
@@ -27,9 +28,14 @@ const profileDescriptions: { [key: string]: JSX.Element } = {
   ),
 };
 
-const profiles = [
-  { label: "Estudiante", icon: <FaUserGraduate className="text-6xl" /> },
-  { label: "Aspirante", icon: <FaUser className="text-6xl" /> },
+interface Profile {
+  label: Role;
+  icon: JSX.Element;
+}
+
+const profiles: Profile[] = [
+  { label: "ASPIRANT", icon: <FaUserGraduate className="text-6xl" /> },
+  { label: "STUDENT", icon: <FaUser className="text-6xl" /> },
 ];
 
 export default function ProfileCard({
@@ -44,7 +50,7 @@ export default function ProfileCard({
     setLocalSelectedProfile(selectedProfile);
   }, [selectedProfile]);
 
-  const handleSelect = (profile: string) => {
+  const handleSelect = (profile: Role) => {
     const newSelection = localSelectedProfile === profile ? null : profile;
     setLocalSelectedProfile(newSelection);
     onSelect(newSelection); // Update parent component
@@ -72,7 +78,7 @@ export default function ProfileCard({
             key={label}
             className={`flex flex-col items-center justify-center h-full p-4 ${
               localSelectedProfile === label
-                ? label === "Estudiante"
+                ? label === "STUDENT"
                   ? "text-green border-2 border-green rounded-md"
                   : "text-yellow border-2 border-yellow rounded-md"
                 : "bg-white text-black border border-gray-300"

@@ -50,7 +50,6 @@ export default function RegisterForm() {
             placeholder="Agrega un correo"
             type="email"
             autoComplete="email"
-            autoFocus
             formHandler={register("email", {
               required: {
                 value: true,
