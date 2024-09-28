@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-
 import { useState, useEffect } from "react";
 import UserAvatar from "@/features/user/components/UserAvatar";
 import Reactions from "../Reactions";
@@ -16,6 +15,7 @@ type Props = {
   postType: PostType;
   postTitle: string;
   postSlug: string;
+  authorId: string;
   userPhotoUrl?: string;
   userName?: string;
   email?: string;
@@ -32,6 +32,7 @@ export default function Post({
   postType,
   postTitle,
   postSlug,
+  authorId,
   userPhotoUrl,
   userName,
   content,
@@ -59,7 +60,7 @@ export default function Post({
       <div className="mt-10 xs:mt-4">
         <Card className="p-4">
           {/* Post Header */}
-          <div className=" mx-4 flex gap-4 mb-2">
+          <div className="mx-4 flex gap-4 mb-2">
             <UserAvatar
               name={userName}
               photoUrl={userPhotoUrl}
@@ -86,6 +87,7 @@ export default function Post({
                 initialTitle={postTitle}
                 initialContent={content || ""}
                 path={`/career/${careerSlug}`}
+                authorId={authorId}
               />
             </div>
           </div>
