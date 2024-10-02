@@ -9,17 +9,17 @@ import postTypeHumanized from "@/utils/PostTypeHumanized";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Post | MiUDC',
-  description: 'Post details',
+  title: "Post | MiUDC",
+  description: "Post details",
 };
 
 interface Props {
   params: {
     postSlug: string;
-  }
+  };
 }
 
-export default async function PostPage ({ params }: Props) {
+export default async function PostPage({ params }: Props) {
   const slug = params.postSlug;
   const post = await getPostBySlug(slug);
   if (!post) notFound();
@@ -30,12 +30,11 @@ export default async function PostPage ({ params }: Props) {
     <div className="flex flex-col items-center">
       {/* Header */}
       <div className="sticky w-full top-0 z-20 bg-white pt-5 p-3 flex items-center gap-6">
-        <BackButton className="left-item mr-auto"/>
+        <BackButton className="left-item mr-auto" />
         <h2 className="absolute left-1/2 transform -translate-x-1/2 text-xl font-semibold">
           {postTypeHumanized[post.type]}
         </h2>
       </div>
-
 
       <div className="flex flex-col items-center justify-center max-w-lg w-full">
         <Post
@@ -50,18 +49,15 @@ export default async function PostPage ({ params }: Props) {
           careerSlug={post.career.slug}
           repliesCount={post._count.children}
           heartCount={post._count.PostLike}
-          imageUrls={post.images.map(({url}) => (url))}
+          imageUrls={post.images.map(({ url }) => url)}
           createdAt={post.createdAt}
+          authorId={post.authorId}
         />
-
 
         <div className="px-4 pb-4 w-full">
           <h2 className="font-semibold">Respuestas</h2>
         </div>
-        <CommentsList
-          testimonyId={post.id}
-          initComments={initComments}
-        />
+        <CommentsList testimonyId={post.id} initComments={initComments} />
       </div>
     </div>
   );

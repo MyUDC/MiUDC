@@ -104,6 +104,7 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
             heartCount={post._count.PostLike}
             imageUrls={post.images.map(({ url }) => url)}
             createdAt={post.createdAt}
+            authorId={post.authorId}
           />
         </VisibilityWrapper>
       ))}
