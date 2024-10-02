@@ -5,6 +5,7 @@ import { PostWithRelations } from "@/shared/types/PostWithRelations";
 import { EndMessage } from "./EndMessage";
 import { Loading } from "./Loading";
 import Post from "../Post";
+import { useSession } from "next-auth/react";
 
 interface Props {
   paginateHandler: (take: number, skip: number) => Promise<PostWithRelations[]>;
@@ -19,6 +20,8 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
   const [visiblePosts, setVisiblePosts] = useState<Set<string>>(new Set());
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
+
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     setPosts(initPosts);
@@ -91,6 +94,7 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
           onVisibilityChange={(isVisible) => onPostVisible(post.id, isVisible)}
         >
           <Post
+            userId={session?.user?.id || ""}
             postType={post.type}
             postSlug={post.slug}
             postTitle={post.title}

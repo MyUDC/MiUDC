@@ -12,6 +12,7 @@ import { Card } from "@/components/ui/card";
 import { PostActions } from "./PostActions";
 
 type Props = {
+  userId: string;
   postType: PostType;
   postTitle: string;
   postSlug: string;
@@ -29,6 +30,7 @@ type Props = {
 };
 
 export default function Post({
+  userId,
   postType,
   postTitle,
   postSlug,
@@ -91,7 +93,6 @@ export default function Post({
               />
             </div>
           </div>
-
           <div className="ml-[4.3rem] pr-3">
             {/* Post Title */}
             <div className="flex flex-col gap- mb-1">
@@ -119,7 +120,12 @@ export default function Post({
             </div>
           </div>
           <PostImages imageUrls={imageUrls} />
-          <Reactions heartCount={heartCount} commentCount={commentCount} />
+          <Reactions
+            postSlug={postSlug}
+            userId={userId}
+            initialHeartCount={heartCount || 0}
+            commentCount={commentCount}
+          />
         </Card>
       </div>
     </div>
