@@ -10,6 +10,8 @@ interface State {
   values: FormSchema | null;
   setValues: (newValues: FormSchema) => void;
   setValue: <FormSchemaKey extends keyof FormSchema>(key: FormSchemaKey, value: FormSchema[FormSchemaKey]) => void;
+  index: number;
+  setIndex: (index: number) => void;
   goToNextSlide: () => void;
   goToPrevSlide: () => void;
 }
@@ -27,14 +29,30 @@ export const useFormSwiperStore = create(
       } : { [key]: value } as unknown as FormSchema
     }));
 
-    const goToNextSlide = () => get().swiper?.slideNext();
+    const setIndex = (index: number) => set({ index });
 
-    const goToPrevSlide = () => get().swiper?.slidePrev();
+    const goToNextSlide = () => {
+      const swiper = get().swiper;
+      if (swiper) {
+        swiper.slideNext();
+        set({ index: swiper.activeIndex });
+      }
+    };
+    
+    const goToPrevSlide = () => {
+      const swiper = get().swiper;
+      if (swiper) {
+        swiper.slidePrev();
+        set({ index: swiper.activeIndex });
+      }
+    };
 
     return {
       swiper: null,
-      setSwiper,
       values: null,
+      index: 0,
+      setIndex,
+      setSwiper,
       setValues,
       setValue,
       goToNextSlide,
@@ -45,7 +63,7 @@ export const useFormSwiperStore = create(
       name: "form-swiper-store",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => {
-        const { swiper, setSwiper, ...partialState } = state;
+        const { swiper, setSwiper, index, ...partialState } = state;
         return partialState as State;
       },
     }

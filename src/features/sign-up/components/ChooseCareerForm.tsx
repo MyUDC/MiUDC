@@ -39,17 +39,6 @@ const FormSchema = z.object({
     .min(1, { message: "Este campo es requerido" }),
 });
 
-const semesters = [
-  { value: "1", label: "Primero" },
-  { value: "2", label: "Segundo" },
-  { value: "3", label: "Tercero" },
-  { value: "4", label: "Cuarto" },
-  { value: "5", label: "Quinto" },
-  { value: "6", label: "Sexto" },
-  { value: "7", label: "Séptimo" },
-  { value: "8", label: "Octavo" },
-];
-
 export default function ChooseCareerForm() {
   const [careers, setCareers] = useState<Career[] | never[]>([]);
   const { setValue, goToNextSlide, values: globalValues } = useFormSwiperStore();
@@ -97,14 +86,15 @@ export default function ChooseCareerForm() {
   }, [globalValues, form]);
 
   useEffect(() => {
-    console.log(watchCareer);
-  }, [watchCareer]);
+    if (watchCareer) {
+      form.setValue("semester", "");
+    }
+  }, [form, watchCareer]);
 
   useEffect(() => {
     getCareers()
       .then((careers) => {
         setCareers(careers);
-        console.log(careers);
       })
       .catch((error) => {
         console.log(error);

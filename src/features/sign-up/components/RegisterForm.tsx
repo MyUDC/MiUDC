@@ -34,6 +34,7 @@ export default function RegisterForm() {
     // }
     // await SignIn(email, password);
     // router.replace("/home");
+    
     console.log(values);
     
   };
