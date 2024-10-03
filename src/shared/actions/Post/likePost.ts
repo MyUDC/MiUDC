@@ -26,6 +26,7 @@ export async function likePost(postSlug: string, userId: string) {
           id: existingLike.id,
         },
       });
+      return { success: true, liked: false };
     } else {
       await prisma.postLike.create({
         data: {
@@ -33,9 +34,8 @@ export async function likePost(postSlug: string, userId: string) {
           userId: userId,
         },
       });
+      return { success: true, liked: true };
     }
-
-    return { success: true };
   } catch (error) {
     console.error("Error al procesar el like:", error);
     return { success: false, error: "Error al procesar el like" };

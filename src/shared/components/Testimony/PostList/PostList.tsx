@@ -6,10 +6,15 @@ import { EndMessage } from "./EndMessage";
 import { Loading } from "./Loading";
 import Post from "../Post";
 import { useSession } from "next-auth/react";
+import { getInitialLikeState } from "@/shared/actions/Post/getInitialLikeState";
 
 interface Props {
   paginateHandler: (take: number, skip: number) => Promise<PostWithRelations[]>;
   initPosts: PostWithRelations[];
+}
+
+interface PostWithLikeStateProps extends PostWithRelations {
+  userId: string;
 }
 
 export const PostList = ({ initPosts, paginateHandler }: Props) => {
@@ -93,23 +98,7 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
           key={post.id}
           onVisibilityChange={(isVisible) => onPostVisible(post.id, isVisible)}
         >
-          <Post
-            userId={session?.user?.id || ""}
-            postType={post.type}
-            postSlug={post.slug}
-            postTitle={post.title}
-            content={post.content}
-            userPhotoUrl={post.author.image ?? ""}
-            userName={post.author.username ?? "no name"}
-            email={post.author.username}
-            careerName={post.career.name}
-            careerSlug={post.career.slug}
-            repliesCount={post._count.children}
-            heartCount={post._count.PostLike}
-            imageUrls={post.images.map(({ url }) => url)}
-            createdAt={post.createdAt}
-            authorId={post.authorId}
-          />
+          <PostWithLikeState {...post} userId={session?.user?.id || ""} />
         </VisibilityWrapper>
       ))}
       {hasMore && (
@@ -119,6 +108,44 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
       )}
       {!hasMore && <EndMessage />}
     </div>
+  );
+};
+
+const PostWithLikeState = ({ userId, ...post }: PostWithLikeStateProps) => {
+  const [likeState, setLikeState] = useState({ isLiked: false, likeCount: 0 });
+
+  useEffect(() => {
+    const fetchLikeState = async () => {
+      const result = await getInitialLikeState(post.slug, userId);
+      if (result.success) {
+        setLikeState({
+          isLiked: result.isLiked ?? false,
+          likeCount: result.likeCount ?? 0,
+        });
+      }
+    };
+    fetchLikeState();
+  }, [post.slug, userId]);
+
+  return (
+    <Post
+      userId={userId}
+      postType={post.type}
+      postSlug={post.slug}
+      postTitle={post.title}
+      content={post.content}
+      userPhotoUrl={post.author.image ?? ""}
+      userName={post.author.username ?? "no name"}
+      email={post.author.username}
+      careerName={post.career.name}
+      careerSlug={post.career.slug}
+      repliesCount={post._count.children}
+      heartCount={likeState.likeCount}
+      initialLikedState={likeState.isLiked}
+      imageUrls={post.images.map(({ url }) => url)}
+      createdAt={post.createdAt}
+      authorId={post.authorId}
+    />
   );
 };
 
