@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -7,10 +7,30 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FlagIcon, HomeIcon } from "lucide-react";
+import { FlagIcon } from "lucide-react";
 import { motion } from "framer-motion";
 
 export const EndMessage = () => {
+  const smoothScrollToTop = (duration: number) => {
+    const start = window.scrollY;
+    const startTime =
+      "now" in window.performance ? performance.now() : new Date().getTime();
+    const scroll = () => {
+      const now =
+        "now" in window.performance ? performance.now() : new Date().getTime();
+      const time = Math.min(1, (now - startTime) / duration);
+      window.scrollTo(0, Math.ceil((1 - time) * start));
+      if (time < 1) {
+        requestAnimationFrame(scroll);
+      }
+    };
+    requestAnimationFrame(scroll);
+  };
+
+  const handleScrollToTop = () => {
+    smoothScrollToTop(500); // Ajusta la duración según prefieras
+  };
+
   return (
     <div className="flex items-center justify-center min-h-[50vh] p-6 bg-background">
       <Card className="w-full max-w-md">
@@ -31,12 +51,14 @@ export const EndMessage = () => {
           </p>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Link href="/home" passHref>
-            <Button variant="outline" size="lg" className="mt-4">
-              <HomeIcon className="w-4 h-4 mr-2" />
-              Volver a inicio
-            </Button>
-          </Link>
+          <Button
+            variant="outline"
+            size="lg"
+            className="mt-4"
+            onClick={handleScrollToTop}
+          >
+            Volver arriba
+          </Button>
         </CardFooter>
       </Card>
     </div>
