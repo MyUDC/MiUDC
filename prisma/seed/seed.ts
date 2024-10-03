@@ -20,6 +20,7 @@ const main = async () => {
 
     return {
       name,
+      id: (c.index + 1).toString(),
       website: faker.internet.url(),
       study_plan_url: faker.internet.url(),
       location: faker.location.city(),
@@ -27,6 +28,7 @@ const main = async () => {
       longitude: faker.location.longitude(),
       description: faker.lorem.paragraph(),
       facultyId: faker.helpers.arrayElement(faculties).id,
+      semesters: faker.number.int({min: 1, max: 14}),
       slug: generateSlug(name)
     }
   }));

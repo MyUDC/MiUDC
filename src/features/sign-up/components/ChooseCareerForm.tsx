@@ -1,14 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
-import Cookies from "js-cookie";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  FormProvider,
-  useForm
-} from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -17,29 +11,26 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@/components/ui/select";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import getCareers, { Career } from "@/shared/actions/Careers/getCareersNames";
+import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
 
 const Form = FormProvider;
-
-interface Props {
-  initialValues?: z.infer<typeof FormSchema>;
-}
 
 const FormSchema = z.object({
   accountNumber: z
     .string({ required_error: "Este campo es requerido" })
-    .min(8, { message: "El número de cuanta debe tener 8 dígitos" })
-    .max(8, { message: "El número de cuanta debe tener 8 dígitos" }),
+    .min(8, { message: "El número de cuenta debe tener 8 dígitos" })
+    .max(8, { message: "El número de cuenta debe tener 8 dígitos" }),
   career: z
     .string({ required_error: "Este campo es requerido" })
     .min(1, { message: "Este campo es requerido" }),
@@ -48,7 +39,6 @@ const FormSchema = z.object({
     .min(1, { message: "Este campo es requerido" }),
 });
 
-// todo: add this data to career model
 const semesters = [
   { value: "1", label: "Primero" },
   { value: "2", label: "Segundo" },
@@ -58,35 +48,68 @@ const semesters = [
   { value: "6", label: "Sexto" },
   { value: "7", label: "Séptimo" },
   { value: "8", label: "Octavo" },
-]
+];
 
-export default function ChooseCareerForm({ initialValues }: Props) {
+export default function ChooseCareerForm() {
   const [careers, setCareers] = useState<Career[] | never[]>([]);
-  const router = useRouter();
+  const { setValue, goToNextSlide, values: globalValues } = useFormSwiperStore();
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      accountNumber: globalValues?.studentData?.accountNumber?.toString() || "",
+      career: globalValues?.studentData?.careerId || "",
+      semester: globalValues?.studentData?.semester || "",
+    },
+  });
+
+  const watchCareer = form.watch("career");
+
+  const semesters = useMemo(() => {
+    if (!watchCareer) return [];
+    const career = careers.find((career) => career.id === watchCareer);
+    if (!career) return [];
+    return Array.from({ length: career.semesters }, (_, index) => ({
+      value: (index + 1).toString(),
+      label: (index + 1).toString(),
+    }));
+  }, [careers, watchCareer]);
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    const { career, semester, accountNumber } = data;
+    setValue("studentData", {
+      careerId: career,
+      semester: semester,
+      accountNumber: parseInt(accountNumber, 10),
+    });
+    goToNextSlide();
+  };
+
+  useEffect(() => {
+    const studentData = globalValues?.studentData;
+    if (studentData) {
+      form.reset({
+        accountNumber: studentData.accountNumber?.toString() || "",
+        career: studentData.careerId || "",
+        semester: studentData.semester?.toString() || "",
+      });
+    }
+  }, [globalValues, form]);
+
+  useEffect(() => {
+    console.log(watchCareer);
+  }, [watchCareer]);
 
   useEffect(() => {
     getCareers()
       .then((careers) => {
         setCareers(careers);
+        console.log(careers);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: initialValues,
-  });
-
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    const { career, semester, accountNumber } = data;
-    console.log(career, semester, accountNumber);
-    Cookies.set("accountNumber", accountNumber?.toString()!);
-    Cookies.set("career", career);
-    Cookies.set("semester", semester.toString());
-    router.push("/sign-up/register");
-  }
 
   return (
     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -94,19 +117,14 @@ export default function ChooseCareerForm({ initialValues }: Props) {
         Datos de Estudiante
       </h1>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6"
-        >
-          {/* Account number field */}
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
+          {/* Número de cuenta */}
           <FormField
             control={form.control}
             name="accountNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="accountNumber">
-                  Número de cuenta
-                </FormLabel>
+                <FormLabel htmlFor="accountNumber">Número de cuenta</FormLabel>
                 <FormControl>
                   <Input
                     id="accountNumber"
@@ -120,25 +138,25 @@ export default function ChooseCareerForm({ initialValues }: Props) {
             )}
           />
 
-          {/* Career field */}
+          {/* Carrera */}
           <FormField
             control={form.control}
             name="career"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Carrera</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecciona tu carrera" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {
-                      careers.map((career) => (
-                        <SelectItem key={career.id} value={career.id}>{career.name}</SelectItem>
-                      ))
-                    }
+                    {careers.map((career) => (
+                      <SelectItem key={career.id} value={career.id}>
+                        {career.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -146,25 +164,25 @@ export default function ChooseCareerForm({ initialValues }: Props) {
             )}
           />
 
-          {/* Semester field */}
+          {/* Semestre */}
           <FormField
             control={form.control}
             name="semester"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Semestre</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field?.value?.toString()!}>
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecciona tu semestre" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {
-                      semesters.map((semester) => (
-                        <SelectItem key={semester.value} value={semester.value}>{semester.label}</SelectItem>
-                      ))
-                    }
+                    {semesters.map((semester) => (
+                      <SelectItem key={semester.value} value={semester.value}>
+                        {semester.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -172,14 +190,11 @@ export default function ChooseCareerForm({ initialValues }: Props) {
             )}
           />
 
-          <Button
-            variant="green"
-            type="submit"
-          >
+          <Button variant="green" type="submit">
             Continuar
           </Button>
         </form>
-      </Form >
+      </Form>
     </div>
   );
 }

@@ -170,6 +170,7 @@ model Career {
   latitude       Float
   longitude      Float
   description    String
+  semesters      Int
   slug           String @unique
 
   // foreign keys

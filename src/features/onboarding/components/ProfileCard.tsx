@@ -46,10 +46,6 @@ export default function ProfileCard({
     string | null
   >(selectedProfile);
 
-  useEffect(() => {
-    setLocalSelectedProfile(selectedProfile);
-  }, [selectedProfile]);
-
   const handleSelect = (profile: Role) => {
     const newSelection = localSelectedProfile === profile ? null : profile;
     setLocalSelectedProfile(newSelection);
@@ -76,13 +72,12 @@ export default function ProfileCard({
         {profiles.map(({ label, icon }) => (
           <SwiperSlide
             key={label}
-            className={`flex flex-col items-center justify-center h-full p-4 ${
-              localSelectedProfile === label
+            className={`flex flex-col items-center justify-center h-full p-4 ${localSelectedProfile === label
                 ? label === "STUDENT"
                   ? "text-green border-2 border-green rounded-md"
                   : "text-yellow border-2 border-yellow rounded-md"
                 : "bg-white text-black border border-gray-300"
-            } rounded-md transition-all duration-300 ease-in-out`}
+              } rounded-md transition-all duration-300 ease-in-out`}
             onClick={() => handleSelect(label)}
           >
             <div className="flex flex-col items-center justify-center h-full">

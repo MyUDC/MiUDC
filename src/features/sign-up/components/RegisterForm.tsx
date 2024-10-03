@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SignIn, SignUp } from "@/features/auth/actions";
 import { RiErrorWarningFill } from "react-icons/ri";
+import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
 
 type FormInputs = {
   email: string;
@@ -14,7 +15,7 @@ type FormInputs = {
 };
 
 export default function RegisterForm() {
-  const router = useRouter();
+  const {values} = useFormSwiperStore();
   const [signUpErrorMessage, setSignUpErrorMessage] = useState("");
   const {
     register,
@@ -24,15 +25,17 @@ export default function RegisterForm() {
   } = useForm<FormInputs>();
 
   const onSubmit = async (data: FormInputs) => {
-    setSignUpErrorMessage("");
-    const { email, password } = data;
-    const resp = await SignUp(email, password);
-    if (!resp.ok) {
-      setSignUpErrorMessage(resp.message);
-      return;
-    }
-    await SignIn(email, password);
-    router.replace("/home");
+    // setSignUpErrorMessage("");
+    // const { email, password } = data;
+    // const resp = await SignUp(email, password);
+    // if (!resp.ok) {
+    //   setSignUpErrorMessage(resp.message);
+    //   return;
+    // }
+    // await SignIn(email, password);
+    // router.replace("/home");
+    console.log(values);
+    
   };
 
   const passwordInpValue = watch("password");

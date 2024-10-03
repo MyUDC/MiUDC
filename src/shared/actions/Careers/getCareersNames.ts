@@ -8,7 +8,8 @@ export default async function getCareers() {
     {
       select: {
         id: true,
-        name: true
+        name: true,
+        semesters: true
       }
     }
   );
@@ -17,6 +18,7 @@ export default async function getCareers() {
 export type Career = Prisma.CareerGetPayload<{
   select: {
     id: true,
-    name: true
+    name: true,
+    semesters: true
   }
 }>
