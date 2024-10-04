@@ -28,20 +28,26 @@ const main = async () => {
       longitude: faker.location.longitude(),
       description: faker.lorem.paragraph(),
       facultyId: faker.helpers.arrayElement(faculties).id,
-      semesters: faker.number.int({min: 1, max: 14}),
+      semesters: faker.number.int({ min: 1, max: 14 }),
       slug: generateSlug(name)
     }
   }));
 
   // Seed Users
-  const { user: users } = await seed.user((x) => x(20, (u) => ({
-    email: faker.internet.email(),
-    username: faker.internet.userName(),
-    name: faker.internet.userName(),
-    password: bcryptjs.hashSync('password', 10),
-    role: faker.helpers.arrayElement(['ASPIRANT', 'STUDENT', 'ADMIN']),
-    image: u.index % 2 === 0 ? null : "https://res.cloudinary.com/dxdme71no/image/upload/v1722901389/hufhpfqpgmwr4p5kj1ja.jpg",
-  })));
+  const { user: users } = await seed.user((x) => x(20, (u) => {
+    const career = faker.helpers.arrayElement(careers);
+    return {
+      email: faker.internet.email(),
+      username: faker.internet.userName(),
+      name: faker.internet.userName(),
+      password: bcryptjs.hashSync('password', 10),
+      role: faker.helpers.arrayElement(['ASPIRANT', 'STUDENT', 'ADMIN']),
+      image: u.index % 2 === 0 ? null : "https://res.cloudinary.com/dxdme71no/image/upload/v1722901389/hufhpfqpgmwr4p5kj1ja.jpg",
+      accountNumber: faker.number.int({ min: 11111111, max: 99999999 }),
+      careerId: career.id,
+      semester: career.semesters
+    }
+  }));
 
   // Seed post
   const { post: posts } = await seed.post((x) => x(30, (t) => {

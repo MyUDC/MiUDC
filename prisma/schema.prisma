@@ -34,14 +34,17 @@ model User {
   password      String?
   emailVerified DateTime?
   image         String?
-
-  role Role @default(ASPIRANT)
+  accountNumber Int?
+  semester      Int?
+  role          Role      @default(ASPIRANT)
 
   // relations
   accounts      Account[]
   sessions      Session[]
   Authenticator Authenticator[]
 
+  career    Career?    @relation(fields: [careerId], references: [id])
+  careerId  String?
   Posts     Post[]
   PostLikes PostLike[]
   Interests Interest[]
@@ -184,6 +187,7 @@ model Career {
   // timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  User      User[]
 }
 
 model Interest {
