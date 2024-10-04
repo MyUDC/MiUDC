@@ -11,7 +11,8 @@ import postTypeHumanized from "@/utils/PostTypeHumanized";
 import { Card } from "@/components/ui/card";
 import { PostActions } from "./PostActions";
 
-type Props = {
+type PostProps = {
+  userId: string;
   postType: PostType;
   postTitle: string;
   postSlug: string;
@@ -22,13 +23,15 @@ type Props = {
   content?: string;
   careerSlug: string;
   careerName: string;
-  heartCount?: number;
+  heartCount: number;
+  initialLikedState: boolean;
   repliesCount?: number;
   imageUrls?: string[];
   createdAt: Date;
 };
 
 export default function Post({
+  userId,
   postType,
   postTitle,
   postSlug,
@@ -39,10 +42,11 @@ export default function Post({
   careerSlug,
   careerName,
   heartCount,
+  initialLikedState,
   repliesCount: commentCount,
   imageUrls,
   createdAt,
-}: Props) {
+}: PostProps) {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
 
   useEffect(() => {
@@ -91,7 +95,6 @@ export default function Post({
               />
             </div>
           </div>
-
           <div className="ml-[4.3rem] pr-3">
             {/* Post Title */}
             <div className="flex flex-col gap- mb-1">
@@ -119,7 +122,13 @@ export default function Post({
             </div>
           </div>
           <PostImages imageUrls={imageUrls} />
-          <Reactions heartCount={heartCount} commentCount={commentCount} />
+          <Reactions
+            postSlug={postSlug}
+            userId={userId}
+            initialHeartCount={heartCount}
+            initialLikedState={initialLikedState}
+            commentCount={commentCount}
+          />
         </Card>
       </div>
     </div>
