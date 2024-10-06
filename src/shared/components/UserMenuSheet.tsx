@@ -14,6 +14,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { signOut } from "next-auth/react";
+import { SignOutButton } from "@/features/auth/components/SignOutButton";
 
 interface UserMenuSheetProps {
   user?: User;
@@ -94,10 +96,7 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
         </div>
 
         <SheetFooter className="mt-auto text-black">
-          <Button variant="outline" className="w-full">
-            <FaSignOutAlt className="mr-2 h-4 w-4" />
-            Cerrar sesión
-          </Button>
+          <SignOutButton /> 
         </SheetFooter>
       </SheetContent>
     </Sheet>
