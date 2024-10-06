@@ -36,7 +36,7 @@ export default function SignInPage() {
                 <Button
                   text="Regístrate aquí"
                   variant="link"
-                  path="/sign-up/register"
+                  path="/sign-up"
                 />
               </div>
             </div>

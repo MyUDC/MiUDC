@@ -9,6 +9,7 @@ interface State {
   setSwiper: (swiper: SwiperType | null) => void;
   values: FormSchema | null;
   setValues: (newValues: FormSchema) => void;
+  resetValues: () => void;
   setValue: <FormSchemaKey extends keyof FormSchema>(key: FormSchemaKey, value: FormSchema[FormSchemaKey]) => void;
   index: number;
   setIndex: (index: number) => void;
@@ -28,6 +29,8 @@ export const useFormSwiperStore = create(
         [key]: value
       } : { [key]: value } as unknown as FormSchema
     }));
+
+    const resetValues = () => set({ values: null });
 
     const setIndex = (index: number) => set({ index });
 
@@ -54,6 +57,7 @@ export const useFormSwiperStore = create(
       setIndex,
       setSwiper,
       setValues,
+      resetValues,
       setValue,
       goToNextSlide,
       goToPrevSlide

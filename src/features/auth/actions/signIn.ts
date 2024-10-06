@@ -1,8 +1,9 @@
 'use server';
 
 import { signIn } from "@/auth";
+import { ResponseSchema } from "@/shared/types/ResponseSchema";
 
-export const SignIn = async (email: string, password: string) => {
+export const SignIn = async (email: string, password: string): Promise<ResponseSchema> => {
   
   try {
     await signIn('credentials', {
@@ -10,6 +11,7 @@ export const SignIn = async (email: string, password: string) => {
       password,
       redirect: false
     });
+
 
     return {
       ok: true,

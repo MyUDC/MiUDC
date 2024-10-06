@@ -15,6 +15,13 @@ export default function ProfileTypeForm() {
     setSelectedProfile(profile);
   };
 
+  const onSubmit = () => {
+    setValue("profileType", {
+      profileType: selectedProfile
+    })
+    goToNextSlide();
+  }
+
   useEffect(() => {
     setSelectedProfile(values?.profileType?.profileType!);
   }, [values]);
@@ -31,12 +38,7 @@ export default function ProfileTypeForm() {
       <button
         type="button"
         disabled={!selectedProfile}
-        onClick={() => {
-          setValue("profileType", {
-            profileType: selectedProfile
-          })
-          goToNextSlide();
-        }}
+        onClick={onSubmit}
         className={`mt-4 py-2 px-4 w-full rounded-md text-white font-semibold ${selectedProfile
           ? "bg-green hover:bg-green-600"
           : "bg-gray-300 cursor-not-allowed"

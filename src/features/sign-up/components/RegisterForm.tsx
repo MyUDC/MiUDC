@@ -1,21 +1,33 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import Input from "@/shared/components/ui/Input";
 import { useState } from "react";
+
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { SignIn, SignUp } from "@/features/auth/actions";
+import { useToast } from "@/hooks/use-toast";
 import { RiErrorWarningFill } from "react-icons/ri";
+import Input from "@/shared/components/ui/Input";
+import { Button } from "@/components/ui/button";
+import { ToastAction } from "@radix-ui/react-toast";
+
+import { SignIn, SignUp } from "@/features/auth/actions";
 import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
+import { GoogleAuthButton } from "@/features/auth/components/GoogleAuthButton";
+import { ResponseSchema } from "@/shared/types/ResponseSchema";
+import { Role } from "@prisma/client";
 
 type FormInputs = {
   email: string;
+  username: string;
   password: string;
   confirm_password: string;
 };
 
 export default function RegisterForm() {
-  const {values} = useFormSwiperStore();
+  // ----[States and hooks]----
+  const router = useRouter();
+  const { values } = useFormSwiperStore();
+  const { toast } = useToast();
   const [signUpErrorMessage, setSignUpErrorMessage] = useState("");
   const {
     register,
@@ -23,30 +35,70 @@ export default function RegisterForm() {
     watch,
     formState: { errors, isSubmitting },
   } = useForm<FormInputs>();
+  const passwordInpValue = watch("password");
 
+  // ----[functions]----
   const onSubmit = async (data: FormInputs) => {
-    // setSignUpErrorMessage("");
-    // const { email, password } = data;
-    // const resp = await SignUp(email, password);
-    // if (!resp.ok) {
-    //   setSignUpErrorMessage(resp.message);
-    //   return;
-    // }
-    // await SignIn(email, password);
-    // router.replace("/home");
-    
-    console.log(values);
-    
+    setSignUpErrorMessage("");
+    const {
+      profileType: { profileType },
+      studentData: { careerId, semester, accountNumber },
+    } = values!;
+    const { email, username, password } = data;
+
+    let resp: ResponseSchema;
+
+    if (profileType === Role.STUDENT) {
+      resp = await SignUp({
+        email,
+        username,
+        password,
+        role: profileType!,
+        careerId,
+        semester: Number(semester),
+        accountNumber,
+      });
+    } else if (profileType === Role.ASPIRANT) {
+      resp = await SignUp({
+        email,
+        username,
+        password,
+        role: profileType!,
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error al registrarse",
+        description: "No se pudo determinar el tipo de perfil",
+        action: <ToastAction altText="Entendido">Entendido</ToastAction>,
+      });
+      return;
+    }
+
+    if (!resp.ok) {
+      setSignUpErrorMessage(resp.message);
+      toast({
+        variant: "destructive",
+        title: "Error al registrarse",
+        description: resp.message,
+        action: <ToastAction altText="Entendido">Entendido</ToastAction>,
+      });
+      return;
+    }
+
+    if (await SignIn(email, password)) {
+      router.replace("/home");
+    }
   };
 
-  const passwordInpValue = watch("password");
 
   return (
     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
       <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
         Registro
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* ---[ Email field ]--- */}
         <div>
           <Input
             title="Correo"
@@ -70,6 +122,25 @@ export default function RegisterForm() {
           />
         </div>
 
+        {/* ---[ Username field ]--- */}
+        <div>
+          <Input
+            title="Nombre de usuario"
+            id="username"
+            placeholder="Agrega un nombre de usuario"
+            type="text"
+            autoComplete="username"
+            formHandler={register("username", {
+              required: {
+                value: true,
+                message: "Este campo es requerido",
+              },
+            })}
+            error={errors.username?.message}
+          />
+        </div>
+
+        {/* ---[ Password field ]--- */}
         <div>
           <Input
             title="Contraseña"
@@ -91,6 +162,7 @@ export default function RegisterForm() {
           />
         </div>
 
+        {/* ---[ Confirm password field ]--- */}
         <div>
           <Input
             title="Confirma contraseña"
@@ -110,6 +182,7 @@ export default function RegisterForm() {
           />
         </div>
 
+        {/* ---[ Error message ]--- */}
         {signUpErrorMessage && (
           <div className="flex items-center text-red-500 text-xs mt-1">
             <RiErrorWarningFill className="mr-1" />
@@ -117,16 +190,23 @@ export default function RegisterForm() {
           </div>
         )}
 
+        {/* ---[ Submit button ]--- */}
         <div className="pt-2">
-          <button
-            type="submit"
-            className="w-full text-white bg-green hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-sm px-5 py-2.5 text-center"
-            disabled={isSubmitting}
+          <Button
+            variant="green"
+            className="w-full"
+            loading={isSubmitting}
           >
-            {isSubmitting ? "Cargando..." : "Continuar"}
-          </button>
+            {isSubmitting ? "Cargando..." : "Registrarse"}
+          </Button>
         </div>
       </form>
+
+      {/* ---[ Google auth button ]--- */}
+      <div className="flex flex-col text-center gap-3 justify-center">
+        <p>ó</p>
+        <GoogleAuthButton />
+      </div>
     </div>
   );
 };
