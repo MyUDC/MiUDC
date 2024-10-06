@@ -2,13 +2,13 @@
 
 import FormSwiper from "@/features/sign-up/components/FormSwiper";
 import Image from "next/image";
-import {FaArrowLeft} from "react-icons/fa";
-import {useFormSwiperStore} from "@/stores/useFormSwiperStore";
+import { FaArrowLeft } from "react-icons/fa";
+import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
 import Stepper from "@/features/sign-up/components/Stepper";
 
 export default function SignUpSteps() {
   const {
-
+    values,
     setSwiper,
     goToNextSlide,
     goToPrevSlide,
@@ -20,10 +20,11 @@ export default function SignUpSteps() {
       <header className="flex justify-center">
         <button
           title="Back"
+          type="button"
           className="absolute top-4 left-4 text-green"
           onClick={goToPrevSlide}
         >
-          <FaArrowLeft className="w-6 h-6"/>
+          <FaArrowLeft className="w-6 h-6" />
         </button>
         <Image
           src="/svgs/logo-inline.svg"
@@ -35,9 +36,11 @@ export default function SignUpSteps() {
       </header>
       <section>
         <div className="mx-auto bg-white rounded-lg shadow-md md:mt-0 sm:max-w-md xl:p-0">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <Stepper totalSteps={3} currentStep={index} />
-            <FormSwiper onSwiper={setSwiper}/>
+          <div className="flex flex-col justify-center p-6 space-y-4 md:space-y-6 sm:p-8">
+            <Stepper
+              totalSteps={values?.profileType?.profileType === "STUDENT" ? 3 : 2}
+              currentStep={index} />
+            <FormSwiper onSwiper={setSwiper} />
           </div>
         </div>
       </ section>

@@ -6,10 +6,10 @@ import { Role } from "@prisma/client";
 import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
 
 export default function ProfileTypeForm() {
-  const {values, goToNextSlide, setValue} = useFormSwiperStore();
+  const { values, goToNextSlide, setValue } = useFormSwiperStore();
   const [selectedProfile, setSelectedProfile] = useState<Role | null>(null);
 
-//todo: working on initial values
+  //todo: working on initial values
 
   const handleSelect = (profile: Role | null) => {
     setSelectedProfile(profile);
@@ -20,16 +20,17 @@ export default function ProfileTypeForm() {
   }, [values]);
 
   return (
-    <div>
+    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
       <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
         ¿Qué tipo de perfil deseas crear?
       </h1>
-      {selectedProfile}
       <ProfileCard
         selectedProfile={selectedProfile}
         onSelect={handleSelect}
       />
       <button
+        type="button"
+        disabled={!selectedProfile}
         onClick={() => {
           setValue("profileType", {
             profileType: selectedProfile
@@ -40,7 +41,6 @@ export default function ProfileTypeForm() {
           ? "bg-green hover:bg-green-600"
           : "bg-gray-300 cursor-not-allowed"
           }`}
-        disabled={!selectedProfile}
       >
         Continuar
       </button>

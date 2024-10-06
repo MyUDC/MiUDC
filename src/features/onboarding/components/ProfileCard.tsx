@@ -1,51 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+
+import type SwiperType from "swiper";
+
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import { Keyboard } from "swiper/modules";
+import { FaUserGraduate, FaUser } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
-import { FaUserGraduate, FaUser } from "react-icons/fa";
+
 import { Role } from "@prisma/client";
+import { a } from "@react-spring/web";
+import clsx from "clsx";
 
 interface ProfileCardProps {
   selectedProfile: Role | null;
   onSelect: (profile: Role | null) => void;
 }
 
-const profileDescriptions: { [key: string]: JSX.Element } = {
-  Estudiante: (
-    <>
-      Como estudiante de alguna carrera de la UdC podrás hacer{" "}
-      <strong>testimonios</strong> y <strong>preguntas</strong>. Solo asegúrate
-      de tener activo tu correo Ucol y tu número de cuenta!
-    </>
-  ),
-  Aspirante: (
-    <>
-      Como aspirante a alguna carrera de la UdC podrás hacer{" "}
-      <strong>preguntas</strong> para discernir cualquier tipo de duda sobre la
-      carrera que deseas!
-    </>
-  ),
-};
-
-interface Profile {
-  label: Role;
-  icon: JSX.Element;
-}
-
-const profiles: Profile[] = [
-  { label: "ASPIRANT", icon: <FaUserGraduate className="text-6xl" /> },
-  { label: "STUDENT", icon: <FaUser className="text-6xl" /> },
-];
-
 export default function ProfileCard({
   selectedProfile,
   onSelect,
 }: ProfileCardProps) {
-  const [localSelectedProfile, setLocalSelectedProfile] = useState<
-    string | null
-  >(selectedProfile);
 
+  // ----[ Instances and States ]----
+  const [localSelectedProfile, setLocalSelectedProfile] = useState<string | null>(selectedProfile);
+  const swiperInstance = useRef<SwiperType | null>(null);
+
+
+  // ----[ Functions ]----
   const handleSelect = (profile: Role) => {
     const newSelection = localSelectedProfile === profile ? null : profile;
     setLocalSelectedProfile(newSelection);
@@ -59,32 +42,47 @@ export default function ProfileCard({
     }
   };
 
+
+  // ----[ Effects ]----
+  useEffect(() => { // Update swiper on init to load the state from global state
+    if (swiperInstance.current && selectedProfile) {
+      swiperInstance.current.slideTo(profileIndex[selectedProfile as keyof typeof profileIndex]);
+      setLocalSelectedProfile(selectedProfile);
+    }
+  }, [selectedProfile]);
+
+
+  // ----[ Render ]----
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-screen-md px-4">
+    <div className="flex flex-col items-center justify-center w-full">
       <Swiper
+        className={clsx(
+          "flex items-center justify-center w-full cursor-pointer border rounded-md transition-all duration-300 ease-in-out",
+          {
+            "border-yellow border-2 text-yellow": localSelectedProfile === Role.ASPIRANT,
+            "border-green border-2 text-green": localSelectedProfile === Role.STUDENT,
+            "border-gray-300 border": !localSelectedProfile,
+          }
+        )}
         spaceBetween={10}
         slidesPerView={1}
         pagination={{ clickable: true }}
-        modules={[Pagination]}
+        modules={[Pagination, Keyboard]}
         onSlideChange={handleSlideChange}
-        className="w-full h-full"
+        onSwiper={(swiper) => swiperInstance.current = swiper}
+        keyboard={{ enabled: true, onlyInViewport: true }}
       >
-        {profiles.map(({ label, icon }) => (
+        {profilesData.map((profile) => (
           <SwiperSlide
-            key={label}
-            className={`flex flex-col items-center justify-center h-full p-4 ${localSelectedProfile === label
-                ? label === "STUDENT"
-                  ? "text-green border-2 border-green rounded-md"
-                  : "text-yellow border-2 border-yellow rounded-md"
-                : "bg-white text-black border border-gray-300"
-              } rounded-md transition-all duration-300 ease-in-out`}
-            onClick={() => handleSelect(label)}
+            key={profile.label}
+            className="p-4"
+            onClick={() => handleSelect(profile.value)}
           >
             <div className="flex flex-col items-center justify-center h-full">
-              {icon}
-              <h2 className="text-lg font-semibold mt-4">{label}</h2>
+              {profile.icon}
+              <h2 className="text-lg font-semibold mt-4">{profile.label}</h2>
               <p className="text-left text-sm mt-2 p-4 text-black">
-                {profileDescriptions[label]}
+                {profile.description}
               </p>
             </div>
           </SwiperSlide>
@@ -94,3 +92,46 @@ export default function ProfileCard({
     </div>
   );
 }
+
+// parse the profile string to an index based on his slider position
+const profileIndex = {
+  ASPIRANT: 0,
+  STUDENT: 1,
+};
+
+interface Profile {
+  label: string;
+  icon: JSX.Element;
+  value: Role;
+  index: number;
+  description: JSX.Element;
+}
+
+const profilesData: Profile[] = [
+  {
+    label: "Aspirante",
+    icon: <FaUserGraduate className="text-6xl" />,
+    value: Role.ASPIRANT,
+    index: 0,
+    description: (
+      <>
+        Como aspirante a alguna carrera de la UdC podrás hacer{" "}
+        <strong>preguntas</strong> para discernir cualquier tipo de duda sobre la
+        carrera que deseas!
+      </>
+    ),
+  },
+  {
+    label: "Estudiante",
+    icon: <FaUser className="text-6xl" />,
+    value: Role.STUDENT,
+    index: 1,
+    description: (
+      <>
+        Como estudiante de alguna carrera de la UdC podrás hacer{" "}
+        <strong>testimonios</strong> y <strong>preguntas</strong>. Solo asegúrate
+        de tener activo tu correo Ucol y tu número de cuenta!
+      </>
+    ),
+  },
+];

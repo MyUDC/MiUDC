@@ -7,7 +7,7 @@ interface Props {
 
 const Stepper = ({ totalSteps, currentStep }: Props) => {
   return (
-    <div>
+    <div >
       <Progress value={(currentStep / (totalSteps - 1)) * 100} className="w-full" />
     </div>
   )
