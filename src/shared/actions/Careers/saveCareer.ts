@@ -72,7 +72,7 @@ export async function saveCareer(careerId: string) {
     // Revalidar la ruta para reflejar los cambios
     revalidatePath(`/career/${careerId}`);
 
-    return { success: true };
+    return;
   } catch (error) {
     console.error("Error saving career:", error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -83,9 +83,5 @@ export async function saveCareer(careerId: string) {
         );
       }
     }
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Failed to save career",
-    };
   }
 }
