@@ -1,7 +1,7 @@
 import { User } from "next-auth";
 import UserAvatar from "@/features/user/components/UserAvatar";
 import Link from "next/link";
-import { FaHeart, FaEdit, FaSignOutAlt } from "react-icons/fa";
+import { FaEdit, FaSignOutAlt, FaUniversity } from "react-icons/fa";
 import UserProfileEditor from "./UserProfileEditor";
 import {
   Sheet,
@@ -79,15 +79,15 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
                     Editar perfil
                   </button>
                 }
-              />{" "}
+              />
             </div>
 
             {/* Sección de Favoritos */}
             <div className="pb-2">
-              <p className="text-gray-500 text-sm font-medium">Favoritos</p>
+              <p className="text-gray-500 text-sm font-medium">Guardados</p>
               <button className="w-full flex items-center text-left text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all px-2 py-4 rounded-md">
-                <FaHeart className="mr-4 h-4 w-4 text-black" />
-                Carreras favoritas
+                <FaUniversity className="mr-4 h-4 w-4 text-black" />
+                Carreras
               </button>
             </div>
           </div>
