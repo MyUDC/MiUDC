@@ -12,6 +12,15 @@ interface CategoryCardProps {
   tags: string[];
 }
 
+// Define a type for the response you expect from getCareersBasedOnTags
+interface SimplifiedCareer {
+  id: string;
+  name: string;
+  slug: string;
+  faculty: string;
+  tags: string[];
+}
+
 export default function CategoryCard({
   title,
   gradient,
@@ -22,8 +31,31 @@ export default function CategoryCard({
   const [careers, setCareers] = useState<Career[]>([]);
 
   const handleClick = async () => {
-    const fetchedCareers = await getCareersBasedOnTags(tags);
-    setCareers(fetchedCareers);
+    const fetchedCareers: SimplifiedCareer[] = await getCareersBasedOnTags(
+      tags
+    );
+
+    // Map the fetched careers to match the Career type
+    const mappedCareers: Career[] = fetchedCareers.map((career) => ({
+      ...career,
+      website: "", // Default value
+      study_plan_url: "", // Default value
+      location: "", // Default value
+      latitude: 0, // Default value
+      longitude: 0, // Default value
+      description: "", // Default value
+      facultyId: "", // Default value
+      createdAt: new Date(), // Default value
+      updatedAt: new Date(), // Default value
+      faculty: {
+        id: "", // Default value
+        name: career.faculty, // Use the faculty string from fetched data
+        createdAt: new Date(), // Default value
+        updatedAt: new Date(), // Default value
+      },
+    }));
+
+    setCareers(mappedCareers);
     setIsSheetOpen(true);
   };
 
