@@ -22,6 +22,7 @@ export async function fetchAllCareers(): Promise<{
     longitude: 0,
     description: "",
     facultyId: "",
+    semesters: 8,
     createdAt: new Date(),
     updatedAt: new Date(),
   };
