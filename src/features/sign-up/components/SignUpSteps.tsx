@@ -5,8 +5,10 @@ import Image from "next/image";
 import { FaArrowLeft } from "react-icons/fa";
 import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
 import Stepper from "@/features/sign-up/components/Stepper";
+import { useRouter } from "next/navigation";
 
 export default function SignUpSteps() {
+  const router = useRouter();
   const {
     values,
     setSwiper,
@@ -15,6 +17,14 @@ export default function SignUpSteps() {
     index,
   } = useFormSwiperStore();
 
+  const handleBackButton = () => {
+    if (index === 0) {
+      router.back();
+    } else {
+      goToPrevSlide();
+    }
+  }
+
   return (
     <div className="h-full flex flex-col gap-6">
       <header className="flex justify-center">
@@ -22,7 +32,7 @@ export default function SignUpSteps() {
           title="Back"
           type="button"
           className="absolute top-4 left-4 text-green"
-          onClick={goToPrevSlide}
+          onClick={handleBackButton}
         >
           <FaArrowLeft className="w-6 h-6" />
         </button>

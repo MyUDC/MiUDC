@@ -201,12 +201,6 @@ export default function RegisterForm() {
           </Button>
         </div>
       </form>
-
-      {/* ---[ Google auth button ]--- */}
-      <div className="flex flex-col text-center gap-3 justify-center">
-        <p>ó</p>
-        <GoogleAuthButton />
-      </div>
     </div>
   );
 };
