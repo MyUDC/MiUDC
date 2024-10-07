@@ -6,6 +6,7 @@ import { IoArrowBack } from "react-icons/io5";
 import { ServerTabs } from "../../../../../features/career/components/ServerTabs";
 import { Button } from "@/components/ui/button";
 import UserProfileEditor from "@/shared/components/UserProfileEditor";
+import BackButton from "@/shared/components/BackButton";
 
 interface Props {
   children: React.ReactNode;
@@ -50,14 +51,7 @@ export default async function UserLayout({ children, params }: Props) {
         <div className="w-full relative border-b">
           <div className="bg-green-500 relative p-8 pt-16 flex flex-col items-start text-black">
             {/* Botón de retroceso colocado aquí */}
-            <Link href="/home">
-              <Button
-                variant="outline"
-                className="fixed top-4 left-4 flex items-center z-10"
-              >
-                <IoArrowBack className="text-green h-4 w-4" />
-              </Button>
-            </Link>
+            <BackButton />
             <UserAvatar
               showName={false}
               name={user?.name!}

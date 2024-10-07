@@ -31,8 +31,8 @@ export const ServerTabs = ({ tabs }: Props) => {
 
   return (
     <Tabs value={currentPath} className="w-full ">
-      <ScrollArea className="w-full bg-gray-100">
-        <TabsList className="flex w-full border-gray-300 py-6 bg-gray-100">
+      <ScrollArea className="w-full">
+        <TabsList className="flex w-full py-6 bg-gray-100">
           {tabs.map((tab, index) => {
             const isActive = currentPath === tab.path;
 
@@ -40,10 +40,10 @@ export const ServerTabs = ({ tabs }: Props) => {
               <TabsTrigger
                 key={tab.path}
                 value={tab.path}
-                className={`flex-1 text-center px-3 transition-colors ${
+                className={`shadwon-none flex-1 text-center px-3 text-md ${
                   isActive
-                    ? "bg-white text-black shadow-md py-2"
-                    : "text-gray-600"
+                    ? "bg-white border text-black py-2"
+                    : "text-gray-600 "
                 }`}
                 asChild
               >
