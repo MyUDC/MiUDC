@@ -48,6 +48,8 @@ model User {
   Posts     Post[]
   PostLikes PostLike[]
   Interests Interest[]
+  savedCareers SavedCareer[]
+
 
   // timestamps
   createdAt DateTime @default(now())
@@ -183,6 +185,9 @@ model Career {
   // relations
   Posts       Post[]
   interesteds Interest[]
+  CareerTag   CareerTag[] // renombrar a tags
+  savedBy SavedCareer[]
+
 
   // timestamps
   createdAt DateTime @default(now())
@@ -215,4 +220,39 @@ model Image {
   // Relaciones
   PostId String?
   Post   Post?   @relation(fields: [PostId], references: [id])
+}
+
+model Tag {
+  //fields
+  id        String      @id @default(uuid())
+  name      String      @unique
+
+  //relations
+  careers   CareerTag[]
+
+  //timestamps
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model CareerTag {
+  //fields
+  career    Career   @relation(fields: [careerId], references: [id])
+  careerId  String
+  tag       Tag      @relation(fields: [tagId], references: [id])
+  tagId     String
+
+  @@id([careerId, tagId])
+}
+
+model SavedCareer {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  career    Career   @relation(fields: [careerId], references: [id])
+  careerId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, careerId])
 }

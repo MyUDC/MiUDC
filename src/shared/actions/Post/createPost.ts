@@ -1,5 +1,8 @@
+"use server";
+
 import prisma from "@/lib/prisma";
 import { PostType } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 interface CreatePostInput {
   type: PostType;
@@ -8,10 +11,11 @@ interface CreatePostInput {
   authorId: string;
   careerId: string;
   imageUrls: string[];
+  path: string;
 }
 
-export default async function createPost(input: CreatePostInput) {
-  const { type, title, content, authorId, careerId, imageUrls } = input;
+export async function createPost(input: CreatePostInput) {
+  const { type, title, content, authorId, careerId, imageUrls, path } = input;
 
   let slug = generateSlug(title);
 
@@ -49,6 +53,8 @@ export default async function createPost(input: CreatePostInput) {
         images: true,
       },
     });
+
+    revalidatePath(path);
 
     return newPost;
   } catch (error) {

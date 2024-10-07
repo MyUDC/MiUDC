@@ -11,7 +11,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         // Variantes MiUDC
-        green: "bg-green text-white shadow hover:bg-green/90 mt-2",
+        green: "bg-green text-white shadow hover:bg-green/90",
         outlineGreen:
           "border border-green bg-background shadow-sm transition-colors duration-1000 hover:bg-green hover:text-white focus-visible:ring-green hover:outline-none",
 

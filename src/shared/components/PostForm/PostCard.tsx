@@ -12,7 +12,7 @@ export function PostCard({ onClick }: PostCardProps) {
   if (status === "loading") {
     return (
       <div className="my-4 px-4 sm:px-6 lg:px-8">
-        <Card className="rounded-none w-full max-w-2xl mx-auto cursor-pointer hover:bg-accent/50 transition-colors border-x-0 shadow-none">
+        <Card className=" w-full mx-auto cursor-pointer hover:bg-accent/50 transition-colors shadow-none">
           <CardContent className="p-4 py-6 flex items-center space-x-4">
             <UserAvatar />
             <div className="w-full h-6 bg-gray-200 rounded animate-pulse"></div>
@@ -25,7 +25,7 @@ export function PostCard({ onClick }: PostCardProps) {
   return (
     <div className="my-4 px-4 sm:px-6 lg:px-8">
       <Card
-        className="rounded-none w-full max-w-2xl mx-auto cursor-pointer hover:bg-accent/50 transition-colors border-x-0 shadow-none"
+        className="w-full mx-auto cursor-pointer hover:bg-accent/50 transition-colors shadow-none"
         onClick={onClick}
       >
         <CardContent className="p-4 py-6">
@@ -34,7 +34,7 @@ export function PostCard({ onClick }: PostCardProps) {
               name={session?.user?.name || ""}
               photoUrl={session?.user?.image || ""}
             />
-            <div className="text-muted-foreground text-sm">
+            <div className="text-muted-foreground text-md">
               Escribe tu post aquí...
             </div>
           </div>

@@ -1,6 +1,8 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ImageView from "../ImageView";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 interface Props {
   imageUrls?: string[];
@@ -9,40 +11,53 @@ interface Props {
 export const PostImages = ({ imageUrls }: Props) => {
   const [showImageView, setShowImageView] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
-  
-  if (!imageUrls) return;
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  if (!imageUrls) return null;
 
   const handleImageOpen = (index: number) => {
     setImageIndex(index);
     setShowImageView(true);
-  }
+  };
 
   const handleImageClose = () => {
     setShowImageView(false);
-  }
+  };
 
   return (
     <>
-      <div className=" ml-[4.3rem]  relative flex overflow-x-auto no-scrollbar">
-        {imageUrls.map((src, index) => (
-          <PostImage
-            key={index}
-            src={src}
-            handleClick={() => handleImageOpen(index)}
-          />
-        ))}
+      <div className="ml-[4.3rem] relative select-none">
+        {isLoaded && (
+          <Swiper
+            slidesPerView={2.5}
+            spaceBetween={16}
+            className="mySwiper cursor-pointer pb-9"
+          >
+            {imageUrls.map((src, index) => (
+              <SwiperSlide key={index}>
+                <PostImage
+                  src={src}
+                  handleClick={() => handleImageOpen(index)}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
-      {showImageView &&
-        //todo: la vista de imagen no funciona
+      {showImageView && (
         <ImageView
           imageUrls={imageUrls}
-          initialIndex={1}
+          initialIndex={imageIndex}
           onClose={handleImageClose}
         />
-      }
+      )}
     </>
-  )
-}
+  );
+};
 
 interface PostImageProps {
   src: string;
@@ -51,14 +66,17 @@ interface PostImageProps {
 
 const PostImage = ({ src, handleClick }: PostImageProps) => {
   return (
-    <div className="flex-none h-36 relative min-w-36 mr-4">
+    <div
+      className="aspect-square relative w-full h-36 select-none"
+      onClick={handleClick}
+    >
       <Image
         src={src}
         alt="Image"
         fill
         className="rounded-md border object-cover"
-        onClick={handleClick}
+        draggable="false"
       />
     </div>
-  )
-}
+  );
+};

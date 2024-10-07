@@ -1,3 +1,4 @@
+// src/shared/components/PostForm/NewPost.tsx
 "use client";
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "@react-hook/media-query";
@@ -21,6 +22,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { getCareerId } from "@/shared/actions/Careers/getCareerId";
 
 interface NewPostProps {
   careerSlug: string;
@@ -37,22 +39,15 @@ export default function NewPost({ careerSlug }: NewPostProps) {
   const [careerId, setCareerId] = useState<string | null>(null);
 
   useEffect(() => {
-    // Determine post type based on the current path
     if (pathname.includes("/testimonies")) {
       setPostType("TESTIMONY");
     } else if (pathname.includes("/questions")) {
       setPostType("QUESTION");
     }
 
-    // Fetch career ID based on careerSlug
     const fetchCareerId = async () => {
-      try {
-        const response = await fetch(`/api/career/${careerSlug}`);
-        const data = await response.json();
-        setCareerId(data.id);
-      } catch (error) {
-        console.error("Error fetching career ID:", error);
-      }
+      const id = await getCareerId(careerSlug);
+      setCareerId(id);
     };
 
     fetchCareerId();

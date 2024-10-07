@@ -24,8 +24,8 @@ export default async function CareerForumLayout({ children, params }: Props) {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="sticky z-40 top-0 border-b bg-background">
+    <div className="flex flex-col min-h-screen overflow-y-hidden">
+      <div className="sticky z-10 top-0 bg-background">
         <ServerTabs tabs={tabs} />
       </div>
       <div className="flex-grow">

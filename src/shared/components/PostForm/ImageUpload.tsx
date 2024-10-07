@@ -5,10 +5,10 @@ import { ToastAction } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import ImagePreview from "./ImagePreview";
-import { uploadImage } from "@/shared/actions/uploadImage"; // Importa la acción del servidor
+import { uploadImage } from "@/shared/actions/uploadImage";
 
-// Definir los tipos permitidos usando Zod
-const fileSchema = z.object({
+// Definir los tipos de archivos permitidos usando Zod
+const imageFormatSchema = z.object({
   type: z.enum([
     "image/png",
     "image/jpeg",
@@ -18,36 +18,68 @@ const fileSchema = z.object({
   ]),
 });
 
+const imageSizeSchema = z.object({
+  size: z.number().max(10485760), // Máximo 10 MB
+});
+
 const ImageUpload: React.FC<{
   id?: string;
   images: string[];
   setImages: React.Dispatch<React.SetStateAction<string[]>>;
   isDrawerOpen: boolean;
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  tabIndex?: number; // Agrega la propiedad tabIndex aquí
+  tabIndex?: number;
 }> = ({ id, images, setImages, isDrawerOpen, setIsDrawerOpen, tabIndex }) => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [showSizeAlert, setShowSizeAlert] = useState(false);
+  const [showFormatAlert, setShowFormatAlert] = useState(false);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const files = event.target.files;
     if (files) {
+      let sizeAlertTriggered = false;
+      let formatAlertTriggered = false;
+
       const validFiles = Array.from(files).filter((file) => {
-        const validation = fileSchema.safeParse({ type: file.type });
-        if (!validation.success) {
+        const formatValidation = imageFormatSchema.safeParse({
+          type: file.type,
+        });
+        const sizeValidation = imageSizeSchema.safeParse({
+          size: file.size,
+        });
+
+        if (!formatValidation.success) {
+          formatAlertTriggered = true; // Marca que se activó una alerta de formato
           toast({
             variant: "destructive",
-            title: "Formato no permitido",
-            description: `El archivo ${file.name} no es una imagen válida. Solo se permiten imágenes.`,
+            title: "Formato de archivo no válido",
+            description: `"${file.name}". No es un formato de imagen válido (PNG, JPEG, JPG, WEBP o GIF).`,
             action: <ToastAction altText="Entendido">Entendido</ToastAction>,
           });
           return false;
         }
+
+        if (!sizeValidation.success) {
+          sizeAlertTriggered = true; // Marca que se activó una alerta de tamaño
+          toast({
+            variant: "destructive",
+            title: "Tamaño de archivo no válido",
+            description: `"${file.name}". Supera los 10 MB.`,
+            action: <ToastAction altText="Entendido">Entendido</ToastAction>,
+          });
+          return false;
+        }
+
         return true;
       });
+
+      // Actualiza los estados solo después de que el filtrado termine
+      setShowFormatAlert(formatAlertTriggered);
+      setShowSizeAlert(sizeAlertTriggered);
 
       if (images.length + validFiles.length > 6) {
         toast({
@@ -73,7 +105,10 @@ const ImageUpload: React.FC<{
           setImages((prevImages) => [...prevImages, ...newImageUrls]);
           toast({
             title: "Imágenes subidas",
-            description: "Tus imágenes se han subido exitosamente.",
+            description:
+              sizeAlertTriggered || formatAlertTriggered
+                ? "Tus imágenes se han subido exitosamente, pero algunas no cumplían con los requisitos de formato o tamaño."
+                : "Tus imágenes se han subido exitosamente.",
             variant: "default",
           });
         } else {
@@ -85,11 +120,14 @@ const ImageUpload: React.FC<{
           variant: "destructive",
           title: "Error al subir las imágenes",
           description:
-            "Ha ocurrido un error al subir las imágenes. Por favor, inténtalo de nuevo.",
+            "Ha ocurrido un error. Inténtalo de nuevo. Recuerda que la imagen debe ser de formato válido (PNG, JPEG, JPG, WEBP o GIF) y no superar los 10 MB.",
           action: <ToastAction altText="Entendido">Entendido</ToastAction>,
         });
       } finally {
         setIsUploading(false);
+        // Restablece las alertas después de manejar el estado
+        setShowSizeAlert(false);
+        setShowFormatAlert(false);
       }
     }
   };
@@ -109,7 +147,7 @@ const ImageUpload: React.FC<{
         multiple
         className="hidden"
         ref={fileInputRef}
-        tabIndex={tabIndex} // Usa tabIndex aquí
+        tabIndex={tabIndex}
       />
       <Button
         onClick={handleButtonClick}
@@ -117,18 +155,21 @@ const ImageUpload: React.FC<{
         variant="outline"
         className="w-full"
         disabled={isUploading}
-        tabIndex={tabIndex} // Usa tabIndex aquí
+        tabIndex={tabIndex}
       >
         <Upload className="mr-2 h-4 w-4" />
-        {isUploading ? "Subiendo..." : "Cargar Imágenes"}
+        {isUploading ? "Subiendo..." : "Subir Imágenes"}
       </Button>
+      <p className="text-gray-400 text-xs flex justify-center">
+        (Máximo 10 MB)
+      </p>
       {images.length > 0 && (
         <ImagePreview
           images={images}
           setImages={setImages}
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
-          tabIndex={tabIndex} // Usa tabIndex aquí si es necesario
+          tabIndex={tabIndex}
         />
       )}
     </div>

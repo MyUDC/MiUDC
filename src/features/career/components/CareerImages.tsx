@@ -30,10 +30,10 @@ const CareerImages = ({ imageUrls }: Props) => {
   }
 
   return (
-    <div className="w-full h-48 relative">
+    <div className="w-full h-56 relative pl-4 pr-4">
       <Swiper
         initialSlide={currentIndex}
-        className="h-full"
+        className="h-full rounded-lg"
         onSlideChange={handleOnSwipeChange}
       >
         {imageUrls.map((imageUrl, index) => (
