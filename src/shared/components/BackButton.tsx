@@ -1,25 +1,17 @@
 "use client";
 
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRouter } from "next/navigation";
-import { HTMLProps } from "react";
-
-const BackButton = ({ className }: HTMLProps<HTMLDivElement>) => {
-  const router = useRouter();
-
-  const backButtonHandler = () => {
-    router.back();
-  }
-
+import { Button } from "@/components/ui/button";
+import { IoArrowBack } from "react-icons/io5";
+import Link from "next/link";
+export default function BackButton() {
   return (
-    <div onClick={backButtonHandler} className={`cursor-pointer ${className}`}>
-      <FontAwesomeIcon
-        icon={faArrowLeft}
-        className="text-2xl text-green"
-      />
-    </div>
-  )
+    <Link href="/home">
+      <Button
+        variant="outline"
+        className="fixed top-4 left-4 flex items-center z-20"
+      >
+        <IoArrowBack className="text-green h-4 w-4" />
+      </Button>
+    </Link>
+  );
 }
-
-export default BackButton;

@@ -44,9 +44,11 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <div className="flex flex-col items-center">
+      <div className="mb-14">
+        <BackButton />
+      </div>
       {/* Header */}
-      <div className="sticky w-full top-0 z-20 bg-white pt-5 p-3 flex items-center gap-6">
-        <BackButton className="left-item mr-auto" />
+      <div className="w-full top-0 pt-5 p-3 flex items-center gap-6">
         <h2 className="absolute left-1/2 transform -translate-x-1/2 text-xl font-semibold">
           {postTypeHumanized[post.type]}
         </h2>

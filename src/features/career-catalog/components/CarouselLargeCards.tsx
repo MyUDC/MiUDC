@@ -59,7 +59,7 @@ export default function CarouselLargeCards({
               <SwiperSlide key={career.id}>
                 <LargeCareerCard
                   title={career.name}
-                  subtitle={career.faculty}
+                  subtitle={career.faculty.name}
                   imageSrc={`/telematica.jpg`}
                   slug={career.slug}
                 />
@@ -84,7 +84,7 @@ export default function CarouselLargeCards({
               <CarouselItem key={career.id}>
                 <LargeCareerCard
                   title={career.name}
-                  subtitle={career.faculty}
+                  subtitle={career.faculty.name}
                   imageSrc={`/telematica.jpg`}
                   slug={career.slug}
                 />

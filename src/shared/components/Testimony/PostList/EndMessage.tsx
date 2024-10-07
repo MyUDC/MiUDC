@@ -32,8 +32,8 @@ export const EndMessage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[50vh] p-6 bg-background">
-      <Card className="w-full max-w-md">
+    <div className="flex items-center justify-center min-h-[50vh] bg-background">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle className="text-center">
             <motion.div

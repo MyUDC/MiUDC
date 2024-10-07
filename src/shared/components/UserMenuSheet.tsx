@@ -1,7 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import { User } from "next-auth";
 import UserAvatar from "@/features/user/components/UserAvatar";
 import Link from "next/link";
-import { FaHeart, FaEdit, FaSignOutAlt } from "react-icons/fa";
+import { FaEdit, FaSignOutAlt, FaUniversity } from "react-icons/fa";
 import UserProfileEditor from "./UserProfileEditor";
 import {
   Sheet,
@@ -14,17 +17,35 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import CareerListSheet from "@/features/career-catalog/components/CareerListSheet";
+import { getSavedCareers } from "@/shared/actions/Careers/getSavedCareers";
+
+import { Career, Faculty } from "@prisma/client";
+
+type CareerWithRelations = Career & {
+  faculty: Faculty;
+  tags: string[];
+};
 
 interface UserMenuSheetProps {
   user?: User;
 }
 
 export default function UserMenuSheet({ user }: UserMenuSheetProps) {
+  const [isCareerListOpen, setIsCareerListOpen] = useState(false);
+  const [savedCareers, setSavedCareers] = useState<CareerWithRelations[]>([]);
+
   if (!user) {
     return null;
   }
 
   const userUrl = user.username ? `/user/${user.username}` : ``;
+
+  const handleShowSavedCareers = async () => {
+    const careers = await getSavedCareers();
+    setSavedCareers(careers);
+    setIsCareerListOpen(true);
+  };
 
   return (
     <Sheet>
@@ -66,12 +87,9 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
             </SheetHeader>
           </Link>
 
-          {/* Opciones */}
           <div className="py-10 space-y-4 px-2">
-            {/* Sección de Configuración */}
             <div className="pb-2">
               <p className="text-gray-500 text-sm font-medium">Configuración</p>
-              {/* Aquí usamos el componente del cliente */}
               <UserProfileEditor
                 triggerButton={
                   <button className="w-full flex items-center text-left text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all px-2 py-4 rounded-md">
@@ -79,15 +97,17 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
                     Editar perfil
                   </button>
                 }
-              />{" "}
+              />
             </div>
 
-            {/* Sección de Favoritos */}
             <div className="pb-2">
-              <p className="text-gray-500 text-sm font-medium">Favoritos</p>
-              <button className="w-full flex items-center text-left text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all px-2 py-4 rounded-md">
-                <FaHeart className="mr-4 h-4 w-4 text-black" />
-                Carreras favoritas
+              <p className="text-gray-500 text-sm font-medium">Guardados</p>
+              <button
+                onClick={handleShowSavedCareers}
+                className="w-full flex items-center text-left text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all px-2 py-4 rounded-md"
+              >
+                <FaUniversity className="mr-4 h-4 w-4 text-black" />
+                Carreras
               </button>
             </div>
           </div>
@@ -100,6 +120,13 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
           </Button>
         </SheetFooter>
       </SheetContent>
+
+      <CareerListSheet
+        isOpen={isCareerListOpen}
+        onClose={() => setIsCareerListOpen(false)}
+        title="Carreras Guardadas"
+        careers={savedCareers}
+      />
     </Sheet>
   );
 }

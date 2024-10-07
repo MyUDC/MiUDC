@@ -9,7 +9,6 @@ import SmallCareerCard from "./SmallCareerCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Career } from "@/features/career-catalog/types/Career";
 
-
 type CarouselSmallCardsProps = {
   careers: Career[];
   paginationClass: string;
@@ -42,7 +41,7 @@ export default function CarouselSmallCards({
         <div className="">
           <SmallCareerCard
             title={career.name}
-            subtitle={career.faculty}
+            subtitle={career.faculty.name}
             imageUrl="/telematica.jpg"
             slug={career.slug}
           />

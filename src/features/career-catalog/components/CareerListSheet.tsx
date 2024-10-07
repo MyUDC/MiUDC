@@ -30,7 +30,18 @@ export default function CareerListSheet({
           </SheetTitle>
         </SheetHeader>
         <div className="p-4 pb-8 overflow-y-auto h-full">
-          <VerticalCareerList careers={careers} />
+          {careers.length > 0 ? (
+            <VerticalCareerList careers={careers} />
+          ) : (
+            <div className="p-6">
+              <h1 className="max-w-2xl mb-4 text-3xl font-extrabold text-black tracking-tight leading-none md:text-4xl xl:text-5xl">
+                No hay carreras guardadas
+              </h1>
+              <p className="max-w-2xl mb-8 mt-1 text-gray-500 lg:mb-8 md:text-lg lg:text-xl">
+                Una vez que guardes carreras, se mostrarán aquí.
+              </p>
+            </div>
+          )}
         </div>
       </SheetContent>
     </Sheet>
