@@ -4,8 +4,10 @@ import { SignInForm } from "../../../features/auth/components/SignInForm";
 import { GoogleAuthButton } from "@/features/auth/components/GoogleAuthButton";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
+import ErrorHandler from "@/features/sign-in/components/ErrorHandler";
 
 export default function SignInPage() {
+
   return (
     <section className="bg-gray-50 relative">
       <Link href="/welcome" className="absolute top-4 left-4 text-green">
@@ -43,6 +45,7 @@ export default function SignInPage() {
           </div>
         </div>
       </div>
+      <ErrorHandler />
     </section>
   );
 }

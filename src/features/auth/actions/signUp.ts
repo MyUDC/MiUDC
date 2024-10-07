@@ -36,6 +36,11 @@ export const SignUp = async ({
     message: "El nombre de usuario ya está en uso"
   }
 
+  if(role === Role.STUDENT && getEmailDomain(email) !== "ucol.mx" ) return {
+    ok: false,
+    message: "El correo debe pertenecer a la Universidad de Colima"
+  }
+
 
   // create user
   try {
@@ -91,4 +96,9 @@ const isUsernameInUse = async (username: string) => {
   });
 
   return user;
+}
+
+// function to obtain domain from email
+const getEmailDomain = (email: string) => {
+  return email.split('@')[1];
 }

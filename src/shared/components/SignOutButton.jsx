@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import { FaSignOutAlt } from "react-icons/fa";
 
 export default function SignOutButton() {
 
