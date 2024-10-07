@@ -21,7 +21,7 @@ export default function WelcomePage() {
       <div className="w-full max-w-md flex flex-col gap-4 justify-center items-center">
         <Button
           text="Regístrate"
-          path="/sign-up/profile-type"
+          path="/sign-up"
           variant="green"
         />
         <Button

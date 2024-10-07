@@ -45,6 +45,7 @@ export default function CategoryCard({
       longitude: 0, // Default value
       description: "", // Default value
       facultyId: "", // Default value
+      semesters: 8, // Default value
       createdAt: new Date(), // Default value
       updatedAt: new Date(), // Default value
       faculty: {

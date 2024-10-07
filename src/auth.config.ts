@@ -1,21 +1,19 @@
 import NextAuth, { User, type NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google'
-import { PrismaAdapter } from '@auth/prisma-adapter';
-import { type User as DbUser } from '@prisma/client';
 
 import bcryptjs from 'bcryptjs';
 import { z } from 'zod';
 
 import prisma from './lib/prisma';
-import getUsernameByEmail from './utils/getUsernameByEmail';
 
 
 export default {
   trustHost: true,
   pages: {
     signIn: '/sign-in',
-    newUser: '/sign-up/register'
+    newUser: '/sign-up',
+    error: '/sign-in'
   },
   providers: [
     Google,
@@ -64,7 +62,7 @@ export default {
             });
             return true;
           }
-
+  
           await prisma.account.create({
             data: {
               userId: existingUser.id,
@@ -80,7 +78,7 @@ export default {
               session_state: account.session_state as string | null | undefined,
             },
           });
-
+  
           const updatedUser = await prisma.user.update({
             where: { id: existingUser.id },
             data: {
@@ -88,44 +86,12 @@ export default {
             },
           });
     
-          // Actualizar los datos del usuario en el token y la sesión
           const { password, ...userWithoutPassword } = existingUser;
           Object.assign(updatedUser, userWithoutPassword);
           
           return true;
         } else {
-          // Crear una nueva cuenta
-          const newUser = await prisma.user.create({
-            data: {
-              email: user.email!,
-              name: user.name!,
-              role: "ASPIRANT",
-              emailVerified: null,
-              image: profile?.picture!,
-              username: getUsernameByEmail(user.email!),
-              password: null,
-            },
-          });
-    
-          // Vincular la cuenta de proveedor de OAuth a la nueva cuenta
-          await prisma.account.create({
-            data: {
-              userId: newUser.id,
-              type: account.type,
-              provider: account.provider,
-              providerAccountId: account.providerAccountId,
-              refresh_token: account.refresh_token,
-              access_token: account.access_token,
-              expires_at: account.expires_at,
-              token_type: account.token_type,
-              scope: account.scope,
-              id_token: account.id_token,
-              session_state: account.session_state as string | null | undefined,
-            },
-          });
-    
-          Object.assign(user, newUser);
-          return true;
+          return '/sign-in?error=USER_NOT_REGISTERED';
         }
       }
       return true;
