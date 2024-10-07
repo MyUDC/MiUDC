@@ -7,9 +7,8 @@ import { FormSchema } from '@/features/sign-up/types/FormSwiper';
 interface State {
   swiper: SwiperType | null;
   setSwiper: (swiper: SwiperType | null) => void;
-  values: FormSchema | null;
+  values: FormSchema;
   setValues: (newValues: FormSchema) => void;
-  resetValues: () => void;
   setValue: <FormSchemaKey extends keyof FormSchema>(key: FormSchemaKey, value: FormSchema[FormSchemaKey]) => void;
   index: number;
   setIndex: (index: number) => void;
@@ -29,8 +28,6 @@ export const useFormSwiperStore = create(
         [key]: value
       } : { [key]: value } as unknown as FormSchema
     }));
-
-    const resetValues = () => set({ values: null });
 
     const setIndex = (index: number) => set({ index });
 
@@ -52,12 +49,11 @@ export const useFormSwiperStore = create(
 
     return {
       swiper: null,
-      values: null,
+      values: {} as FormSchema,
       index: 0,
       setIndex,
       setSwiper,
       setValues,
-      resetValues,
       setValue,
       goToNextSlide,
       goToPrevSlide

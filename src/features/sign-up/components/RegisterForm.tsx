@@ -41,9 +41,9 @@ export default function RegisterForm() {
   const onSubmit = async (data: FormInputs) => {
     setSignUpErrorMessage("");
     const {
-      profileType: { profileType },
-      studentData: { careerId, semester, accountNumber },
-    } = values!;
+      profileType: { profileType } = {},
+      studentData: { careerId, semester, accountNumber } = {},
+    } = values || {};
     const { email, username, password } = data;
 
     let resp: ResponseSchema;
