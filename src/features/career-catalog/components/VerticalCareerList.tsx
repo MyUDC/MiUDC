@@ -32,7 +32,7 @@ export default function VerticalCareerList({
                   {career.name}
                 </h3>
                 <p className="text-sm text-muted-foreground uppercase mb-2">
-                  {career.faculty}
+                  {career.faculty.name}
                 </p>
               </div>
             </div>

@@ -1,11 +1,14 @@
 import { notFound } from "next/navigation";
+import { auth } from "@/auth";
+import prisma from "@/lib/prisma";
 import getCareerWithRelations from "@/features/career/actions/getCareerWithRelations";
 import ForumDetailsTabs from "@/features/career/components/ForumDetailsTabs";
 import CareerImages from "@/features/career/components/CareerImages";
 import { CareerTitle } from "@/features/career/components/CareerTitle";
 import BackButton from "@/shared/components/BackButton";
-import { FaRegBookmark } from "react-icons/fa";
+import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import { saveCareer } from "@/shared/actions/Careers/saveCareer";
 
 export const metadata = {
   title: "SEO Title",
@@ -27,8 +30,24 @@ const imageUrls = [
 
 export default async function CareerLayout({ children, params }: Props) {
   const slug = params.careerSlug;
+  const session = await auth();
+  const userId = session?.user?.id;
+
   const career = await getCareerWithRelations(slug);
   if (!career) notFound();
+
+  let isSaved = false;
+  if (userId) {
+    const savedCareer = await prisma.savedCareer.findUnique({
+      where: {
+        userId_careerId: {
+          userId: userId,
+          careerId: career.id,
+        },
+      },
+    });
+    isSaved = !!savedCareer;
+  }
 
   const path = `/career/${slug}`;
 
@@ -43,9 +62,15 @@ export default async function CareerLayout({ children, params }: Props) {
             careerName={career.name}
           />
           <div className="px-4">
-            <Button variant="outline" className="flex items-center text-green">
-              <FaRegBookmark />
-            </Button>
+            <form action={saveCareer.bind(null, career.id)}>
+              <Button
+                type="submit"
+                variant="outline"
+                className="flex items-center text-green hover:text-green"
+              >
+                {isSaved ? <FaBookmark /> : <FaRegBookmark />}
+              </Button>
+            </form>
           </div>
           <ForumDetailsTabs path={path} />
           {children}

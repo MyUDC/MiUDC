@@ -1,8 +1,7 @@
-//src\features\career-catalog\types\Career.ts
-export type Career = {
-    id: string;
-    name: string;
-    slug: string;
-    faculty: string;
-    tags: string[];
-  };
+// src/features/career-catalog/types/Career.ts
+import { Career as PrismaCareer, Faculty } from "@prisma/client";
+
+export type Career = PrismaCareer & {
+  faculty: Faculty;
+  tags: string[];
+};
