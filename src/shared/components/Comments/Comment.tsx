@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -76,19 +74,49 @@ const Comment: React.FC<CommentProps> = ({ comment, postId }) => {
         content={comment.content}
         careerSlug={comment.career.slug}
         careerName={comment.career.name}
-        heartCount={0} // You might want to implement likes for comments
+        heartCount={0}
         initialLikedState={false}
         createdAt={comment.createdAt}
       />
 
       <div className="ml-8 mt-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setIsReplying(!isReplying)}
-        >
-          Reply
-        </Button>
+        <div className="flex justify-between items-center">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-black text-sm"
+            onClick={() => setIsReplying(!isReplying)}
+          >
+            Reply
+          </Button>
+
+          {replies.length > 0 && (
+            <>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-black text-sm"
+                onClick={() => setShowAllReplies(!showAllReplies)}
+              >
+                {showAllReplies
+                  ? "Hide replies"
+                  : `Show ${replies.length} replies`}
+              </Button>
+
+              <Link
+                href={`/career/${comment.career.slug}/post/${comment.slug}`}
+              >
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-black text-sm"
+                >
+                  View full thread
+                </Button>
+              </Link>
+            </>
+          )}
+        </div>
 
         {isReplying && (
           <form onSubmit={handleReply} className="mt-2">
@@ -104,31 +132,18 @@ const Comment: React.FC<CommentProps> = ({ comment, postId }) => {
           </form>
         )}
 
-        {replies.length > 0 && (
-          <div className="mt-4">
-            <Button
-              variant="link"
-              onClick={() => setShowAllReplies(!showAllReplies)}
-            >
-              {showAllReplies
-                ? "Hide replies"
-                : `Show ${replies.length} replies`}
-            </Button>
-            {showAllReplies && (
-              <div className="ml-4">
-                {replies.map((reply) => (
-                  <Comment key={reply.id} comment={reply} postId={postId} />
-                ))}
-              </div>
+        {showAllReplies && replies.length > 0 && (
+          <div className="mt-4 relative">
+            <div className="space-y-4 max-h-[500px] overflow-hidden">
+              {replies.slice(0, 3).map((reply, index) => (
+                <div key={reply.id} className={index === 2 ? "opacity-50" : ""}>
+                  <Comment comment={reply} postId={postId} />
+                </div>
+              ))}
+            </div>
+            {replies.length > 3 && (
+              <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent" />
             )}
-          </div>
-        )}
-
-        {!showAllReplies && replies.length > 0 && (
-          <div className="mt-2">
-            <Link href={`/career/${comment.career.slug}/post/${comment.slug}`}>
-              <Button variant="link">View full thread</Button>
-            </Link>
           </div>
         )}
       </div>
