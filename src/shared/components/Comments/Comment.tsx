@@ -8,6 +8,17 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { createComment } from "@/shared/actions/Comment/createComment";
 import paginateComments from "@/shared/actions/Comment/paginateComments";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface CommentProps {
   comment: CommentWithRelations;
@@ -15,7 +26,7 @@ interface CommentProps {
 }
 
 const Comment: React.FC<CommentProps> = ({ comment, postId }) => {
-  const [isReplying, setIsReplying] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [replyContent, setReplyContent] = useState("");
   const [replies, setReplies] = useState<CommentWithRelations[]>([]);
   const [showAllReplies, setShowAllReplies] = useState(false);
@@ -30,8 +41,7 @@ const Comment: React.FC<CommentProps> = ({ comment, postId }) => {
     fetchReplies();
   }, [comment.id]);
 
-  const handleReply = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleReply = async () => {
     if (!session?.user?.id) {
       toast({
         title: "You must be logged in to reply",
@@ -50,7 +60,7 @@ const Comment: React.FC<CommentProps> = ({ comment, postId }) => {
     if (result.success) {
       setReplies([result.comment, ...replies]);
       setReplyContent("");
-      setIsReplying(false);
+      setIsDialogOpen(false);
       toast({ title: "Reply added successfully" });
     } else {
       toast({
@@ -81,21 +91,39 @@ const Comment: React.FC<CommentProps> = ({ comment, postId }) => {
 
       <div className="ml-8 mt-2">
         <div className="flex justify-between items-center">
-          <Button
-            variant="outline"
-            size="sm"
-            className="text-black text-sm"
-            onClick={() => setIsReplying(!isReplying)}
-          >
-            Reply
-          </Button>
+          <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <AlertDialogTrigger asChild>
+              <Button variant="outline" size="sm">
+                Reply
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Reply to Comment</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Write your reply below.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <Textarea
+                value={replyContent}
+                onChange={(e) => setReplyContent(e.target.value)}
+                placeholder="Write your reply..."
+                className="mb-2"
+              />
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleReply}>
+                  Post Reply
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
 
           {replies.length > 0 && (
             <>
               <Button
-                variant="ghost"
+                variant="link"
                 size="sm"
-                className="text-black text-sm"
                 onClick={() => setShowAllReplies(!showAllReplies)}
               >
                 {showAllReplies
@@ -106,31 +134,13 @@ const Comment: React.FC<CommentProps> = ({ comment, postId }) => {
               <Link
                 href={`/career/${comment.career.slug}/post/${comment.slug}`}
               >
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-black text-sm"
-                >
+                <Button variant="link" size="sm">
                   View full thread
                 </Button>
               </Link>
             </>
           )}
         </div>
-
-        {isReplying && (
-          <form onSubmit={handleReply} className="mt-2">
-            <Textarea
-              value={replyContent}
-              onChange={(e) => setReplyContent(e.target.value)}
-              placeholder="Write a reply..."
-              className="mb-2"
-            />
-            <Button type="submit" size="sm" disabled={!replyContent.trim()}>
-              Post Reply
-            </Button>
-          </form>
-        )}
 
         {showAllReplies && replies.length > 0 && (
           <div className="mt-4 relative">

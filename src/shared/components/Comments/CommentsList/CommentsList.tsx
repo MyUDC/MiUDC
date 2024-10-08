@@ -13,6 +13,17 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface Props {
   postId: string;
@@ -25,9 +36,9 @@ export const CommentsList: React.FC<Props> = ({ initComments, postId }) => {
   const [content, setContent] = useState("");
   const { data: session, status } = useSession();
   const { toast } = useToast();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (!session?.user?.id) {
       toast({
         title: "You must be logged in to comment",
@@ -44,6 +55,7 @@ export const CommentsList: React.FC<Props> = ({ initComments, postId }) => {
     if (result.success) {
       setComments([result.comment, ...comments]);
       setContent("");
+      setIsDialogOpen(false);
       toast({ title: "Comment added successfully" });
     } else {
       toast({
@@ -63,17 +75,31 @@ export const CommentsList: React.FC<Props> = ({ initComments, postId }) => {
   return (
     <div className="w-full">
       {status === "authenticated" ? (
-        <form onSubmit={handleSubmit} className="mb-4">
-          <Textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Write a comment..."
-            className="mb-2"
-          />
-          <Button type="submit" disabled={!content.trim()}>
-            Post Comment
-          </Button>
-        </form>
+        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <AlertDialogTrigger asChild>
+            <Button variant="green">Add Comment</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Add a Comment</AlertDialogTitle>
+              <AlertDialogDescription>
+                Write your comment below.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <Textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Write your comment..."
+              className="mb-2"
+            />
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleSubmit}>
+                Post Comment
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       ) : status === "unauthenticated" ? (
         <div className="mb-4 p-4 bg-gray-100 rounded-md">
           <p className="mb-2">You must be logged in to comment.</p>
