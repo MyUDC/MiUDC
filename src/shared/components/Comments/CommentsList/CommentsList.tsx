@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSession } from "next-auth/react";
 import { createComment } from "@/shared/actions/Comment/createComment";
@@ -13,14 +13,13 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
-import { PostType } from "@prisma/client";
 
 interface Props {
   postId: string;
   initComments: CommentWithRelations[];
 }
 
-export const CommentsList = ({ initComments, postId }: Props) => {
+export const CommentsList: React.FC<Props> = ({ initComments, postId }) => {
   const [comments, setComments] = useState(initComments);
   const [hasMore, setHasMore] = useState(true);
   const [content, setContent] = useState("");
@@ -41,52 +40,15 @@ export const CommentsList = ({ initComments, postId }: Props) => {
     formData.append("postId", postId);
     formData.append("userId", session.user.id);
 
-    // Optimistic update
-    const optimisticComment: CommentWithRelations = {
-      id: Date.now().toString(),
-      title: "", // Los comentarios generalmente no tienen título, pero el tipo lo requiere
-      content,
-      slug: `temp-${Date.now()}`, // Slug temporal
-      type: "REPLY" as const, // Asumiendo que los comentarios son siempre de tipo REPLY
-      authorId: session.user.id,
-      careerId: "", // Idealmente, deberías tener acceso a este valor
-      parentId: postId, // Asumiendo que estás comentando directamente en el post
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      author: {
-        name: session.user.name || null,
-        image: session.user.image || null,
-        username: session.user.username || "",
-      },
-      career: {
-        name: "", // Idealmente, deberías tener acceso a este valor
-        slug: "", // Idealmente, deberías tener acceso a este valor
-      },
-    };
-    setComments([optimisticComment, ...comments]);
-    setContent("");
-
-    try {
-      const result = await createComment(formData);
-      if (result.success) {
-        // Replace the optimistic comment with the real one
-        setComments((comments) => [
-          result.comment,
-          ...comments.filter((c) => c.id !== optimisticComment.id),
-        ]);
-        toast({ title: "Comment added successfully" });
-      } else {
-        throw new Error(result.error);
-      }
-    } catch (error) {
-      // Revert the optimistic update
-      setComments((comments) =>
-        comments.filter((c) => c.id !== optimisticComment.id)
-      );
-      setContent(content);
+    const result = await createComment(formData);
+    if (result.success) {
+      setComments([result.comment, ...comments]);
+      setContent("");
+      toast({ title: "Comment added successfully" });
+    } else {
       toast({
         title: "Failed to add comment",
-        description: error instanceof Error ? error.message : "Unknown error",
+        description: result.error,
         variant: "destructive",
       });
     }
@@ -95,7 +57,7 @@ export const CommentsList = ({ initComments, postId }: Props) => {
   const fetchMoreComments = async () => {
     const newComments = await paginateComments(3, comments.length, postId);
     if (!newComments.length) setHasMore(false);
-    setComments(comments.concat(...newComments));
+    setComments(comments.concat(newComments));
   };
 
   return (
