@@ -27,14 +27,11 @@ export default async function PostPage({ params }: Props) {
 
   const initComments = await paginateComments(3, 0, post.id);
 
-  // Get the current user's session
   const session = await auth();
   const userId = session?.user?.id || "";
 
-  // Get the initial like state
   const likeState = await getInitialLikeState(slug, userId);
 
-  // Ensure we always have valid values for heartCount and initialLikedState
   const heartCount = likeState.success
     ? likeState.likeCount ?? 0
     : post._count.PostLike;
@@ -47,7 +44,6 @@ export default async function PostPage({ params }: Props) {
       <div className="mb-14">
         <BackButton />
       </div>
-      {/* Header */}
       <div className="w-full top-0 pt-5 p-3 flex items-center gap-6">
         <h2 className="absolute left-1/2 transform -translate-x-1/2 text-xl font-semibold">
           {postTypeHumanized[post.type]}
@@ -75,9 +71,9 @@ export default async function PostPage({ params }: Props) {
         />
 
         <div className="px-4 pb-4 w-full">
-          <h2 className="font-semibold">Respuestas</h2>
+          <h2 className="font-semibold">Comments</h2>
         </div>
-        <CommentsList testimonyId={post.id} initComments={initComments} />
+        <CommentsList postId={post.id} initComments={initComments} />
       </div>
     </div>
   );
