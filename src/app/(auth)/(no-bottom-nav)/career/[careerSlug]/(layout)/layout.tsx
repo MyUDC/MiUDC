@@ -54,7 +54,7 @@ export default async function CareerLayout({ children, params }: Props) {
   return (
     <div className="flex items-center justify-center">
       <div className="w-full max-w-5xl mt-4 pb-2">
-        <BackButton />
+        <BackButton path="/home" />
         <div className="mt-12">
           <CareerImages imageUrls={imageUrls} />
           <CareerTitle
