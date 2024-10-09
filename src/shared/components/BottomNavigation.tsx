@@ -61,12 +61,6 @@ export default function BottomNavigation() {
 
 
   // ----[Functions]----
-  // if the current path is the same as the href, scroll to top
-  const handleLinkClick = (href: string,) => {
-    if (href === pathname) {
-      smoothScrollToTop(200);
-    }
-  };
 
   // Check if the current path is active
   const isActive = (item: NavItem) => {
@@ -88,7 +82,6 @@ export default function BottomNavigation() {
                 ? (
                   <AuthWrapper key={item.href}>
                     <NavButton
-                      key={item.href}
                       icon={item.icon}
                       label={item.label}
                       isActive={isActive(item)}
