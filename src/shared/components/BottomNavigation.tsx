@@ -1,15 +1,17 @@
 "use client";
 
-import React, { useMemo } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import React, { useEffect, useMemo, useState } from "react";
+
+import clsx from "clsx";
 import { FaUser, FaUniversity, FaHome } from "react-icons/fa";
 import { TbMessageChatbotFilled } from "react-icons/tb";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { useSession } from "next-auth/react";
+
 import { useAuthAlert } from "@/stores/useAuthAlert";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { User } from "@prisma/client";
-import clsx from "clsx";
+import AuthWrapper from "@/features/auth/components/AuthWrapper";
 
 
 interface NavItem {
@@ -24,7 +26,12 @@ export default function BottomNavigation() {
   // ----[Instances and Hooks]----
   const pathname = usePathname();
   const { data: session } = useSession();
-  const user = session?.user;
+  const [user, setUser] = useState(session?.user);
+
+  // ----[Effects]----
+  useEffect(() => {
+    setUser(session?.user);
+  }, [session]);
 
 
   // ----[Memoized Variables]----
@@ -76,15 +83,29 @@ export default function BottomNavigation() {
       <ScrollArea className="w-full h-full">
         <div className="flex justify-center w-full items-center h-full max-w-md mx-auto">
           {navItems.map((item) => (
-            <NavButton
-              key={item.href}
-              icon={item.icon}
-              label={item.label}
-              isActive={isActive(item)}
-              handleLinkClick={handleLinkClick}
-              href={item.href}
-              needAuth={item.needAuth}
-            />
+            <>
+              {item.needAuth
+                ? (
+                  <AuthWrapper key={item.href}>
+                    <NavButton
+                      key={item.href}
+                      icon={item.icon}
+                      label={item.label}
+                      isActive={isActive(item)}
+                      href={item.href}
+                      needAuth={item.needAuth}
+                    />
+                  </AuthWrapper>
+                )
+                : (<NavButton
+                  key={item.href}
+                  icon={item.icon}
+                  label={item.label}
+                  isActive={isActive(item)}
+                  href={item.href}
+                />)
+              }
+            </>
           ))}
         </div>
         <ScrollBar orientation="horizontal" />
@@ -98,7 +119,6 @@ interface NavButtonProps {
   label: string;
   isActive: boolean;
   href: string;
-  handleLinkClick: (href: string) => void;
   needAuth?: boolean;
   user?: User;
 }
@@ -112,15 +132,10 @@ function NavButton({
   user
 }: NavButtonProps) {
   // ----[Instances and Hooks]----
-  const { open } = useAuthAlert();
   const router = useRouter();
 
   // ----[Functions]----
   const clickHandler = () => {
-    if (needAuth && !user) {
-      open();
-      return;
-    }
     if (isActive) {
       smoothScrollToTop(200);
       return;
@@ -131,22 +146,17 @@ function NavButton({
   // ----[Render]----
   return (
     <button
-      key={href}
+      type="button"
       onClick={clickHandler}
       className={clsx(
         "flex flex-col text-gray-500 items-center justify-center px-2 sm:px-3 hover:bg-gray-50 group transition-all duration-100 flex-1",
-        {"text-green": isActive}
+        { "text-green": isActive }
       )}
     >
-      <div
-        className={`group-hover:text-green transition-colors duration-100`}
-      >
+      <div className={`group-hover:text-green transition-colors duration-100`}>
         {icon}
       </div>
-      <span
-        className={`text-[10px] sm:text-xs transition-colors duration-100 truncate w-full text-center ${isActive ? "text-green" : "text-gray-500"
-          }`}
-      >
+      <span className={`text-[10px] sm:text-xs transition-colors duration-100 truncate w-full text-center ${isActive ? "text-green" : "text-gray-500"}`}>
         {label}
       </span>
     </button>
