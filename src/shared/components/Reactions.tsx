@@ -8,6 +8,7 @@ import {
 import SkeletonText from "@/shared/components/Skeletons/SkeletonText";
 import { TfiExport } from "react-icons/tfi";
 import { likePost } from "@/shared/actions/Post/likePost";
+import AuthWrapper from "@/features/auth/components/AuthWrapper";
 
 interface ReactionsProps {
   postSlug: string;
@@ -62,26 +63,31 @@ export default function Reactions({
 
   return (
     <div className="ml-[4.3rem] flex space-x-4 mt-2">
-      <button
-        className="flex items-center space-x-1 text-green"
-        onClick={handleLike}
-      >
-        {isLiked ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
-        <span className="text-black">{heartCount}</span>
-      </button>
-      <button className="flex items-center space-x-1 text-green">
-        <FaRegComment />
-        <span className="text-black">
-          {commentCount !== undefined ? (
-            commentCount
-          ) : (
-            <SkeletonText width="20px" height="1rem" />
-          )}
-        </span>
-      </button>
-      <button title="share" className="flex items-center space-x-1 text-green">
-        <FaRegBookmark />
-      </button>
+      <AuthWrapper>
+        <div className="flex space-x-4">
+          <button
+            className="flex items-center space-x-1 text-green"
+            onClick={handleLike}
+          >
+            {isLiked ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
+            <span className="text-black">{heartCount}</span>
+          </button>
+          <button className="flex items-center space-x-1 text-green">
+            <FaRegComment />
+            <span className="text-black">
+              {commentCount !== undefined ? (
+                commentCount
+              ) : (
+                <SkeletonText width="20px" height="1rem" />
+              )}
+            </span>
+          </button>
+          <button title="share" className="flex items-center space-x-1 text-green">
+            <FaRegBookmark />
+          </button>
+
+        </div>
+      </AuthWrapper>
       <button title="share" className="flex items-center space-x-1 text-green">
         <TfiExport />
       </button>

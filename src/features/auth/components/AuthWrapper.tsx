@@ -34,8 +34,6 @@ export default function AuthWrapper({ children }: Props) {
 
   useEffect(() => {
     setUser(session?.user);
-    console.log("session", session);
-    
   }, [session]);
 
   if (!user) return (
