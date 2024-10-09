@@ -1,11 +1,9 @@
 import Image from "next/image";
-import Button from "@/shared/components/ui/Button";
-import { SignInForm } from "../../../features/auth/components/SignInForm";
+
 import { GoogleAuthButton } from "@/features/auth/components/GoogleAuthButton";
-import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa";
-import ErrorHandler from "@/features/sign-in/components/ErrorHandler";
+import Button from "@/shared/components/ui/Button";
 import BackButton from "@/shared/components/BackButton";
+import { SignInForm } from "@/features/auth/components/SignInForm";
 
 export default function SignInPage() {
 
@@ -44,7 +42,6 @@ export default function SignInPage() {
           </div>
         </div>
       </div>
-      <ErrorHandler />
     </section>
   );
 }
