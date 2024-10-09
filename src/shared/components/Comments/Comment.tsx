@@ -76,17 +76,19 @@ const Comment: React.FC<CommentProps> = ({ comment, postId }) => {
       <Post
         userId={session?.user?.id || ""}
         postType={comment.type}
-        postTitle={comment.title}
         postSlug={comment.slug}
-        authorId={comment.authorId}
-        userPhotoUrl={comment.author.image || undefined}
-        userName={comment.author.name || undefined}
+        postTitle={comment.title}
         content={comment.content}
-        careerSlug={comment.career.slug}
+        userPhotoUrl={comment.author.image ?? ""}
+        userName={comment.author.username ?? "no name"}
+        email={comment.author.username}
         careerName={comment.career.name}
-        heartCount={0}
+        careerSlug={comment.career.slug}
+        repliesCount={comment._count.children}
+        heartCount={comment._count.PostLike}
         initialLikedState={false}
         createdAt={comment.createdAt}
+        authorId={comment.authorId}
       />
 
       <div className="ml-8 mt-2">

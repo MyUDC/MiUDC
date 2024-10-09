@@ -14,6 +14,7 @@ export default async function paginateComments(
     include: {
       author: { select: { name: true, image: true, username: true } },
       career: { select: { name: true, slug: true } },
+      _count: { select: { children: true, PostLike: true } },
     },
     skip,
     take,
