@@ -1,4 +1,8 @@
 "use client";
+
+import { signOut } from "next-auth/react";
+import { useCallback, useState } from "react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,8 +15,6 @@ import {
   AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { signOut } from "next-auth/react";
-import { useCallback, useState } from "react";
 import { GoSignOut } from "react-icons/go";
 
 
@@ -21,11 +23,8 @@ export function SignOutButton() {
 
   const handleSignOut = useCallback(() => {
     setIsLoading(true);
-    signOut().finally(() => {
-      setIsLoading(false);
-    });
-  }, [])
-
+    signOut({ redirectTo: "/sign-in" })
+  }, []);
 
   return (
     <AlertDialog>
