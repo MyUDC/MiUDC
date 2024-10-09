@@ -4,7 +4,7 @@ import { useState } from "react";
 import { User } from "next-auth";
 import UserAvatar from "@/features/user/components/UserAvatar";
 import Link from "next/link";
-import { FaEdit, FaUniversity } from "react-icons/fa";
+import { FaEdit, FaUniversity, FaSignOutAlt } from "react-icons/fa";
 import UserProfileEditor from "./UserProfileEditor";
 import {
   Sheet,
@@ -15,11 +15,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 import CareerListSheet from "@/features/career-catalog/components/CareerListSheet";
 import { getSavedCareers } from "@/shared/actions/Careers/getSavedCareers";
 
 import { Career, Faculty } from "@prisma/client";
-import {SignOutButton} from "@/shared/components/SignOutButton";
+import { SignOutButton } from "@/shared/components/SignOutButton";
 
 type CareerWithRelations = Career & {
   faculty: Faculty;
@@ -113,7 +114,10 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
         </div>
 
         <SheetFooter className="mt-auto text-black">
-          <SignOutButton /> 
+          <Button variant="outline" className="w-full">
+            <FaSignOutAlt className="mr-2 h-4 w-4" />
+            Cerrar sesión
+          </Button>
         </SheetFooter>
       </SheetContent>
 

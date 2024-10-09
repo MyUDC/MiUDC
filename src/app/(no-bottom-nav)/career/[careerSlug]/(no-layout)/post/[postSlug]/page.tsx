@@ -8,6 +8,7 @@ import postTypeHumanized from "@/utils/PostTypeHumanized";
 import { Metadata } from "next";
 import { auth } from "@/auth";
 import { getInitialLikeState } from "@/shared/actions/Post/getInitialLikeState";
+import { Card } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Post | MiUDC",
@@ -27,14 +28,11 @@ export default async function PostPage({ params }: Props) {
 
   const initComments = await paginateComments(3, 0, post.id);
 
-  // Get the current user's session
   const session = await auth();
   const userId = session?.user?.id || "";
 
-  // Get the initial like state
   const likeState = await getInitialLikeState(slug, userId);
 
-  // Ensure we always have valid values for heartCount and initialLikedState
   const heartCount = likeState.success
     ? likeState.likeCount ?? 0
     : post._count.PostLike;
@@ -47,37 +45,42 @@ export default async function PostPage({ params }: Props) {
       <div className="mb-14">
         <BackButton />
       </div>
-      {/* Header */}
-      <div className="w-full top-0 pt-5 p-3 flex items-center gap-6">
-        <h2 className="absolute left-1/2 transform -translate-x-1/2 text-xl font-semibold">
-          {postTypeHumanized[post.type]}
-        </h2>
-      </div>
 
       <div className="flex flex-col items-center justify-center max-w-lg w-full">
-        <Post
-          key={post.id}
-          userId={userId}
-          postType={post.type}
-          postSlug={post.slug}
-          postTitle={post.title}
-          content={post.content}
-          userPhotoUrl={post.author.image ?? ""}
-          userName={post.author.name ?? "no name"}
-          careerName={post.career.name}
-          careerSlug={post.career.slug}
-          repliesCount={post._count.children}
-          heartCount={heartCount}
-          initialLikedState={initialLikedState}
-          imageUrls={post.images.map(({ url }) => url)}
-          createdAt={post.createdAt}
-          authorId={post.authorId}
-        />
+        <Card className="p-6 space-y-4">
+          <div className="w-full top-0 pt-5 p-3 flex justify-left items-center gap-6">
+            <h2 className="max-w-2xl mb-4 text-3xl font-extrabold text-green tracking-tight leading-none md:text-4xl xl:text-5xl">
+              {postTypeHumanized[post.type]}
+            </h2>
+          </div>
+          <Post
+            key={post.id}
+            userId={userId}
+            postType={post.type}
+            postSlug={post.slug}
+            postTitle={post.title}
+            content={post.content}
+            userPhotoUrl={post.author.image ?? ""}
+            userName={post.author.name ?? "no name"}
+            careerName={post.career.name}
+            careerSlug={post.career.slug}
+            repliesCount={post._count.children}
+            heartCount={heartCount}
+            initialLikedState={initialLikedState}
+            imageUrls={post.images.map(({ url }) => url)}
+            createdAt={post.createdAt}
+            authorId={post.authorId}
+          />
 
-        <div className="px-4 pb-4 w-full">
-          <h2 className="font-semibold">Respuestas</h2>
-        </div>
-        <CommentsList testimonyId={post.id} initComments={initComments} />
+          <Card className="p-6">
+            <div className="w-full top-0 pt-5 p-3 flex justify-left items-center gap-6">
+              <h2 className="max-w-2xl mb-4 text-3xl font-extrabold text-black tracking-tight leading-none md:text-4xl xl:text-5xl">
+                Comentarios
+              </h2>
+            </div>
+            <CommentsList postId={post.id} initComments={initComments} />
+          </Card>
+        </Card>
       </div>
     </div>
   );
