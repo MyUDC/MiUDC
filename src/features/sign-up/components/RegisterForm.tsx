@@ -12,7 +12,6 @@ import { ToastAction } from "@radix-ui/react-toast";
 
 import { SignIn, SignUp } from "@/features/auth/actions";
 import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
-import { GoogleAuthButton } from "@/features/auth/components/GoogleAuthButton";
 import { ResponseSchema } from "@/shared/types/ResponseSchema";
 import { Role } from "@prisma/client";
 

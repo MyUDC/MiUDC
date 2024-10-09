@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
+import AuthAlert from "@/shared/components/AuthAlert";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
           {children}
         </SessionProvider>
         <Toaster />
+        <AuthAlert />
       </body>
     </html>
   );

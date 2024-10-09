@@ -10,6 +10,7 @@ import { PostImages } from "./PostImages";
 import postTypeHumanized from "@/utils/PostTypeHumanized";
 import { Card } from "@/components/ui/card";
 import { PostActions } from "./PostActions";
+import AuthWrapper from "@/features/auth/components/AuthWrapper";
 
 type PostProps = {
   userId: string;
@@ -122,13 +123,13 @@ export default function Post({
             </div>
           </div>
           <PostImages imageUrls={imageUrls} />
-          <Reactions
-            postSlug={postSlug}
-            userId={userId}
-            initialHeartCount={heartCount}
-            initialLikedState={initialLikedState}
-            commentCount={commentCount}
-          />
+            <Reactions
+              postSlug={postSlug}
+              userId={userId}
+              initialHeartCount={heartCount}
+              initialLikedState={initialLikedState}
+              commentCount={commentCount}
+            />
         </Card>
       </div>
     </div>
