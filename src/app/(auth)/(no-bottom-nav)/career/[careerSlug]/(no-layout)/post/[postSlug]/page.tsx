@@ -61,7 +61,7 @@ export default async function PostPage({ params }: Props) {
             postTitle={post.title}
             content={post.content}
             userPhotoUrl={post.author.image ?? ""}
-            userName={post.author.name ?? "no name"}
+            userName={post.author.username ?? "no name"}
             careerName={post.career.name}
             careerSlug={post.career.slug}
             repliesCount={post._count.children}
