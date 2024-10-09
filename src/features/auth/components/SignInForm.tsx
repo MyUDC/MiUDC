@@ -3,10 +3,11 @@
 import { useForm } from "react-hook-form";
 import Button from "@/shared/components/ui/Button";
 import Input from "@/shared/components/ui/Input";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SignIn } from "../actions/signIn";
 import { RiErrorWarningFill } from "react-icons/ri";
+import ErrorHandler from "@/features/sign-in/components/ErrorHandler";
 
 type FormInputs = {
   email: string;
@@ -91,6 +92,11 @@ export const SignInForm = () => {
           {isSubmitting ? "Cargando..." : "Continuar"}
         </button>
       </div>
+
+      <Suspense fallback={<div>Cargando...</div>}>
+        <ErrorHandler />
+      </Suspense>
+        
     </form>
   );
 };

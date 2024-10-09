@@ -4,11 +4,10 @@ import { useState } from "react";
 import { User } from "next-auth";
 import UserAvatar from "@/features/user/components/UserAvatar";
 import Link from "next/link";
-import { FaEdit, FaSignOutAlt, FaUniversity } from "react-icons/fa";
+import { FaEdit, FaUniversity, FaSignOutAlt } from "react-icons/fa";
 import UserProfileEditor from "./UserProfileEditor";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -17,11 +16,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { SignOutButton } from "@/features/auth/components/SignOutButton";
 import CareerListSheet from "@/features/career-catalog/components/CareerListSheet";
 import { getSavedCareers } from "@/shared/actions/Careers/getSavedCareers";
 
 import { Career, Faculty } from "@prisma/client";
+import { SignOutButton } from "@/shared/components/SignOutButton";
 
 type CareerWithRelations = Career & {
   faculty: Faculty;

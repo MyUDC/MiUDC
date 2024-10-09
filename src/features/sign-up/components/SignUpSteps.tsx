@@ -1,18 +1,20 @@
 "use client";
 
-import FormSwiper from "@/features/sign-up/components/FormSwiper";
 import Image from "next/image";
-import { FaArrowLeft } from "react-icons/fa";
-import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
-import Stepper from "@/features/sign-up/components/Stepper";
 import { useRouter } from "next/navigation";
+
+import { IoArrowBack } from "react-icons/io5";
+
+import FormSwiper from "@/features/sign-up/components/FormSwiper";
+import Stepper from "@/features/sign-up/components/Stepper";
+import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
+import { Button } from "@/components/ui/button";
 
 export default function SignUpSteps() {
   const router = useRouter();
   const {
     values,
     setSwiper,
-    goToNextSlide,
     goToPrevSlide,
     index,
   } = useFormSwiperStore();
@@ -28,14 +30,13 @@ export default function SignUpSteps() {
   return (
     <div className="h-full flex flex-col gap-6">
       <header className="flex justify-center">
-        <button
-          title="Back"
-          type="button"
-          className="absolute top-4 left-4 text-green"
+        <Button
+          variant="outline"
+          className="fixed top-4 left-4 flex items-center z-20"
           onClick={handleBackButton}
         >
-          <FaArrowLeft className="w-6 h-6" />
-        </button>
+          <IoArrowBack className="text-green h-4 w-4" />
+        </Button>
         <Image
           src="/svgs/logo-inline.svg"
           alt="logotipo de MiUdc"

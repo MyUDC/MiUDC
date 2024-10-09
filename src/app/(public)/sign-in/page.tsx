@@ -1,18 +1,15 @@
 import Image from "next/image";
-import Button from "@/shared/components/ui/Button";
-import { SignInForm } from "../../../features/auth/components/SignInForm";
+
 import { GoogleAuthButton } from "@/features/auth/components/GoogleAuthButton";
-import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa";
-import ErrorHandler from "@/features/sign-in/components/ErrorHandler";
+import Button from "@/shared/components/ui/Button";
+import BackButton from "@/shared/components/BackButton";
+import { SignInForm } from "@/features/auth/components/SignInForm";
 
 export default function SignInPage() {
 
   return (
     <section className="bg-gray-50 relative">
-      <Link href="/welcome" className="absolute top-4 left-4 text-green">
-        <FaArrowLeft className="w-6 h-6" />
-      </Link>
+      <BackButton/>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="flex justify-center mb-6">
           <Image
@@ -45,7 +42,6 @@ export default function SignInPage() {
           </div>
         </div>
       </div>
-      <ErrorHandler />
     </section>
   );
 }

@@ -3,10 +3,10 @@ import UserAvatar from "@/features/user/components/UserAvatar";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IoArrowBack } from "react-icons/io5";
-import { ServerTabs } from "../../../../../features/career/components/ServerTabs";
 import { Button } from "@/components/ui/button";
 import UserProfileEditor from "@/shared/components/UserProfileEditor";
 import BackButton from "@/shared/components/BackButton";
+import ServerTabs from "@/features/career/components/ServerTabs";
 
 interface Props {
   children: React.ReactNode;
@@ -51,7 +51,7 @@ export default async function UserLayout({ children, params }: Props) {
         <div className="w-full relative border-b">
           <div className="bg-green-500 relative p-8 pt-16 flex flex-col items-start text-black">
             {/* Botón de retroceso colocado aquí */}
-            <BackButton />
+            <BackButton/>
             <UserAvatar
               showName={false}
               name={user?.name!}

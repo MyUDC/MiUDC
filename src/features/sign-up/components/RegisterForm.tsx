@@ -12,7 +12,6 @@ import { ToastAction } from "@radix-ui/react-toast";
 
 import { SignIn, SignUp } from "@/features/auth/actions";
 import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
-import { GoogleAuthButton } from "@/features/auth/components/GoogleAuthButton";
 import { ResponseSchema } from "@/shared/types/ResponseSchema";
 import { Role } from "@prisma/client";
 
@@ -134,6 +133,18 @@ export default function RegisterForm() {
               required: {
                 value: true,
                 message: "Este campo es requerido",
+              },
+              minLength: {
+                value: 4,
+                message: "Introduce al menos 4 caracteres",
+              },
+              maxLength: {
+                value: 20,
+                message: "Introduce máximo 20 caracteres",
+              },
+              pattern: {
+                value: RegExp(/^[a-zA-Z0-9_]*$/),
+                message: "Solo se permiten letras, números y guiones bajos",
               },
             })}
             error={errors.username?.message}

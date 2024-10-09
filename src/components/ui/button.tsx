@@ -14,12 +14,13 @@ const buttonVariants = cva(
         green: "bg-green text-white shadow hover:bg-green/90",
         outlineGreen:
           "border border-green bg-background shadow-sm transition-colors duration-1000 hover:bg-green hover:text-white focus-visible:ring-green hover:outline-none",
-
         // Variantes shadcn/ui
         default:
           "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        outlineDestructive:
+          "border border-destructive bg-background shadow-sm text-destructive hover:bg-destructive hover:text-destructive-foreground",
         outline:
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
