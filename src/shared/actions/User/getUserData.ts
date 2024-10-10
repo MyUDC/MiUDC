@@ -9,6 +9,7 @@ export async function getUserData(userId: string) {
       select: {
         id: true,
         username: true,
+        name: true,
         careerId: true,
         career: {
           select: {
@@ -16,6 +17,9 @@ export async function getUserData(userId: string) {
             name: true,
           },
         },
+        semester: true,
+        accountNumber: true,
+        createdAt: true,
       },
     });
 
