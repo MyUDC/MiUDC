@@ -45,7 +45,6 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
     if (user && user.id) {
       getUserData(user.id)
         .then((result) => {
-          console.log("Result from getUserData:", result);
           if (result.error) {
             setCareerName("Error loading career");
             setDebugInfo(
@@ -69,7 +68,6 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
           }
         })
         .catch((error) => {
-          console.error("Error in component while fetching user data:", error);
           setDebugInfo(`Component error: ${error.message}`);
         });
     }
