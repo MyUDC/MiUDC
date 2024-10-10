@@ -7,7 +7,14 @@ export default async function getPostBySlug(slug: string) {
       slug
     },
     include: {
-      parent: { select: { title: true, slug: true } },
+      parent: {
+        select: {
+          title: true,
+          slug: true,
+          author: { select: { username: true } },
+          career: { select: { name: true, slug: true } }
+        }
+      },
       author: { select: { name: true, image: true, username: true } },
       images: { select: { url: true, altText: true } },
       career: { select: { name: true, slug: true } },
