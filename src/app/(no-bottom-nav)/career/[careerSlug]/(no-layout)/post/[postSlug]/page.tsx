@@ -21,19 +21,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) notFound();
 
   const images = post.images.map(({ url }) => ({
-    url: url,
-    width: 400,
-    height: 400
+    url: url
   }));
 
   return {
     title: "MiUdc | " + (
       post.title
-        ? `${post.title} - ${postTypeHumanized[post.type]}`
+        ? `${postTypeHumanized[post.type]} - ${post.title}`
         : `${postTypeHumanized[post.type]} en ${post.parent?.title}`
     ),
+    description: post.title,
     openGraph: {
-      title: `MiUDC - ${postTypeHumanized[post.type]}`,
+      title: "MiUdc | " + (
+        post.title
+          ? `${postTypeHumanized[post.type]} - ${post.title}`
+          : `${postTypeHumanized[post.type]} en ${post.parent?.title}`
+      ),
       description: post.title,
       type: "article",
       url: `${process.env.NEXT_SERVER_DOMAIN}/career/${post.career.slug}/post/${post.slug}`,
