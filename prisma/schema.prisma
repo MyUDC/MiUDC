@@ -49,6 +49,8 @@ model User {
   PostLikes PostLike[]
   Interests Interest[]
   savedCareers SavedCareer[]
+  savedPosts SavedPost[]
+
 
 
   // timestamps
@@ -131,6 +133,8 @@ model Post {
   children Post[]     @relation("ParentChild")
   PostLike PostLike[]
   images   Image[]
+  savedBy SavedPost[]
+
 
   // timestamps
   createdAt DateTime @default(now())
@@ -255,4 +259,16 @@ model SavedCareer {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, careerId])
+}
+
+model SavedPost {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, postId])
 }
