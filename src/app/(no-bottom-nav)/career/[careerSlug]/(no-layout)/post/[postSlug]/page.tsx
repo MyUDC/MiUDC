@@ -9,15 +9,37 @@ import { Metadata } from "next";
 import { auth } from "@/auth";
 import { getInitialLikeState } from "@/shared/actions/Post/getInitialLikeState";
 import { Card } from "@/components/ui/card";
-
-export const metadata: Metadata = {
-  title: "Post | MiUDC",
-  description: "Post details",
-};
-
 interface Props {
   params: {
     postSlug: string;
+  };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+
+  const post = await getPostBySlug(params.postSlug);
+  if (!post) notFound();
+
+  const images = post.images.map(({ url }) => ({
+    url: url,
+    width: 400,
+    height: 400
+  }));
+
+  return {
+    title: "MiUdc | " + (
+      post.title
+        ? `${post.title} - ${postTypeHumanized[post.type]}`
+        : `${postTypeHumanized[post.type]} en ${post.parent?.title}`
+    ),
+    openGraph: {
+      title: `MiUDC - ${postTypeHumanized[post.type]}`,
+      description: post.title,
+      type: "article",
+      url: `${process.env.NEXT_SERVER_DOMAIN}/career/${post.career.slug}/post/${post.slug}`,
+      images,
+      siteName: "MiUDC",
+    }
   };
 }
 
