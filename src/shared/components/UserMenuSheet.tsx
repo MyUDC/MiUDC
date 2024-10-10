@@ -4,7 +4,7 @@ import { useState } from "react";
 import { User } from "next-auth";
 import UserAvatar from "@/features/user/components/UserAvatar";
 import Link from "next/link";
-import { FaEdit, FaUniversity, FaSignOutAlt } from "react-icons/fa";
+import { FaEdit, FaUniversity, FaSignOutAlt, FaBookmark } from "react-icons/fa";
 import UserProfileEditor from "./UserProfileEditor";
 import {
   Sheet,
@@ -18,9 +18,11 @@ import {
 import { Button } from "@/components/ui/button";
 import CareerListSheet from "@/features/career-catalog/components/CareerListSheet";
 import { getSavedCareers } from "@/shared/actions/Careers/getSavedCareers";
-
+import { getSavedPosts } from "@/shared/actions/Post/getSavedPosts";
+import SavedPostsSheet from "@/shared/components/Testimony/SavedPostsSheet";
 import { Career, Faculty } from "@prisma/client";
 import { SignOutButton } from "@/shared/components/SignOutButton";
+import { PostWithRelations } from "@/shared/types/PostWithRelations";
 
 type CareerWithRelations = Career & {
   faculty: Faculty;
@@ -33,7 +35,9 @@ interface UserMenuSheetProps {
 
 export default function UserMenuSheet({ user }: UserMenuSheetProps) {
   const [isCareerListOpen, setIsCareerListOpen] = useState(false);
+  const [isSavedPostsOpen, setIsSavedPostsOpen] = useState(false);
   const [savedCareers, setSavedCareers] = useState<CareerWithRelations[]>([]);
+  const [savedPosts, setSavedPosts] = useState<PostWithRelations[]>([]);
 
   if (!user) {
     return null;
@@ -42,11 +46,36 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
   const userUrl = user.username ? `/user/${user.username}` : ``;
 
   const handleShowSavedCareers = async () => {
-    const careers = await getSavedCareers();
-    setSavedCareers(careers);
-    setIsCareerListOpen(true);
+    const result = await getSavedCareers();
+    if (Array.isArray(result)) {
+      setSavedCareers(result);
+      setIsCareerListOpen(true);
+    }
   };
 
+  const handleShowSavedPosts = async () => {
+    if (user && user.id) {
+      try {
+        const result = await getSavedPosts(user.id);
+        if (result.success && result.savedPosts) {
+          setSavedPosts(
+            result.savedPosts.map((sp) => ({
+              ...sp.post,
+              _count: {
+                ...sp.post._count,
+                PostLike: (sp.post._count as any).PostLike || 0,
+              },
+            }))
+          );
+          setIsSavedPostsOpen(true);
+        } else {
+          console.error("Failed to fetch saved posts:", result.error);
+        }
+      } catch (error) {
+        console.error("Error fetching saved posts:", error);
+      }
+    }
+  };
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -109,6 +138,13 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
                 <FaUniversity className="mr-4 h-4 w-4 text-black" />
                 Carreras
               </button>
+              <button
+                onClick={handleShowSavedPosts}
+                className="w-full flex items-center text-left text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all px-2 py-4 rounded-md"
+              >
+                <FaBookmark className="mr-4 h-4 w-4 text-black" />
+                Posts
+              </button>
             </div>
           </div>
         </div>
@@ -126,6 +162,12 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
         onClose={() => setIsCareerListOpen(false)}
         title="Carreras Guardadas"
         careers={savedCareers}
+      />
+      <SavedPostsSheet
+        isOpen={isSavedPostsOpen}
+        onClose={() => setIsSavedPostsOpen(false)}
+        title="Posts Guardados"
+        savedPosts={savedPosts}
       />
     </Sheet>
   );
