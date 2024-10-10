@@ -150,10 +150,7 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
         </div>
 
         <SheetFooter className="mt-auto text-black">
-          <Button variant="outline" className="w-full">
-            <FaSignOutAlt className="mr-2 h-4 w-4" />
-            Cerrar sesión
-          </Button>
+          <SignOutButton />
         </SheetFooter>
       </SheetContent>
 
