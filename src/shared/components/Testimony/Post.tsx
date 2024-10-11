@@ -116,20 +116,22 @@ export default function Post({
             {/* Post Content */}
             <div className="pr-4">
               <Link href={postUrl}>
-                <p className="text-sm break-words leading-5 text-gray-700 mb-4">
-                  {content}
-                </p>
+                <div className="w-5xl text-gray-700">
+                  <p className="text-sm break-words leading-5 mb-4 break-all">
+                    {content}
+                  </p>
+                </div>
               </Link>
             </div>
           </div>
           <PostImages imageUrls={imageUrls} />
-            <Reactions
-              postSlug={postSlug}
-              userId={userId}
-              initialHeartCount={heartCount}
-              initialLikedState={initialLikedState}
-              commentCount={commentCount}
-            />
+          <Reactions
+            postSlug={postSlug}
+            userId={userId}
+            initialHeartCount={heartCount}
+            initialLikedState={initialLikedState}
+            commentCount={commentCount}
+          />
         </Card>
       </div>
     </div>

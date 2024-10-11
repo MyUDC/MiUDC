@@ -92,7 +92,7 @@ export const PostList = ({ initPosts, paginateHandler }: Props) => {
   }, []);
 
   return (
-    <div id="scrollableDiv" style={{ height: "100%", overflow: "auto" }}>
+    <div id="scrollableDiv" style={{ height: "100%", overflow: "auto" }} className="px-1">
       {posts.map((post) => (
         <VisibilityWrapper
           key={post.id}

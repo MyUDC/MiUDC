@@ -42,14 +42,12 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="mb-14">
-        <BackButton />
-      </div>
+      <BackButton />
 
-      <div className="flex flex-col items-center justify-center max-w-lg w-full">
-        <Card className="p-6 space-y-4">
+      <div className="flex justify-center items-center px-2">
+        <Card className="w-full sm:max-w-5xl mt-16 px-1 md:px-4 space-y-4 pb-4 mb-2">
           <div className="w-full top-0 pt-5 p-3 flex justify-left items-center gap-6">
-            <h2 className="max-w-2xl mb-4 text-3xl font-extrabold text-green tracking-tight leading-none md:text-4xl xl:text-5xl">
+            <h2 className="pt-16 max-w-2xl mb-4 text-3xl font-extrabold text-green tracking-tight leading-none md:text-4xl xl:text-5xl">
               {postTypeHumanized[post.type]}
             </h2>
           </div>

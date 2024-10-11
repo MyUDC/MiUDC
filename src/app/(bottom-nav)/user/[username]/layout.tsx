@@ -7,6 +7,8 @@ import BackButton from "@/shared/components/BackButton";
 import ServerTabs from "@/features/career/components/ServerTabs";
 import { getUserData } from "@/shared/actions/User/getUserData";
 
+import { Card } from "@/components/ui/card";
+
 interface Props {
   children: React.ReactNode;
   params: {
@@ -47,50 +49,52 @@ export default async function UserLayout({ children, params }: Props) {
   ];
 
   return (
-    <div>
-      <div className="bg-white flex flex-col items-center">
-        <div className="w-full relative border-b">
-          <div className="bg-green-500 relative p-8 pt-16 flex flex-col items-start text-black">
-            <BackButton />
-            <UserAvatar
-              showName={false}
-              name={user.name || ""}
-              photoUrl={user.image || ""}
-              width={80}
-              height={80}
-              username={user.username}
-            />
-            <h1 className="text-xl font-bold pt-2">
-              {user.username || "Usuario sin nombre"}
-            </h1>
-            <div className="text-sm text-gray-500 mt-1">
-              <p>{userData.career?.name ?? "Carrera no especificada"}</p>
-              <p>
-                {userData.user?.semester
-                  ? `Semestre ${userData.user.semester}`
-                  : "Semestre no especificado"}
-              </p>
-              <p>Se unió el {formatDate(userData.user?.createdAt)}</p>
-            </div>
-
-            <p className="text-sm text-black mt-4">
-              Este usuario aún no ha añadido una descripción.
-            </p>
-            <div className="w-full max-w-xs flex gap-4 mt-4">
-              <UserProfileEditor
-                triggerButton={
-                  <Button variant="outlineGreen">Editar perfil</Button>
-                }
+    <div className="flex justify-center items-center p-1">
+      <Card className="w-full sm:max-w-5xl mt-16 px-1 md:px-4">
+        <div className="bg-white flex flex-col items-center">
+          <div className="w-full relative border-none">
+            <div className="bg-green-500 relative p-8 pt-16 flex flex-col items-start text-black">
+              <BackButton />
+              <UserAvatar
+                showName={false}
+                name={user.name || ""}
+                photoUrl={user.image || ""}
+                width={80}
+                height={80}
+                username={user.username}
               />
-              <Button variant="outlineGreen">Compartir</Button>
+              <h1 className="text-xl font-bold pt-2">
+                {user.username || "Usuario sin nombre"}
+              </h1>
+              <div className="text-sm text-gray-500 mt-1">
+                <p>{userData.career?.name ?? "Carrera no especificada"}</p>
+                <p>
+                  {userData.user?.semester
+                    ? `Semestre ${userData.user.semester}`
+                    : "Semestre no especificado"}
+                </p>
+                <p>Se unió el {formatDate(userData.user?.createdAt)}</p>
+              </div>
+
+              <p className="text-sm text-black mt-4">
+                Este usuario aún no ha añadido una descripción.
+              </p>
+              <div className="w-full max-w-xs flex gap-4 mt-4">
+                <UserProfileEditor
+                  triggerButton={
+                    <Button variant="outlineGreen">Editar perfil</Button>
+                  }
+                />
+                <Button variant="outlineGreen">Compartir</Button>
+              </div>
+            </div>
+            <div className="sticky top">
+              <ServerTabs tabs={tabs} />
             </div>
           </div>
-          <div className="sticky top-0">
-            <ServerTabs tabs={tabs} />
-          </div>
+          <div className="w-full mt-4">{children}</div>
         </div>
-        <div className="w-full mt-4">{children}</div>
-      </div>
+      </Card>
     </div>
   );
 }

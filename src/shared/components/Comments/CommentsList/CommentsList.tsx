@@ -114,7 +114,7 @@ export const CommentsList: React.FC<Props> = ({ initComments, postId }) => {
       )}
 
       <InfiniteScroll
-        className="w-full"
+        className="w-full overflow-none"
         hasMore={hasMore}
         dataLength={comments.length}
         loader={<Loading />}
