@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { User } from "next-auth";
 import UserAvatar from "@/features/user/components/UserAvatar";
 import Link from "next/link";
@@ -15,7 +15,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import CareerListSheet from "@/features/career-catalog/components/CareerListSheet";
 import { getSavedCareers } from "@/shared/actions/Careers/getSavedCareers";
 import { getSavedPosts } from "@/shared/actions/Post/getSavedPosts";
@@ -23,6 +22,7 @@ import SavedPostsSheet from "@/shared/components/Testimony/SavedPostsSheet";
 import { Career, Faculty } from "@prisma/client";
 import { SignOutButton } from "@/shared/components/SignOutButton";
 import { PostWithRelations } from "@/shared/types/PostWithRelations";
+import { getUserData } from "@/shared/actions/User/getUserData";
 
 type CareerWithRelations = Career & {
   faculty: Faculty;
@@ -38,6 +38,40 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
   const [isSavedPostsOpen, setIsSavedPostsOpen] = useState(false);
   const [savedCareers, setSavedCareers] = useState<CareerWithRelations[]>([]);
   const [savedPosts, setSavedPosts] = useState<PostWithRelations[]>([]);
+  const [careerName, setCareerName] = useState<string>("Loading...");
+  const [debugInfo, setDebugInfo] = useState<string>("");
+
+  useEffect(() => {
+    if (user && user.id) {
+      getUserData(user.id)
+        .then((result) => {
+          if (result.error) {
+            setCareerName("Error loading career");
+            setDebugInfo(
+              `Error: ${result.error}, CareerId: ${
+                result.careerId || "N/A"
+              }, Details: ${result.details || "N/A"}`
+            );
+          } else if (result.career) {
+            setCareerName(result.career.name);
+            setDebugInfo(
+              result.debugInfo ||
+                `Career found: ${result.career.name}, ID: ${result.career.id}`
+            );
+          } else {
+            setCareerName("No career specified");
+            setDebugInfo(
+              `No career found. User careerId: ${
+                result.user?.careerId || "N/A"
+              }`
+            );
+          }
+        })
+        .catch((error) => {
+          setDebugInfo(`Component error: ${error.message}`);
+        });
+    }
+  }, [user]);
 
   if (!user) {
     return null;
@@ -76,6 +110,7 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
       }
     }
   };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -107,8 +142,8 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
                     {user.name}
                   </SheetDescription>
                   <div>
-                    <SheetDescription className="text-xs font-medium">
-                      Arquitectura
+                    <SheetDescription className=" font-medium">
+                      {careerName}
                     </SheetDescription>
                   </div>
                 </div>
