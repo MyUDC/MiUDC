@@ -30,7 +30,7 @@ export default async function UserTestimoniesPage({ params }: Props) {
 
   return (
     <div className="flex justify-center">
-      <div className="w-svw sm:max-w-lg ">
+      <div className="w-svw sm:max-w-5xl">
         <PostList
           initPosts={initPosts}
           paginateHandler={async (take: number, skip: number) => {
