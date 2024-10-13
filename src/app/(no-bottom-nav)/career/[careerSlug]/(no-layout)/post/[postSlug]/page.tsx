@@ -45,7 +45,7 @@ export default async function PostPage({ params }: Props) {
       <BackButton />
 
       <div className="flex justify-center items-center px-2">
-        <Card className="w-full sm:max-w-5xl mt-16 px-1 md:px-4 space-y-4 pb-4 mb-2">
+        <Card className="w-svw max-w-lg mt-16 px-1 md:px-4 space-y-4 pb-4 mb-2">
           <div className="w-full top-0 pt-5 p-3 flex justify-left items-center gap-6">
             <h2 className="pt-16 max-w-2xl mb-4 text-3xl font-extrabold text-green tracking-tight leading-none md:text-4xl xl:text-5xl">
               {postTypeHumanized[post.type]}
@@ -59,7 +59,7 @@ export default async function PostPage({ params }: Props) {
             postTitle={post.title}
             content={post.content}
             userPhotoUrl={post.author.image ?? ""}
-            userName={post.author.name ?? "no name"}
+            userName={post.author.username ?? "No name"}
             careerName={post.career.name}
             careerSlug={post.career.slug}
             repliesCount={post._count.children}

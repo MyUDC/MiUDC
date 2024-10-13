@@ -9,6 +9,7 @@ import BackButton from "@/shared/components/BackButton";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { saveCareer } from "@/shared/actions/Careers/saveCareer";
+import { Card } from "@/components/ui/card";
 
 export const metadata = {
   title: "SEO Title",
@@ -53,8 +54,8 @@ export default async function CareerLayout({ children, params }: Props) {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full max-w-5xl mt-4 pb-2">
-        <BackButton path="/home" />
+      <Card className="w-svw max-w-2xl mt-4 pb-2">
+        <BackButton />
         <div className="mt-12">
           <CareerImages imageUrls={imageUrls} />
           <CareerTitle
@@ -75,7 +76,7 @@ export default async function CareerLayout({ children, params }: Props) {
           <ForumDetailsTabs path={path} />
           {children}
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

@@ -10,6 +10,12 @@ export default async function getCareers() {
       name: true,
       semesters: true,
       slug: true,
+      faculty: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
 }
@@ -20,5 +26,11 @@ export type Career = Prisma.CareerGetPayload<{
     name: true;
     semesters: true;
     slug: true;
+    faculty: {
+      select: {
+        id: true;
+        name: true;
+      };
+    };
   };
 }>;

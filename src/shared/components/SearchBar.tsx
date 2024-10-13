@@ -20,8 +20,13 @@ import { Card } from "@/components/ui/card";
 export type SearchCareerResult = {
   id: string;
   name: string;
-  semesters: number;
   slug: string;
+  semesters: number;
+  faculty: {
+    id: string;
+    name: string;
+  };
+  tags ?: string[];
 };
 
 export type SearchUserResult = {
@@ -41,9 +46,20 @@ const SearchBar: React.FC = () => {
 
   const searchCareers = useCallback(async () => {
     const allCareers = await getCareers();
-    const filteredCareers = allCareers.filter((career) =>
-      career.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredCareers = allCareers
+      .filter((career) =>
+        career.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .map((career) => ({
+        id: career.id,
+        name: career.name,
+        slug: career.slug,
+        semesters: career.semesters,
+        faculty: {
+          id: career.faculty.id,
+          name: career.faculty.name,
+        },
+      }));
     setCareers(filteredCareers);
   }, [searchTerm]);
 
