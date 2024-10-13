@@ -56,7 +56,7 @@ export default async function UserLayout({ children, params }: Props) {
               <BackButton />
               <UserAvatar
                 showName={false}
-                name={user.name || ""}
+                name={user.username || ""}
                 photoUrl={user.image || ""}
                 width={80}
                 height={80}

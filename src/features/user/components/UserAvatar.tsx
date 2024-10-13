@@ -32,7 +32,7 @@ export default function UserAvatar({
       {photoUrl ? (
         <Image
           src={photoUrl}
-          alt={`${name}'s profile`}
+          alt={`${username}'s profile`}
           className="rounded-full"
           width={width}
           height={height}
@@ -42,8 +42,8 @@ export default function UserAvatar({
       )}
       {showName && (
         <div className={`text-lg font-semibold ${textColor}`}>
-          {name ? (
-            <span>{name}</span>
+          {username ? (
+            <span>{username}</span>
           ) : (
             <SkeletonText width="100px" height="1rem" />
           )}
