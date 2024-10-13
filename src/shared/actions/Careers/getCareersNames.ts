@@ -4,21 +4,33 @@ import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
 export default async function getCareers() {
-  return prisma.career.findMany(
-    {
-      select: {
-        id: true,
-        name: true,
-        semesters: true
-      }
-    }
-  );
+  return prisma.career.findMany({
+    select: {
+      id: true,
+      name: true,
+      semesters: true,
+      slug: true,
+      faculty: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
 }
 
 export type Career = Prisma.CareerGetPayload<{
   select: {
-    id: true,
-    name: true,
-    semesters: true
-  }
-}>
+    id: true;
+    name: true;
+    semesters: true;
+    slug: true;
+    faculty: {
+      select: {
+        id: true;
+        name: true;
+      };
+    };
+  };
+}>;
