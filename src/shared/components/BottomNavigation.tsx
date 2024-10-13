@@ -13,7 +13,6 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { User } from "@prisma/client";
 import AuthWrapper from "@/features/auth/components/AuthWrapper";
 
-
 interface NavItem {
   needAuth?: boolean;
   href: string;
@@ -33,32 +32,33 @@ export default function BottomNavigation() {
     setUser(session?.user);
   }, [session]);
 
-
   // ----[Memoized Variables]----
-  const navItems = useMemo(() => ([
-    {
-      href: "/home",
-      label: "Home",
-      icon: <FaHome className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
-    },
-    {
-      href: "",
-      label: "ChatBot",
-      icon: <TbMessageChatbotFilled className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
-    },
-    {
-      href: "/career-catalog",
-      label: "Carreras",
-      icon: <FaUniversity className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
-    },
-    {
-      href: `/user/${user?.username}/testimonies`,
-      label: "Perfil",
-      icon: <FaUser className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
-      needAuth: true,
-    },
-  ]), [user?.username]);
-
+  const navItems = useMemo(
+    () => [
+      {
+        href: "/home",
+        label: "Home",
+        icon: <FaHome className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
+      },
+      {
+        href: "",
+        label: "ChatBot",
+        icon: <TbMessageChatbotFilled className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
+      },
+      {
+        href: "/career-catalog",
+        label: "Carreras",
+        icon: <FaUniversity className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
+      },
+      {
+        href: `/user/${user?.username}/testimonies`,
+        label: "Perfil",
+        icon: <FaUser className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
+        needAuth: true,
+      },
+    ],
+    [user?.username]
+  );
 
   // ----[Functions]----
 
@@ -70,35 +70,33 @@ export default function BottomNavigation() {
     return pathname === item.href;
   };
 
-
   // ----[Render]----
   return (
     <nav className="h-14 pt-1 bg-white border-t border-gray-200">
       <ScrollArea className="w-full h-full">
         <div className="flex justify-center w-full items-center h-full max-w-md mx-auto">
           {navItems.map((item) => (
-            <>
-              {item.needAuth
-                ? (
-                  <AuthWrapper key={item.href}>
-                    <NavButton
-                      icon={item.icon}
-                      label={item.label}
-                      isActive={isActive(item)}
-                      href={item.href}
-                      needAuth={item.needAuth}
-                    />
-                  </AuthWrapper>
-                )
-                : (<NavButton
+            <React.Fragment key={item.href}>
+              {item.needAuth ? (
+                <AuthWrapper key={item.href}>
+                  <NavButton
+                    icon={item.icon}
+                    label={item.label}
+                    isActive={isActive(item)}
+                    href={item.href}
+                    needAuth={item.needAuth}
+                  />
+                </AuthWrapper>
+              ) : (
+                <NavButton
                   key={item.href}
                   icon={item.icon}
                   label={item.label}
                   isActive={isActive(item)}
                   href={item.href}
-                />)
-              }
-            </>
+                />
+              )}
+            </React.Fragment>
           ))}
         </div>
         <ScrollBar orientation="horizontal" />
@@ -122,7 +120,7 @@ function NavButton({
   isActive,
   href,
   needAuth,
-  user
+  user,
 }: NavButtonProps) {
   // ----[Instances and Hooks]----
   const router = useRouter();
@@ -134,7 +132,7 @@ function NavButton({
       return;
     }
     router.push(href);
-  }
+  };
 
   // ----[Render]----
   return (
@@ -149,13 +147,16 @@ function NavButton({
       <div className={`group-hover:text-green transition-colors duration-100`}>
         {icon}
       </div>
-      <span className={`text-[10px] sm:text-xs transition-colors duration-100 truncate w-full text-center ${isActive ? "text-green" : "text-gray-500"}`}>
+      <span
+        className={`text-[10px] sm:text-xs transition-colors duration-100 truncate w-full text-center ${
+          isActive ? "text-green" : "text-gray-500"
+        }`}
+      >
         {label}
       </span>
     </button>
   );
 }
-
 
 // ----[Utils]----
 const smoothScrollToTop = (duration: number) => {
