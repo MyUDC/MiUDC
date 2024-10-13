@@ -45,12 +45,11 @@ export default async function UserLayout({ children, params }: Props) {
     { text: "Preguntas", path: `/user/${username}/questions` },
     { text: "Respuestas", path: `/user/${username}/replies` },
     { text: "Likes", path: `/user/${username}/likes` },
-    { text: "Guardados", path: `/user/${username}/saved` },
   ];
 
   return (
     <div className="flex justify-center items-center p-1">
-      <Card className="w-full sm:max-w-5xl mt-16 px-1 md:px-4">
+      <Card className="w-full max-w-lg mt-16 px-1 md:px-4">
         <div className="bg-white flex flex-col items-center">
           <div className="w-full relative border-none">
             <div className="bg-green-500 relative p-8 pt-16 flex flex-col items-start text-black">
