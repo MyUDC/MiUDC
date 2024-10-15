@@ -41,7 +41,7 @@ export default function BottomNavigation() {
         icon: <FaHome className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
       },
       {
-        href: "",
+        href: "/chatbot",
         label: "ChatBot",
         icon: <TbMessageChatbotFilled className="w-5 h-5 sm:w-6 sm:h-6 mb-1" />,
       },
