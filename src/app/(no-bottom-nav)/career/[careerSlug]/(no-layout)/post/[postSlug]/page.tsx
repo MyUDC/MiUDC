@@ -71,10 +71,7 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="mb-14">
-        <BackButton />
-      </div>
-
+      <BackButton />
       <div className="flex flex-col items-center justify-center max-w-lg w-full">
 
         {/* parent card */}
@@ -112,7 +109,7 @@ export default async function PostPage({ params }: Props) {
             postTitle={post.title}
             content={post.content}
             userPhotoUrl={post.author.image ?? ""}
-            userName={post.author.name ?? "no name"}
+            userName={post.author.username ?? "No name"}
             careerName={post.career.name}
             careerSlug={post.career.slug}
             repliesCount={post._count.children}

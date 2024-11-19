@@ -3,6 +3,8 @@ import { Metadata } from "next";
 import { CareerSection } from "@/features/career-catalog/components/CareerSection";
 import CareerCategories from "@/features/career-catalog/CareerCategories";
 import { fetchAllCareers } from "@/features/career-catalog/api/fetchCareers";
+import { Card } from "@/components/ui/card";
+import SearchBar from "@/shared/components/SearchBar";
 
 export const metadata: Metadata = {
   title: "MiUDC | Career Catalog",
@@ -23,7 +25,11 @@ export default async function CareerCatalogPage() {
     <>
       <AppBar />
       <div className="flex justify-center py-4">
-        <div className="w-full sm:max-w-5xl mt-16 pr-0 pl-4 md:px-4">
+        <Card className="w-full max-w-2xl mt-16 pr-0 pl-4 md:px-4">
+          <div className="w-full max-w-full mt-2 pr-1">
+            <SearchBar />
+          </div>
+
           <CareerSection
             title="Las más Populares"
             subtitle="Carreras con más interacciones"
@@ -88,7 +94,7 @@ export default async function CareerCatalogPage() {
               isLarge={false}
             />
           </section>
-        </div>
+        </Card>
       </div>
     </>
   );

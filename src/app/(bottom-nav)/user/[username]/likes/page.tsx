@@ -40,7 +40,7 @@ export default async function UserLikePage({ params }: Props) {
 
   return (
     <div className="flex justify-center">
-      <div className="w-svw sm:max-w-lg">
+      <div className="w-svw sm:max-w-5xl">
         <PostList
           initPosts={initLikedPosts}
           paginateHandler={async (take: number, skip: number) => {

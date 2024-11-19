@@ -3,10 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Career } from "@/features/career-catalog/types/Career";
+import { SearchCareerResult } from "@/shared/components/SearchBar";
 
 interface VerticalCareerListProps {
-  careers: Career[];
+  careers: SearchCareerResult[];
 }
 
 export default function VerticalCareerList({
@@ -37,7 +37,7 @@ export default function VerticalCareerList({
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              {career.tags.map((tag, index) => (
+              {career.tags?.map((tag, index) => (
                 <Badge key={index} variant="secondary" className="text-xs">
                   {tag}
                 </Badge>

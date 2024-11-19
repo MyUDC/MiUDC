@@ -1311,6 +1311,20 @@
           "isGenerated": false,
           "sequence": false,
           "hasDefaultValue": false
+        },
+        {
+          "name": "SavedPost",
+          "type": "SavedPost",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "SavedPostToPost",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
         }
       ],
       "uniqueConstraints": [
@@ -1576,6 +1590,136 @@
           "name": "SavedCareer_userId_careerId_key",
           "fields": [
             "careerId",
+            "userId"
+          ],
+          "nullNotDistinct": false
+        }
+      ]
+    },
+    "SavedPost": {
+      "id": "public.SavedPost",
+      "schemaName": "public",
+      "tableName": "SavedPost",
+      "fields": [
+        {
+          "id": "public.SavedPost.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "text",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "public.SavedPost.userId",
+          "name": "userId",
+          "columnName": "userId",
+          "type": "text",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.SavedPost.postId",
+          "name": "postId",
+          "columnName": "postId",
+          "type": "text",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.SavedPost.createdAt",
+          "name": "createdAt",
+          "columnName": "createdAt",
+          "type": "timestamp",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.SavedPost.updatedAt",
+          "name": "updatedAt",
+          "columnName": "updatedAt",
+          "type": "timestamp",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "Post",
+          "type": "Post",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "SavedPostToPost",
+          "relationFromFields": [
+            "postId"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "User",
+          "type": "User",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "SavedPostToUser",
+          "relationFromFields": [
+            "userId"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "SavedPost_pkey",
+          "fields": [
+            "id"
+          ],
+          "nullNotDistinct": false
+        },
+        {
+          "name": "SavedPost_userId_postId_key",
+          "fields": [
+            "postId",
             "userId"
           ],
           "nullNotDistinct": false
@@ -2060,6 +2204,20 @@
           "isRequired": false,
           "kind": "object",
           "relationName": "SavedCareerToUser",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "SavedPost",
+          "type": "SavedPost",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "SavedPostToUser",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
