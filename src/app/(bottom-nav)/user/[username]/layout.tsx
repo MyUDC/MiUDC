@@ -26,10 +26,25 @@ export default async function UserLayout({ children, params }: Props) {
   const userData = await getUserData(user.id);
   if ("error" in userData) {
     console.error(userData.error);
-    // Handle the error appropriately
-    // For now, we'll just show a generic error message
     return <div>Error loading user data</div>;
   }
+
+  const careerInfo = () => {
+    if (userData.user?.role === "ASPIRANT") {
+      return <p>Aspirante</p>;
+    }
+
+    return (
+      <>
+        <p>{userData.career?.name ?? "Carrera no especificada"}</p>
+        <p>
+          {userData.user?.semester
+            ? `Semestre ${userData.user.semester}`
+            : "Semestre no especificado"}
+        </p>
+      </>
+    );
+  };
 
   const formatDate = (date: Date | null | undefined) => {
     if (!date) return "Fecha no disponible";
@@ -66,12 +81,7 @@ export default async function UserLayout({ children, params }: Props) {
                 {user.username || "Usuario sin nombre"}
               </h1>
               <div className="text-sm text-gray-500 mt-1">
-                <p>{userData.career?.name ?? "Carrera no especificada"}</p>
-                <p>
-                  {userData.user?.semester
-                    ? `Semestre ${userData.user.semester}`
-                    : "Semestre no especificado"}
-                </p>
+                {careerInfo()}
                 <p>Se unió el {formatDate(userData.user?.createdAt)}</p>
               </div>
 
