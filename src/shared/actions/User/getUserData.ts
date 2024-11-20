@@ -17,6 +17,7 @@ export async function getUserData(userId: string) {
           select: {
             id: true,
             name: true,
+            slug: true,
           },
         },
         semester: true,
