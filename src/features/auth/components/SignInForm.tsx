@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { SignIn } from "../actions/signIn";
 import { RiErrorWarningFill } from "react-icons/ri";
 import ErrorHandler from "@/features/sign-in/components/ErrorHandler";
+import { signIn as nextAuthSignIn } from "next-auth/react";
 
 type FormInputs = {
   email: string;
@@ -24,15 +25,30 @@ export const SignInForm = () => {
   } = useForm<FormInputs>();
 
   const onSubmit = async (data: FormInputs) => {
-    setSignInErrorMessage("");
-    const { email, password } = data;
+    try {
+      setSignInErrorMessage("");
+      const { email, password } = data;
 
-    const resp = await SignIn(email, password);
-    if (!resp.ok) {
-      setSignInErrorMessage(resp.message);
-      return;
+      // Usar directamente nextAuthSignIn para el inicio de sesión
+      const result = await nextAuthSignIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setSignInErrorMessage("Credenciales incorrectas");
+        return;
+      }
+
+      // Recargar la página para asegurar que la sesión se actualice
+      router.refresh();
+      router.replace("/home");
+      router.refresh();
+    } catch (error) {
+      console.error("Error during sign in:", error);
+      setSignInErrorMessage("Error al iniciar sesión");
     }
-    router.replace("/home");
   };
 
   return (
@@ -83,12 +99,15 @@ export const SignInForm = () => {
       {signInErrorMessage && (
         <div className="flex items-center text-red-500 text-sm mt-1">
           <RiErrorWarningFill className="mr-1" />
-          <span>Credenciales incorrectas</span>
+          <span>{signInErrorMessage}</span>
         </div>
       )}
 
       <div className="pt-2">
-        <button className="w-full text-white bg-green hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-sm px-5 py-2.5 text-center">
+        <button
+          disabled={isSubmitting}
+          className="w-full text-white bg-green hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-sm px-5 py-2.5 text-center disabled:opacity-70 disabled:cursor-not-allowed"
+        >
           {isSubmitting ? "Cargando..." : "Continuar"}
         </button>
       </div>
@@ -96,7 +115,6 @@ export const SignInForm = () => {
       <Suspense fallback={<div>Cargando...</div>}>
         <ErrorHandler />
       </Suspense>
-        
     </form>
   );
 };
