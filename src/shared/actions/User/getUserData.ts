@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { Role } from "@prisma/client";
 
 export async function getUserData(userId: string) {
   try {
@@ -11,6 +12,7 @@ export async function getUserData(userId: string) {
         username: true,
         name: true,
         careerId: true,
+        role: true,
         career: {
           select: {
             id: true,
@@ -23,26 +25,31 @@ export async function getUserData(userId: string) {
       },
     });
 
-    console.log(
-      "Raw user data from Prisma:",
-      JSON.stringify(userData, null, 2)
-    );
-
     if (!userData) {
       console.log("User not found:", userId);
       return { error: "User not found" };
     }
 
-    if (!userData.career) {
+    // Si el usuario es ASPIRANT, retornamos sin error pero sin datos de carrera
+    if (userData.role === Role.ASPIRANT) {
+      return {
+        user: userData,
+        career: null,
+        debugInfo: `User ID: ${userData.id}, Role: ASPIRANT`,
+      };
+    }
+
+    // Para STUDENT, verificamos que tenga carrera asignada
+    if (userData.role === Role.STUDENT && !userData.career) {
       console.log(
-        "Career not found for user:",
+        "Career not found for STUDENT:",
         userId,
         "CareerId:",
         userData.careerId
       );
       return {
         user: userData,
-        error: "Career not found",
+        error: "Career not found for STUDENT",
         careerId: userData.careerId,
       };
     }
@@ -50,7 +57,7 @@ export async function getUserData(userId: string) {
     return {
       user: userData,
       career: userData.career,
-      debugInfo: `User ID: ${userData.id}, Career ID: ${userData.careerId}, Career Name: ${userData.career.name}`,
+      debugInfo: `User ID: ${userData.id}, Role: ${userData.role}, Career ID: ${userData.careerId}, Career Name: ${userData.career?.name}`,
     };
   } catch (error) {
     console.error("Error fetching user data:", error);

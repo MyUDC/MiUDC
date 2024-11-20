@@ -38,7 +38,7 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
   const [isSavedPostsOpen, setIsSavedPostsOpen] = useState(false);
   const [savedCareers, setSavedCareers] = useState<CareerWithRelations[]>([]);
   const [savedPosts, setSavedPosts] = useState<PostWithRelations[]>([]);
-  const [careerName, setCareerName] = useState<string>("Loading...");
+  const [careerName, setCareerName] = useState<string>("");
   const [debugInfo, setDebugInfo] = useState<string>("");
 
   useEffect(() => {
@@ -52,6 +52,9 @@ export default function UserMenuSheet({ user }: UserMenuSheetProps) {
                 result.careerId || "N/A"
               }, Details: ${result.details || "N/A"}`
             );
+          } else if (result.user?.role === "ASPIRANT") {
+            setCareerName("Aspirante");
+            setDebugInfo(`User type: Aspirant`);
           } else if (result.career) {
             setCareerName(result.career.name);
             setDebugInfo(
