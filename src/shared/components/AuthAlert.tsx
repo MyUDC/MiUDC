@@ -27,6 +27,7 @@ export default function AuthAlert() {
               variant="green"
               className="bg-green text-white shadow hover:bg-green/90"
               onClick={() => {
+                router.refresh();
                 router.push("/sign-in");
               }}
             >Iniciar sesión</Button>

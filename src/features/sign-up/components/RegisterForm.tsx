@@ -14,6 +14,7 @@ import { SignIn, SignUp } from "@/features/auth/actions";
 import { useFormSwiperStore } from "@/stores/useFormSwiperStore";
 import { ResponseSchema } from "@/shared/types/ResponseSchema";
 import { Role } from "@prisma/client";
+import { signIn } from "next-auth/react";
 
 type FormInputs = {
   email: string;
@@ -47,49 +48,76 @@ export default function RegisterForm() {
 
     let resp: ResponseSchema;
 
-    if (profileType === Role.STUDENT) {
-      resp = await SignUp({
-        email,
-        username,
-        password,
-        role: profileType!,
-        careerId,
-        semester: Number(semester),
-        accountNumber,
-      });
-    } else if (profileType === Role.ASPIRANT) {
-      resp = await SignUp({
-        email,
-        username,
-        password,
-        role: profileType!,
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Error al registrarse",
-        description: "No se pudo determinar el tipo de perfil",
-        action: <ToastAction altText="Entendido">Entendido</ToastAction>,
-      });
-      return;
-    }
+    try {
+      if (profileType === Role.STUDENT) {
+        resp = await SignUp({
+          email,
+          username,
+          password,
+          role: profileType!,
+          careerId,
+          semester: Number(semester),
+          accountNumber,
+        });
+      } else if (profileType === Role.ASPIRANT) {
+        resp = await SignUp({
+          email,
+          username,
+          password,
+          role: profileType!,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error al registrarse",
+          description: "No se pudo determinar el tipo de perfil",
+          action: <ToastAction altText="Entendido">Entendido</ToastAction>,
+        });
+        return;
+      }
 
-    if (!resp.ok) {
-      setSignUpErrorMessage(resp.message);
-      toast({
-        variant: "destructive",
-        title: "Error al registrarse",
-        description: resp.message,
-        action: <ToastAction altText="Entendido">Entendido</ToastAction>,
-      });
-      return;
-    }
+      if (!resp.ok) {
+        setSignUpErrorMessage(resp.message);
+        toast({
+          variant: "destructive",
+          title: "Error al registrarse",
+          description: resp.message,
+          action: <ToastAction altText="Entendido">Entendido</ToastAction>,
+        });
+        return;
+      }
 
-    if (await SignIn(email, password)) {
+      // Usar signIn de next-auth directamente
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        toast({
+          variant: "destructive",
+          title: "Error al iniciar sesión",
+          description: "No se pudo iniciar sesión automáticamente",
+          action: <ToastAction altText="Entendido">Entendido</ToastAction>,
+        });
+        return;
+      }
+
+      // Si todo sale bien, redirigir
+      router.refresh();
       router.replace("/home");
+      router.refresh();
+    } catch (error) {
+      console.error("Error during registration:", error);
+      toast({
+        variant: "destructive",
+        title: "Error al registrarse",
+        description: "Ocurrió un error inesperado",
+        action: <ToastAction altText="Entendido">Entendido</ToastAction>,
+      });
     }
   };
-
 
   return (
     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -203,15 +231,11 @@ export default function RegisterForm() {
 
         {/* ---[ Submit button ]--- */}
         <div className="pt-2">
-          <Button
-            variant="green"
-            className="w-full"
-            loading={isSubmitting}
-          >
+          <Button variant="green" className="w-full" loading={isSubmitting}>
             {isSubmitting ? "Cargando..." : "Registrarse"}
           </Button>
         </div>
       </form>
     </div>
   );
-};
+}
