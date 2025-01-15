@@ -19,125 +19,137 @@ enum Role {
   ADMIN
 }
 
+enum PostType {
+  QUESTION
+  TESTIMONY
+  REPLY
+}
+
 model User {
   // fields
-  id       String @id @default(uuid())
-  email    String @unique
-  password String
-  role     Role
+  id            String    @id @default(uuid())
+  name          String?
+  username      String    @unique
+  email         String    @unique
+  password      String?
+  emailVerified DateTime?
+  image         String?
+  accountNumber Int?
+  semester      Int?
+  role          Role      @default(ASPIRANT)
 
   // relations
-  Testimonies    Testimony[]
-  TestimonyLikes TestimonyLike[]
-  Questions      Question[]
-  QuestionsLikes QuestionLike[]
-  Interests      Interest[]
-  Comments       Comment[]
-  Answers        Answer[]
+  accounts      Account[]
+  sessions      Session[]
+  Authenticator Authenticator[]
+
+  career    Career?    @relation(fields: [careerId], references: [id])
+  careerId  String?
+  Posts     Post[]
+  PostLikes PostLike[]
+  Interests Interest[]
+  savedCareers SavedCareer[]
+  savedPosts SavedPost[]
+
+
 
   // timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Testimony {
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
+}
+
+model Post {
   // fields
-  id      String @id @default(uuid())
+  id      String   @id @default(uuid())
   title   String
   content String
+  slug    String   @unique
+  type    PostType
 
   // foreign keys
+  author   User    @relation(fields: [authorId], references: [id])
+  authorId String
+  career   Career  @relation(fields: [careerId], references: [id])
+  careerId String
+  parentId String?
+  parent   Post?   @relation("ParentChild", fields: [parentId], references: [id])
+
+  // relations
+  children Post[]     @relation("ParentChild")
+  PostLike PostLike[]
+  images   Image[]
+  savedBy SavedPost[]
+
+
+  // timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PostLike {
+  // fields
+  id String @id @default(uuid())
+
+  // foreign keys
+  Post   Post   @relation(fields: [PostId], references: [id])
+  PostId String
   user   User   @relation(fields: [userId], references: [id])
   userId String
-  career Career @relation(fields: [careerId], references: [id])
-  careerId String
-
-  // relations
-  TestimonyLike TestimonyLike[]
-  Comments      Comment[]
-
-  // timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model TestimonyLike {
-  // fields
-  id          String    @id @default(uuid())
-
-  // foreign keys
-  testimony   Testimony @relation(fields: [testimonyId], references: [id])
-  testimonyId String
-  user        User      @relation(fields: [userId], references: [id])
-  userId      String
-
-  // timestamps
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-model Comment {
-  // fields
-  id        String   @id @default(uuid())
-  content   String
-
-  // foreign keys
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  testimony Testimony @relation(fields: [testimonyId], references: [id])
-  testimonyId String
-
-  // timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Question {
-  // fields
-  id            String         @id @default(uuid())
-  title         String
-  content       String
-
-  // foreign keys
-  user          User           @relation(fields: [userId], references: [id])
-  userId        String
-  career        Career         @relation(fields: [careerId], references: [id])
-  careerId      String
-
-  // relations
-  questionLikes QuestionLike[]
-  answers       Answer[]
-
-  // timestamps
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-}
-
-model QuestionLike {
-  // fields
-  id         String   @id @default(uuid())
-
-  // foreign keys
-  question   Question @relation(fields: [questionId], references: [id])
-  questionId String
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String
-
-  // timestamps
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-model Answer {
-  // fields
-  id        String   @id @default(uuid())
-  content   String
-
-  // foreign keys
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  question  Question @relation(fields: [questionId], references: [id])
-  questionId String
 
   // timestamps
   createdAt DateTime @default(now())
@@ -146,11 +158,11 @@ model Answer {
 
 model Faculty {
   // fields
-  id        String   @id @default(uuid())
-  name      String
+  id   String @id @default(uuid())
+  name String
 
   // relations
-  careers   Career[]
+  careers Career[]
 
   // timestamps
   createdAt DateTime @default(now())
@@ -159,7 +171,7 @@ model Faculty {
 
 model Career {
   // fields
-  id             String     @id @default(uuid())
+  id             String @id @default(uuid())
   name           String
   website        String
   study_plan_url String
@@ -167,32 +179,96 @@ model Career {
   latitude       Float
   longitude      Float
   description    String
+  semesters      Int
+  slug           String @unique
 
   // foreign keys
-  faculty        Faculty    @relation(fields: [facultyId], references: [id])
-  facultyId      String
+  faculty   Faculty @relation(fields: [facultyId], references: [id])
+  facultyId String
 
   // relations
-  Testimonies    Testimony[]
-  Questions      Question[]
-  interesteds    Interest[]
+  Posts       Post[]
+  interesteds Interest[]
+  CareerTag   CareerTag[] // renombrar a tags
+  savedBy SavedCareer[]
 
-  // timestamps
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-}
-
-model Interest {
-  // fields
-  id        String   @id @default(uuid())
-
-  // foreign keys
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  career    Career   @relation(fields: [careerId], references: [id])
-  careerId  String
 
   // timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  User      User[]
+}
+
+model Interest {
+  // fields
+  id String @id @default(uuid())
+
+  // foreign keys
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  career   Career @relation(fields: [careerId], references: [id])
+  careerId String
+
+  // timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  url       String
+  altText   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  PostId String?
+  Post   Post?   @relation(fields: [PostId], references: [id])
+}
+
+model Tag {
+  //fields
+  id        String      @id @default(uuid())
+  name      String      @unique
+
+  //relations
+  careers   CareerTag[]
+
+  //timestamps
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model CareerTag {
+  //fields
+  career    Career   @relation(fields: [careerId], references: [id])
+  careerId  String
+  tag       Tag      @relation(fields: [tagId], references: [id])
+  tagId     String
+
+  @@id([careerId, tagId])
+}
+
+model SavedCareer {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  career    Career   @relation(fields: [careerId], references: [id])
+  careerId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, careerId])
+}
+
+model SavedPost {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, postId])
 }

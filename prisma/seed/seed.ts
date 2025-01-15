@@ -1,6 +1,8 @@
 import { createSeedClient, type SeedClient } from "@snaplet/seed";
 import { faker } from "@snaplet/copycat";
 import bcryptjs from 'bcryptjs';
+import { generateSlug } from "@/utils/generateSlug";
+import { careersWithTags } from './careers';
 
 const main = async () => {
   const seed: SeedClient = await createSeedClient();
@@ -13,54 +15,82 @@ const main = async () => {
     name: faker.company.name(),
   })));
 
-  // Seed Careers
-  const {career: careers} = await seed.career((x) => x(15, (c) => ({
-    name: faker.person.jobTitle(),
-    website: faker.internet.url(),
-    study_plan_url: faker.internet.url(),
-    location: faker.location.city(),
-    latitude: faker.location.latitude(),
-    longitude: faker.location.longitude(),
-    description: faker.lorem.paragraph(),
-    facultyId: faker.helpers.arrayElement(faculties).id,
+  // Seed Tags
+  const allTags = Array.from(new Set(careersWithTags.reduce((acc, career) => acc.concat(career.tags), [] as string[])));
+  const { tag: tags } = await seed.tag((x) => x(allTags.length, (t) => ({
+    name: allTags[t.index],
   })));
+
+  // Seed Careers
+  const { career: careers } = await seed.career((x) => x(careersWithTags.length, (c) => {
+    const careerData = careersWithTags[c.index];
+
+    return {
+      id: (c.index + 1).toString(),
+      name: careerData.name,
+      website: faker.internet.url(),
+      study_plan_url: faker.internet.url(),
+      location: faker.location.city(),
+      latitude: faker.location.latitude(),
+      longitude: faker.location.longitude(),
+      description: faker.lorem.paragraph(),
+      facultyId: faker.helpers.arrayElement(faculties).id,
+      semesters: faker.number.int({ min: 1, max: 14 }),
+      slug: generateSlug(careerData.name)
+    }
+  }));
+
+  // Asignar tags a carreras
+  for (let i = 0; i < careers.length; i++) {
+    const career = careers[i];
+    const careerTags = careersWithTags[i].tags;
+    for (const tagName of careerTags) {
+      const tag = tags.find(t => t.name === tagName);
+      if (tag) {
+        await seed.careerTag((x) => x(1, () => ({
+          careerId: career.id,
+          tagId: tag.id,
+        })));
+      }
+    }
+  }
 
   // Seed Users
-  const {user: users} = await seed.user((x) => x(20, (u) => ({
-    email: faker.internet.email(),
-    password: bcryptjs.hashSync('password', 10),
-    role: faker.helpers.arrayElement(['ASPIRANT', 'STUDENT', 'ADMIN']),
-  })));
+  const { user: users } = await seed.user((x) => x(20, (u) => {
+    const career = faker.helpers.arrayElement(careers);
+    return {
+      email: faker.internet.email(),
+      username: faker.internet.userName(),
+      name: faker.internet.userName(),
+      password: bcryptjs.hashSync('password', 10),
+      role: faker.helpers.arrayElement(['ASPIRANT', 'STUDENT', 'ADMIN']),
+      image: u.index % 2 === 0 ? null : "https://res.cloudinary.com/dxdme71no/image/upload/v1722901389/hufhpfqpgmwr4p5kj1ja.jpg",
+      accountNumber: faker.number.int({ min: 11111111, max: 99999999 }),
+      careerId: career.id,
+      semester: career.semesters
+    }
+  }));
 
-  // Seed Testimonies
-  const {testimony: testimonies} = await seed.testimony((x) => x(30, (t) => ({
-    title: faker.lorem.sentence(),
-    content: faker.lorem.paragraphs(),
-    userId: faker.helpers.arrayElement(users).id,
-    careerId: faker.helpers.arrayElement(careers).id,
-  })));
+  // Seed Posts
+  const { post: posts } = await seed.post((x) => x(30, (t) => {
+    const title = faker.lorem.sentence();
+    return {
+      title,
+      content: faker.lorem.paragraphs(),
+      slug: generateSlug(title),
+      authorId: faker.helpers.arrayElement(users).id,
+      careerId: faker.helpers.arrayElement(careers).id,
+      createdAt: faker.date.past(),
+    }
+  }));
 
-  // Seed Questions
-  const {question: questions} = await seed.question((x) => x(25, (q) => ({
-    title: faker.lorem.sentence(),
-    content: faker.lorem.paragraphs(),
-    userId: faker.helpers.arrayElement(users).id,
-    careerId: faker.helpers.arrayElement(careers).id,
-  })));
-
-  // Seed Answers
-  await seed.answer((x) => x(50, (a) => ({
-    content: faker.lorem.paragraph(),
-    userId: faker.helpers.arrayElement(users).id,
-    questionId: faker.helpers.arrayElement(questions).id,
-  })));
-
-  // Seed Comments
-  await seed.comment((x) => x(60, (c) => ({
-    content: faker.lorem.paragraph(),
-    userId: faker.helpers.arrayElement(users).id,
-    testimonyId: faker.helpers.arrayElement(testimonies).id,
-  })));
+  // Seed Images
+  const { image: images } = await seed.image(x => x(30, t => {
+    return {
+      url: "https://res.cloudinary.com/dxdme71no/image/upload/v1722901389/hufhpfqpgmwr4p5kj1ja.jpg",
+      PostId: faker.helpers.arrayElement(posts).id,
+    }
+  }));
 
   // Seed Interests
   await seed.interest((x) => x(40, (i) => ({
@@ -68,16 +98,10 @@ const main = async () => {
     careerId: faker.helpers.arrayElement(careers).id,
   })));
 
-  // Seed TestimonyLikes
-  await seed.testimonyLike((x) => x(100, (tl) => ({
+  // Seed PostLikes
+  await seed.postLike((x) => x(100, (tl) => ({
     userId: faker.helpers.arrayElement(users).id,
-    testimonyId: faker.helpers.arrayElement(testimonies).id,
-  })));
-
-  // Seed QuestionLikes
-  await seed.questionLike((x) => x(80, (ql) => ({
-    userId: faker.helpers.arrayElement(users).id,
-    questionId: faker.helpers.arrayElement(questions).id,
+    PostId: faker.helpers.arrayElement(posts).id,
   })));
 
   console.log("Database seeded successfully!");
